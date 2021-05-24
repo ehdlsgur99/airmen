@@ -27,6 +27,7 @@ void TestScene::init()
 
 void TestScene::update()
 {
+
 	// 캐릭터 애니메이션
 	testObj->animation("Resource/player", 3, 200);
 
@@ -47,6 +48,13 @@ void TestScene::update()
 	{
 		testObj->pos.y += 1;
 	}
+
+	 if (InputManager::GetInstance()->getKey(VK_SPACE))
+	 {
+		 SceneManager::GetInstance()->SceneChange(SceneManager::eGame);
+		 return;
+	 }
+
 
 	render();
 }

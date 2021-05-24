@@ -1,6 +1,4 @@
 #pragma once
-#pragma once
-
 
 #include <windows.h>		//--- 윈도우 헤더 파일
 #include <tchar.h>
@@ -34,4 +32,5 @@ using namespace std;
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.
 #include "TestScene.h"
+#include "GameScene.h"
 

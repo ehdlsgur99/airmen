@@ -8,7 +8,7 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-
+	
 }
 
 void SoundManager::PlayBg(std::string path)

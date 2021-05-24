@@ -35,9 +35,8 @@ public:
 	SIZE getSize();
 	POINT getPos();
 
-	// 애니메이션
+	// 낱개파일일때 애니메이션
 	bool animation(std::string filename, int frame, int delay);
-
 
 private:
 

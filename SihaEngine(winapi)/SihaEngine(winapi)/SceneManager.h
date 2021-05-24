@@ -12,7 +12,7 @@ public:
 	// Scene 종류를 enum 으로 선언
 	enum eType
 	{
-		eIntro,
+		eIntro = 0,
 		eGame,
 		eTest,
 	};

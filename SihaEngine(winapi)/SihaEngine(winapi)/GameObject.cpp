@@ -15,6 +15,7 @@ GameObject::~GameObject()
 
 void GameObject::loadTexture(std::string fileName)
 {
+
 	// 자료형 변환 해줘야함 ;;;
 	// string to tchar 로..
 	int slength = (int)fileName.length() + 1;

@@ -22,5 +22,4 @@ public:
 	}
 };
 
-
 template <class T>T* CSingleton<T>::mSingleton = 0;

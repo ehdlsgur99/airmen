@@ -19,6 +19,7 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		InputManager::GetInstance()->isLButtonDonw = true;
 		InputManager::GetInstance()->isLButtonUp = false;
+		InputManager::GetInstance()->LButtonPos = { LOWORD(lParam), HIWORD(lParam) };
 		break;
 	case WM_LBUTTONUP:
 		InputManager::GetInstance()->isLButtonDonw = false;
@@ -78,17 +79,20 @@ void GraphicManager::renderStart()
 	SelectObject(memdc, hBitmap);
 }
 
+
+
+
 void GraphicManager::render(GameObject* obj)
 {
 	// 오브젝트의 Visible 이 true 일 경우에만 렌더 한다.
 	if (obj->isVisible == true)
 	{
 		// 오브젝트의 사이즈 설정
-		RECT size;
-		size.left = 0;
-		size.top = 0;
-		size.bottom = obj->getSize().cy;
-		size.right = obj->getSize().cx;
+		//RECT size;
+		//size.left = 0;
+		//size.top = 0;
+		//size.bottom = obj->getSize().cy;
+		//size.right = obj->getSize().cx;
 
 		// 편의에 따라 blt 류 함수 사용해도됨
 		obj->texture.Draw(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx ,obj->getSize().cy,

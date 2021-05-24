@@ -27,7 +27,10 @@ void SceneManager::SceneChange(int WhatScene)
 	case eTest:
 		scene = new TestScene;
 		break;
+	case eGame:
+		scene = new GameScene;
 
+		break;
 	/*case eIntro:
 		scene = new IntroScene;
 		break;
