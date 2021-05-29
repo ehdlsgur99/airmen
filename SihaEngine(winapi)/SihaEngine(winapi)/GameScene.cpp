@@ -16,6 +16,7 @@ void GameScene::init()
 	bg->loadTexture("Resource/bg2.png");
 	bg->setPos(0, 0);
 	bg->setSize(1000, 800);
+	bg->setSrcSize(1000, 800);
 
 	testObj = new GameObject;
 	testObj->loadTexture("Resource/player1.png");

@@ -96,7 +96,7 @@ void GraphicManager::render(GameObject* obj)
 
 		// 편의에 따라 blt 류 함수 사용해도됨
 		obj->texture.Draw(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx ,obj->getSize().cy,
-			0, 0, obj->getSize().cx, obj->getSize().cy);
+			0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy);
 	}
 }
 
