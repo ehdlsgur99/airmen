@@ -42,6 +42,11 @@ void GameObject::setSize(int x, int y)
 	size.cy = y;
 }
 
+void GameObject::setSrcSize(int x, int y)
+{
+
+}
+
 POINT GameObject::getPos()
 {
 	return pos;
@@ -51,6 +56,11 @@ POINT GameObject::getPos()
 SIZE GameObject::getSize()
 {
 	return size;
+}
+
+SIZE GameObject::getSrcSize()
+{
+	return srcSize;
 }
 
 bool GameObject::animation(std::string filename, int frame, int delay)
