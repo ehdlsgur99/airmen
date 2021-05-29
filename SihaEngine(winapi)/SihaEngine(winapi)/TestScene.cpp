@@ -1,4 +1,4 @@
-#include "common.h"
+ï»¿#include "common.h"
 
 TestScene::TestScene()
 {
@@ -13,7 +13,7 @@ void TestScene::init()
 {
 	bg = new GameObject;
 	bg->loadTexture("Resource/bg.png");
-	bg->setPos(100,100 );
+	bg->setPos(0,0 );
 	bg->setSize(1000, 800);
 
 	testObj = new GameObject;
@@ -21,17 +21,17 @@ void TestScene::init()
 	testObj->setSize(150, 80);
 	testObj->setPos(100, 100);
 
-	// bgm Àç»ý
+	// bgm ï¿½ï¿½ï¿½
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 }
 
 void TestScene::update()
 {
 
-	// Ä³¸¯ÅÍ ¾Ö´Ï¸ÞÀÌ¼Ç
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
 	testObj->animation("Resource/player", 3, 200);
 
-	// Ä³¸¯ÅÍ ÀÌµ¿ ¿¹½Ã
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (InputManager::GetInstance()->getKey(VK_LEFT))
 	{
 		testObj->pos.x -= 1;

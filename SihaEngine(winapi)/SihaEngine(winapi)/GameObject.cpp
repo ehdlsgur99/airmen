@@ -44,6 +44,8 @@ void GameObject::setSize(int x, int y)
 
 void GameObject::setSrcSize(int x, int y)
 {
+	srcSize.cx = x;
+	srcSize.cy = y;
 
 }
 
