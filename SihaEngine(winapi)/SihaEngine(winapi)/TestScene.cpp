@@ -13,7 +13,7 @@ void TestScene::init()
 {
 	bg = new GameObject;
 	bg->loadTexture("Resource/bg.png");
-	bg->setPos(0,0 );
+	bg->setPos(100,100 );
 	bg->setSize(1000, 800);
 
 	testObj = new GameObject;
