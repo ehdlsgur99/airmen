@@ -63,7 +63,7 @@ void GraphicManager::init()
 
 
 
-	hWnd = CreateWindow(L"SihaEngine", L"SihaEngine", WS_OVERLAPPEDWINDOW, 0, 0, 1000, 800, NULL, (HMENU)NULL, hInstance, NULL);
+	hWnd = CreateWindow(L"SihaEngine", L"SihaEngine", WS_OVERLAPPEDWINDOW, 0, 0, 1280, 1024, NULL, (HMENU)NULL, hInstance, NULL);
 
 	ShowWindow(hWnd, true);
 	UpdateWindow(hWnd);
@@ -74,7 +74,7 @@ void GraphicManager::init()
 void GraphicManager::renderStart()
 {
 	hdc = GetDC(hWnd);
-	hBitmap = CreateCompatibleBitmap(hdc, 1000, 800);
+	hBitmap = CreateCompatibleBitmap(hdc, 1280, 1024);
 	memdc = CreateCompatibleDC(hdc);
 	SelectObject(memdc, hBitmap);
 }
@@ -104,7 +104,7 @@ void GraphicManager::render(GameObject* obj)
 
 void GraphicManager::renderEnd()
 {
-	BitBlt(hdc, 0, 0, 1000, 800, memdc, 0, 0, SRCCOPY); //--- 메모리 DC의 그림을 화면 DC에 복사하기
+	BitBlt(hdc, 0, 0, 1280, 1024, memdc, 0, 0, SRCCOPY); //--- 메모리 DC의 그림을 화면 DC에 복사하기
 	DeleteObject(hBitmap);
 	DeleteDC(memdc);
 	ReleaseDC(hWnd, hdc);

@@ -27,7 +27,6 @@ void TestScene::init()
 
 void TestScene::update()
 {
-
 	// ĳ���� �ִϸ��̼�
 	testObj->animation("Resource/player", 3, 200);
 

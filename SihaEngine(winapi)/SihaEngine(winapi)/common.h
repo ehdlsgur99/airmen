@@ -35,4 +35,5 @@ using namespace std;
 // 새로 추가한 scene 들은 여기에 추가 합시다.
 #include "TestScene.h"
 #include "GameScene.h"
+#include "VillageScene.h"
 

@@ -29,7 +29,9 @@ void SceneManager::SceneChange(int WhatScene)
 		break;
 	case eGame:
 		scene = new GameScene;
-
+		break;
+	case eVillage:
+		scene = new VillageScene;
 		break;
 	/*case eIntro:
 		scene = new IntroScene;
