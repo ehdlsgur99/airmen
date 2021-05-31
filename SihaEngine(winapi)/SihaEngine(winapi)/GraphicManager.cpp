@@ -63,7 +63,7 @@ void GraphicManager::init()
 
 
 
-	hWnd = CreateWindow(L"SihaEngine", L"SihaEngine", WS_OVERLAPPEDWINDOW, 0, 0, 1280, 1024, NULL, (HMENU)NULL, hInstance, NULL);
+	hWnd = CreateWindow(L"SihaEngine", L"SihaEngine", WS_OVERLAPPEDWINDOW, 300, 0, 1280, 1024, NULL, (HMENU)NULL, hInstance, NULL);
 
 	ShowWindow(hWnd, true);
 	UpdateWindow(hWnd);
