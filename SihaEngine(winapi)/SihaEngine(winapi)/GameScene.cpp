@@ -15,14 +15,14 @@ void GameScene::init()
 	bg = new GameObject;
 	bg->loadTexture("Resource/village.png");
 	bg->setPos(0, 0);
+	bg->setSrcSize(1280, 1024);
 	bg->setSize(1280, 1024);
-	bg->setSrcSize(1280, 1304);
 
 	bg2 = new GameObject;
 	bg2->loadTexture("Resource/village.png");
 	bg2->setPos(-1280,0);
-	bg2->setSize(1280, 1024);
 	bg2->setSrcSize(1280, 1024);
+	bg2->setSize(1280, 1024);
 
 
 
@@ -33,9 +33,9 @@ void GameScene::init()
 	testObj->setPos(100, 100);
 
 	// bgm Àç»ı
-	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 
-	Camera::GetInstance()->setTarget(testObj);
+	/*Camera::GetInstance()->setTarget(testObj);*/
 }
 
 void GameScene::update()
@@ -63,7 +63,7 @@ void GameScene::update()
 	}
 
 
-	Camera::GetInstance()->update();
+	//Camera::GetInstance()->update();
 	render();
 }
 

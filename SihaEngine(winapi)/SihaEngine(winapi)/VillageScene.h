@@ -15,5 +15,13 @@ private:
 	void release();
 private:
 	GameObject* bg;
+	GameObject* mg;
+	GameObject *ground[27];
+
+	GameObject* house1;
+	GameObject* house2;
+
+	int groundx;
+	int groundy;
 };
 
