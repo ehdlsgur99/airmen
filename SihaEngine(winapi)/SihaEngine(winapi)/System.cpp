@@ -16,7 +16,7 @@ void System::init()
 	GraphicManager::GetInstance()->init();
 
 	// 시작 씬을 정한다.
-	SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
+	SceneManager::GetInstance()->SceneChange(SceneManager::eGame);
 }
 void System::msgLoop()
 {

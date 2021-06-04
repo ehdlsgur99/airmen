@@ -14,6 +14,8 @@
 #include "Singleton.h"
 #include "System.h"
 
+
+
 #include "GameObject.h"
 #include "ObjectManager.h"
 #include "CollisionManager.h"
@@ -30,6 +32,8 @@ using namespace std;
 
 // 새로 추가할 오브젝트 등등은 여기에..
 #include "Player.h"
+
+#include "Camera.h"
 
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.
