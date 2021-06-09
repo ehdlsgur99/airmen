@@ -12,25 +12,14 @@ GameScene::~GameScene()
 
 void GameScene::init()
 {
-	bg = new GameObject;
-	bg->loadTexture("Resource/village.png");
-	bg->setPos(0, 0);
-	bg->setSrcSize(1280, 1024);
-	bg->setSize(1280, 1024);
-
-	bg2 = new GameObject;
-	bg2->loadTexture("Resource/village.png");
-	bg2->setPos(-1280,0);
-	bg2->setSrcSize(1280, 1024);
-	bg2->setSize(1280, 1024);
-
-
+	gameBg = new GameBG;
+	gameBg->init();
 
 	testObj = new GameObject;
-	testObj->loadTexture("Resource/player1.png");
-	testObj->setSize(150, 80);
-	testObj->setSrcSize(150, 80);
-	testObj->setPos(100, 100);
+	testObj->loadTexture("Resource/GameScene/Player/adventurer-run-00.png");
+	testObj->setSize(200, 148);
+	testObj->setSrcSize(50, 37);
+	testObj->setPos(100, 600);
 
 	// bgm 재생
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
@@ -41,8 +30,12 @@ void GameScene::init()
 void GameScene::update()
 {
 
+	gameBg->update();
+
 	// 캐릭터 애니메이션
-	testObj->animation("Resource/player", 3, 200);
+	testObj->animation("Resource/GameScene/Player/adventurer-run-0", 5, 200);
+
+
 
 	// 캐릭터 이동 예시
 	if (InputManager::GetInstance()->getKey(VK_LEFT))
@@ -69,8 +62,7 @@ void GameScene::update()
 
 void GameScene::render()
 {
-	GraphicManager::GetInstance()->render(bg);
-	GraphicManager::GetInstance()->render(bg2);
+	gameBg->render();
 	GraphicManager::GetInstance()->render(testObj);
 
 

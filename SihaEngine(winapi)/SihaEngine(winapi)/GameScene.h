@@ -15,7 +15,6 @@ private:
 
 private:
 	GameObject* testObj;
-	GameObject* bg;
-	GameObject* bg2;
+	GameBG* gameBg;
 };
 

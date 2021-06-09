@@ -71,6 +71,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="GameBG.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionManager.h">
@@ -126,6 +129,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBG.h">
+      <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

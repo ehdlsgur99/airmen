@@ -32,7 +32,7 @@ using namespace std;
 
 // 새로 추가할 오브젝트 등등은 여기에..
 #include "Player.h"
-
+#include "GameBG.h"
 #include "Camera.h"
 
 
