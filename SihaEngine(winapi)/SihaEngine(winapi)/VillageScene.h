@@ -14,14 +14,16 @@ private:
 	void render();
 	void release();
 private:
+	int groundx = 0;
 	GameObject* bg;
 	GameObject* mg;
-	GameObject *ground[27];
+	GameObject *ground[40];
+	GameObject* house[3];
+	GameObject* box[10];
+	GameObject* obj[10];
 
-	GameObject* house1;
-	GameObject* house2;
 
-	int groundx;
-	int groundy;
+	
+	
 };
 

@@ -15,6 +15,7 @@ void GameScene::init()
 	gameBg = new GameBG;
 	gameBg->init();
 
+
 	testObj = new GameObject;
 	testObj->loadTexture("Resource/GameScene/Player/adventurer-run-00.png");
 	testObj->setSize(200, 148);
@@ -24,7 +25,7 @@ void GameScene::init()
 	// bgm Àç»ý
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 
-	/*Camera::GetInstance()->setTarget(testObj);*/
+	//Camera::GetInstance()->setTarget(testObj);
 }
 
 void GameScene::update()
