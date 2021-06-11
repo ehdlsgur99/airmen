@@ -22,6 +22,7 @@ void Player::init()
 void Player::update()
 {
 	// 캐릭터 애니메이션
+
 	player->animation("Resource/player/idle/player", 4, 200);
 
 	// 캐릭터 이동 예시
@@ -32,13 +33,13 @@ void Player::update()
 	}
 	if (InputManager::GetInstance()->getKey(VK_RIGHT))
 	{
-		player->animation("Resource/player/run/run", 6, 30);
+		player->animation("Resource/player/run/run", 4, 30);
 		player->pos.x += 5;
 	}
-	
-
-	
-	render();
+	if (InputManager::GetInstance()->getKey(VK_SPACE))
+	{
+		SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
+	}
 }
 
 void Player::render()

@@ -9,9 +9,11 @@ private:
 	int hp;
 	int mp;
 	std::string name;
-	GameObject* player;
+	
 
 public:
+	GameObject* player;
+
 	Player();
 	~Player();
 

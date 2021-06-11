@@ -15,12 +15,9 @@ void GameScene::init()
 	gameBg = new GameBG;
 	gameBg->init();
 
+	isChange = false;
 
-	testObj = new GameObject;
-	testObj->loadTexture("Resource/GameScene/Player/adventurer-run-00.png");
-	testObj->setSize(200, 148);
-	testObj->setSrcSize(50, 37);
-	testObj->setPos(100, 600);
+	Player::GetInstance()->init();
 
 	// bgm 재생
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
@@ -34,37 +31,21 @@ void GameScene::update()
 	gameBg->update();
 
 	// 캐릭터 애니메이션
-	testObj->animation("Resource/GameScene/Player/adventurer-run-0", 5, 200);
-
-
-
-	// 캐릭터 이동 예시
-	if (InputManager::GetInstance()->getKey(VK_LEFT))
-	{
-		testObj->pos.x -= 1;
-	}
-	if (InputManager::GetInstance()->getKey(VK_RIGHT))
-	{
-		testObj->pos.x += 1;
-	}
-	if (InputManager::GetInstance()->getKey(VK_UP))
-	{
-		testObj->pos.y -= 1;
-	}
-	if (InputManager::GetInstance()->getKey(VK_DOWN))
-	{
-		testObj->pos.y += 1;
-	}
-
+	Player::GetInstance()->update();
 
 	//Camera::GetInstance()->update();
-	render();
+	if(!isChange)
+		render();
 }
 
 void GameScene::render()
 {
 	gameBg->render();
-	GraphicManager::GetInstance()->render(testObj);
+	Player::GetInstance()->render();
+}
 
-
+void GameScene::release()
+{
+	isChange = true;
+	delete gameBg;
 }
