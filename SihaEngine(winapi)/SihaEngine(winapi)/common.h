@@ -34,7 +34,7 @@ using namespace std;
 #include "Player.h"
 #include "GameBG.h"
 #include "Camera.h"
-
+#include "Npc.h"
 
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.
