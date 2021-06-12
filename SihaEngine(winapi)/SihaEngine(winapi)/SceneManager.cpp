@@ -26,12 +26,15 @@ void SceneManager::SceneChange(int WhatScene)
 	{
 	case eTest:
 		scene = new TestScene;
+		sceneType = eTest;
 		break;
 	case eGame:
 		scene = new GameScene;
+		sceneType = eGame;
 		break;
 	case eVillage:
 		scene = new VillageScene;
+		sceneType = eVillage;
 		break;
 	/*case eIntro:
 		scene = new IntroScene;

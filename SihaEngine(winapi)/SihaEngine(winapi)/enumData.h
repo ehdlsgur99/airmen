@@ -4,5 +4,5 @@
 
 enum ePlayer
 {
-	eIdle = 0, eLeft, eRight, eJump, eAttack, eRun
+	eIdle = 0, eLeft, eRight, eJump, eAttack1, eAttack2
 };

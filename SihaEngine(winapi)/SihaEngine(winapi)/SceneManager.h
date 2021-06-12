@@ -24,7 +24,7 @@ public:
 public:
 	// Scene 을 선언 한다.
 	Scene* scene;
-
+	eType sceneType;
 	// Scene 을 교체 한다.
 	void SceneChange(int WhatScene);
 };

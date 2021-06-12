@@ -19,26 +19,64 @@ void Player::init()
 	player->setPos(50, 620);
 }
 
+// getKey 사용할때
+// https://m.blog.naver.com/power2845/50143021565 참고
+
 void Player::update()
 {
 	// 캐릭터 애니메이션
 
-	player->animation("Resource/player/idle/player", 4, 200);
+	
 
 	// 캐릭터 이동 예시
 	if (InputManager::GetInstance()->getKey(VK_LEFT))
 	{
-		
-		player->pos.x -= 5;
+		state = eLeft;
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
+		{
+			player->pos.x -= 5;
+		}
 	}
-	if (InputManager::GetInstance()->getKey(VK_RIGHT))
+	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
 	{
-		player->animation("Resource/player/run/run", 4, 30);
-		player->pos.x += 5;
+		state = eRight;
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
+		{
+			player->pos.x += 5;
+		}
 	}
-	if (InputManager::GetInstance()->getKey(VK_SPACE))
+	else if (InputManager::GetInstance()->getKey(0x41))
 	{
-		SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
+		state = eAttack1;
+	}
+	else
+	{
+		state = eIdle;
+	}
+
+
+	// 캐릭터 애니메이션
+	switch (state)
+	{
+	case eIdle:
+		player->animation("Resource/player/idle/player", 6, 200);
+		break;
+	case eLeft:
+		player->animation("Resource/player/left/left", 6, 30);
+		break;
+	case eRight:
+		player->animation("Resource/player/right/right", 6, 30);
+		break;
+	case eJump:
+		break;
+	case eAttack1:
+
+		break;
+	case eAttack2:
+
+		break;
+	default:
+		break;
 	}
 }
 
