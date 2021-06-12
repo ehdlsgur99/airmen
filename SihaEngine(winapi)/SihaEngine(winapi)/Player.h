@@ -9,7 +9,7 @@ private:
 	int hp;
 	int mp;
 	std::string name;
-	
+
 
 public:
 	GameObject* player;

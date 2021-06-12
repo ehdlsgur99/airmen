@@ -17,7 +17,7 @@ private:
 	int groundx = 0;
 	GameObject* bg;
 	GameObject* mg;
-	GameObject *ground[40];
+	GameObject *ground[67];
 	GameObject* house[3];
 	GameObject* box[10];
 	GameObject* obj[10];
