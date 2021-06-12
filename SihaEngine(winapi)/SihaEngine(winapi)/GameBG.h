@@ -12,5 +12,7 @@ public:
 	void update();
 	void render();
 	void release();
+public:
+	float moveTime;
 };
 

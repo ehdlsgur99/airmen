@@ -67,6 +67,12 @@ SIZE GameObject::getSrcSize()
 
 bool GameObject::animation(std::string filename, int frame, int delay)
 {
+	if (strcmp( oldFineName.c_str(), filename.c_str()))
+	{
+		aniNow = 0;
+		aniTime = 0;
+		oldFineName = filename;
+	}
 	if (GetTickCount() - aniTime >= delay)
 	{
 		aniTime = GetTickCount();
@@ -89,6 +95,7 @@ bool GameObject::animation(std::string filename, int frame, int delay)
 
 		// 이미지 다시 로드
 		loadTexture(filename);
-
+		
 	}
+	return false;
 }

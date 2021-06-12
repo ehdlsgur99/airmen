@@ -10,6 +10,11 @@ Player::~Player()
 
 }
 
+int Player::getPlayerState()
+{
+	return state;
+}
+
 void Player::init()
 {
 	player = new GameObject;
@@ -17,6 +22,12 @@ void Player::init()
 	player->setSrcSize(50, 37);
 	player->setSize(200, 161);
 	player->setPos(50, 620);
+
+	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+	{
+		power = 100;
+		state = eRight;
+	}
 }
 
 // getKey 사용할때
@@ -47,12 +58,18 @@ void Player::update()
 	}
 	else if (InputManager::GetInstance()->getKey(0x41))
 	{
-		state = eAttack1;
+		if (!isAttack || state != eAttack2)
+		{
+			state = eAttack1;
+			isAttack = true;
+		}
+		if (isAttack && state == eAttack1 && player->aniNow >= 4)
+		{
+			nextState = eAttack2;
+		}
+	
 	}
-	else
-	{
-		state = eIdle;
-	}
+	
 
 
 	// 캐릭터 애니메이션
@@ -62,19 +79,47 @@ void Player::update()
 		player->animation("Resource/player/idle/player", 6, 200);
 		break;
 	case eLeft:
-		player->animation("Resource/player/left/left", 6, 30);
+		if (player->animation("Resource/player/left/left", 6, 100))
+			state = eIdle;
+
 		break;
 	case eRight:
-		player->animation("Resource/player/right/right", 6, 30);
+		if (player->animation("Resource/player/right/right", 6, 100))
+		{
+			state = eIdle;
+			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+				state = eRight;
+		}
 		break;
 	case eJump:
 		break;
 	case eAttack1:
-
+		if (player->animation("Resource/player/attack/attack1-", 6, 100))
+		{
+			if (nextState == eAttack2)
+				state = eAttack2;
+			else
+			{
+				state = eRight;
+				isAttack = false;
+			}		
+		}
 		break;
 	case eAttack2:
-
+		if (player->animation("Resource/player/attack/attack2-", 6, 100))
+		{
+			isAttack = false;
+			nextState = eRight;
+			state = eRight;
+		}
+			
 		break;
+	case eAttacked:
+		if (player->animation("Resource/player/hurt/hurt-", 6, 200))
+		{
+			nextState = eRight;
+			state = eRight;
+		}
 	default:
 		break;
 	}

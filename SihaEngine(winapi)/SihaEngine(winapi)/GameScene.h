@@ -16,6 +16,7 @@ private:
 private:
 	GameObject* testObj;
 	GameBG* gameBg;
+	MonsterControl *mc;
 
 	bool isChange;
 };

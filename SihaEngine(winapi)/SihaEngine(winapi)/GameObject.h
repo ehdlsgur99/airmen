@@ -20,6 +20,7 @@ public:
 
 	// 애니매이션을 위한 값
 	int		aniNow;			// 현재 프레임
+	std::string		oldFineName;		// 다른 애니메이션일 경우
 	float	aniTime;
 
 	// 크기 관련

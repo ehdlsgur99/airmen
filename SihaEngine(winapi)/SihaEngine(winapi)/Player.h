@@ -4,18 +4,22 @@
 
 class Player : public CSingleton<Player>
 {
-private:
+public:
 	ePlayer state;
+	ePlayer nextState;
 	int hp;
 	int mp;
-	std::string name;
 
+	std::string name;
+	bool isAttack;
 
 public:
 	GameObject* player;
-
+	int power;
 	Player();
 	~Player();
+	
+	int getPlayerState();
 
 	void init();
 	void update();
