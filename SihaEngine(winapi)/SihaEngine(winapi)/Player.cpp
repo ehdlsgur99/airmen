@@ -16,7 +16,7 @@ void Player::init()
 	player->loadTexture("Resource/player/idle/player1.png");
 	player->setSrcSize(50, 37);
 	player->setSize(200, 161);
-	player->setPos(50, 620);
+	player->setPos(0, 620);
 }
 
 // getKey 사용할때
@@ -34,7 +34,14 @@ void Player::update()
 		state = eLeft;
 		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
 		{
-			player->pos.x -= 5;
+			if (mappos >= 800 && mappos <= 1000)
+				player->pos.x += 20;
+			if (mappos >= 0) {
+				player->pos.x -= 20;
+				ObjectManager::GetInstance()->cameraMove(-20, 0);
+				mappos -= 20;
+			}
+			
 		}
 	}
 	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
@@ -42,9 +49,23 @@ void Player::update()
 		state = eRight;
 		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
 		{
-			player->pos.x += 5;
+
+			if(mappos>=800&&mappos<=1000)
+				player->pos.x -= 20;
+			if (mappos <= 1600) {
+				player->pos.x += 20;
+				ObjectManager::GetInstance()->cameraMove(20, 0);
+				mappos += 20;
+			}
 		}
+			
+		}
+	else if (InputManager::GetInstance()->getKey(VK_UP))
+	{
+		state = eJump;
+		
 	}
+
 	else if (InputManager::GetInstance()->getKey(0x41))
 	{
 		state = eAttack1;
@@ -68,6 +89,7 @@ void Player::update()
 		player->animation("Resource/player/right/right", 6, 30);
 		break;
 	case eJump:
+		player->animation("Resource/player/jump/jump", 6, 30);
 		break;
 	case eAttack1:
 

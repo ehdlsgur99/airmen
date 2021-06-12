@@ -7,7 +7,7 @@
 #include "common.h"
 
 class GameObject;
-class ObjectManager
+class ObjectManager: public CSingleton<ObjectManager>
 {
 public:
 	ObjectManager();

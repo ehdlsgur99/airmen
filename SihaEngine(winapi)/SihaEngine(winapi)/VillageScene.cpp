@@ -24,22 +24,24 @@ void VillageScene::init()
 	mg->setSrcSize(384, 288);
 	mg->setSize(1600, 900);
 
-	for(int i=0;i<67;i++){
+	for(int i=0;i<34;i++){
 		if (i % 2 == 0) {
 			ground[i] = new GameObject;
 			ground[i]->loadTexture("Resource/object/ground.png");
-			ground[i]->setPos(groundx, 734);
+			ground[i]->setPos(ground[i]->pos.x, 734);
 			ground[i]->setSrcSize(16, 48);
 			ground[i]->setSize(48, 170);
 		}
 		else {
 			ground[i] = new GameObject;
 			ground[i]->loadTexture("Resource/object/ground-b.png");
-			ground[i]->setPos(groundx, 734);
+			ground[i]->setPos(ground[i]->pos.x, 734);
 			ground[i]->setSrcSize(16, 48);
 			ground[i]->setSize(48, 170);
 		}
-		groundx += 48;
+		if (i == 0) continue;
+		
+		ground[i]->pos.x = ground[i-1]->pos.x+48;
 	}
 	house[0] = new GameObject;
 	house[0]->loadTexture("Resource/object/house-a.png");
@@ -48,38 +50,45 @@ void VillageScene::init()
 	house[0]->setSize(504,549);
 	house[1] = new GameObject;
 	house[1]->loadTexture("Resource/object/house-b.png");
-	house[1]->setPos(600,35);
+	house[1]->setPos(600 ,35);
 	house[1]->setSrcSize(210, 244);
 	house[1]->setSize(630, 732);
 	house[2] = new GameObject;
 	house[2]->loadTexture("Resource/object/house-c.png");
-	house[2]->setPos(1250, 217);
+	house[2]->setPos(1250 , 217);
 	house[2]->setSrcSize(221, 183);
 	house[2]->setSize(663, 549);
 	
 	box[0] = new GameObject;
 	box[0]->loadTexture("Resource/object/crate-stack.png");
-	box[0]->setPos(510, 573);
+	box[0]->setPos(510 , 573);
 	box[0]->setSrcSize(73, 68);
 	box[0]->setSize(200, 194);
 
 	obj[0] = new GameObject;
 	obj[0]->loadTexture("Resource/object/sign.png");
-	obj[0]->setPos(910, 573);
+	obj[0]->setPos(910 , 573);
 	obj[0]->setSrcSize(37, 45);
 	obj[0]->setSize(74, 90);
 	obj[1] = new GameObject;
 	obj[1]->loadTexture("Resource/object/barrel.png");
-	obj[1]->setPos(1070, 688);
+	obj[1]->setPos(1070 , 688);
 	obj[1]->setSrcSize(24, 30);
 	obj[1]->setSize(72, 90);
 	obj[2] = new GameObject;
 	obj[2]->loadTexture("Resource/object/barrel.png");
-	obj[2]->setPos(1142, 688);
+	obj[2]->setPos(1142 , 688);
 	obj[2]->setSrcSize(24, 30);
 	obj[2]->setSize(72, 90);
 	Player::GetInstance()->init();
 	Npc::GetInstance()->init();
+	ObjectManager::GetInstance()->addObject(house[0]);
+	ObjectManager::GetInstance()->addObject(house[1]);
+	ObjectManager::GetInstance()->addObject(house[2]);
+	ObjectManager::GetInstance()->addObject(box[0]);
+	ObjectManager::GetInstance()->addObject(obj[0]);
+	ObjectManager::GetInstance()->addObject(obj[1]);
+	ObjectManager::GetInstance()->addObject(obj[2]);
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 }
 
@@ -95,7 +104,7 @@ void VillageScene::render()
 	GraphicManager::GetInstance()->render(bg);
 
 	GraphicManager::GetInstance()->render(mg);
-	for (int i = 0; i < 67; i++) {
+	for (int i = 0; i < 34; i++) {
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
 	GraphicManager::GetInstance()->render(house[0]);
