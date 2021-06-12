@@ -1,0 +1,78 @@
+#include "common.h"
+
+void MonsterControl::init()
+{
+	spawnTime = 0.0f;
+	spawnDelay = 10000;
+}
+
+void MonsterControl::update()
+{
+	if (GetTickCount() - spawnTime >= spawnDelay)
+	{
+		spawnTime = GetTickCount();
+		spawnMonser();
+	}
+
+	// 몬스터들 업데이트
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		monsters[i]->update();
+		if (monsters[i]->isDie)
+		{
+			monsters.erase(monsters.begin() + i);
+			break;
+		}
+	}
+
+	// 충돌체크
+	checkColiision();
+
+	
+}
+
+void MonsterControl::render()
+{
+	for (int i = 0; i < monsters.size(); i++)
+		monsters[i]->render();
+}
+
+void MonsterControl::release()
+{
+
+}
+
+void MonsterControl::spawnMonser()
+{
+	// 현재는 슬라임만 스폰
+	Monster* monster = new Monster;
+	monster->init(eSlime);
+	monsters.push_back(monster);
+}
+
+void MonsterControl::checkColiision()
+{
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		// 충돌
+		if(CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, monsters[i]))
+		{
+			// 플레이어가 상태에 따른 변화
+			switch (Player::GetInstance()->getPlayerState())
+			{
+			case eRight:
+				monsters[i]->attack();
+				break;
+			case eAttack1:
+				monsters[i]->attacked();
+				break;
+			case eAttack2:
+				monsters[i]->attacked();
+				break;
+			default:
+				break;
+			}
+
+		}
+	}
+}

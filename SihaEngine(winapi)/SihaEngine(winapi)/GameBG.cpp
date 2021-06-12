@@ -19,19 +19,26 @@ void GameBG::init()
 		layer2[i]->setSrcSize(1600, 900);
 		count--;
 	}
+
+	moveTime = GetTickCount();
 }
 
 void GameBG::update()
 {
-	for (int i = 0; i < 10; i++)
+	if (GetTickCount() - moveTime >= 10)
 	{
-		layer1[i]->pos.x -= i;
-		layer2[i]->pos.x -= i;
-		if (layer1[i]->pos.x <= -1600)
-			layer1[i]->pos.x = 1600;
-		if (layer2[i]->pos.x <= -1600)
-			layer2[i]->pos.x = 1600;
+		moveTime = GetTickCount();
+		for (int i = 0; i < 10; i++)
+		{
+			layer1[i]->pos.x -= i;
+			layer2[i]->pos.x -= i;
+			if (layer1[i]->pos.x <= -1600)
+				layer1[i]->pos.x = 1600;
+			if (layer2[i]->pos.x <= -1600)
+				layer2[i]->pos.x = 1600;
+		}
 	}
+	
 }
 
 void GameBG::render()

@@ -35,7 +35,8 @@ using namespace std;
 #include "GameBG.h"
 #include "Camera.h"
 #include "Npc.h"
-
+#include "Monster.h"
+#include "MonsterControl.h"
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.
 #include "TestScene.h"
