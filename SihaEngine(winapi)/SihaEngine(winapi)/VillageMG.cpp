@@ -99,6 +99,7 @@ void VillageMG::update()
 	
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 325 && InputManager::GetInstance()->LButtonPos.x < 389 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467) {
 		Player::GetInstance()->playerUI->Buysword = true;
+
 	}
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 390 && InputManager::GetInstance()->LButtonPos.x < 454 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467) {
 		Player::GetInstance()->playerUI->Buyarmor = true;
@@ -127,6 +128,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[0]);
 		GraphicManager::GetInstance()->drawText("attack", { 325, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+10", { 335, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("100G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower=10;
 	}
 		
@@ -134,6 +136,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[1]);
 		GraphicManager::GetInstance()->drawText("attack", { 325, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+30", { 335, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("300G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower = 30;
 	
 	}
@@ -142,6 +145,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[2]);
 		GraphicManager::GetInstance()->drawText("attack", { 325, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+50", { 335, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("500G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower = 50;
 	}
 		
@@ -150,6 +154,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[3]);
 		GraphicManager::GetInstance()->drawText("max hp", { 390, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+20", { 400, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("100G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 20;
 	}
 		
@@ -157,6 +162,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[4]);
 		GraphicManager::GetInstance()->drawText("max hp", { 390, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+50", { 400, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("300G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 50;
 	}
 		
@@ -164,6 +170,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[5]);
 		GraphicManager::GetInstance()->drawText("max hp", { 390, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+100", { 400, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("500G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 100;
 	}
 		
@@ -172,6 +179,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[6]);
 		GraphicManager::GetInstance()->drawText("max mp", { 463, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+20", { 477, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("100G", { 477, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->ringPower = 20;
 	}
 		
@@ -179,6 +187,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[7]);
 		GraphicManager::GetInstance()->drawText("max mp", { 463, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+50", { 477, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("300G", { 477, 493 }, 10, RGB(255, 255 ,255));
 		Player::GetInstance()->playerUI->ringPower = 50;
 	}
 		
@@ -186,14 +195,17 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->render(layer[8]);
 		GraphicManager::GetInstance()->drawText("max mp", { 463, 473 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("+100", { 477, 483 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("500G", { 477, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->ringPower = 100;
 
 	}
 	GraphicManager::GetInstance()->drawText("hp", { 345, 603 }, 10, RGB(0, 0, 0));
 	GraphicManager::GetInstance()->drawText("+20", { 335, 613 }, 10, RGB(0, 0, 0));
+	GraphicManager::GetInstance()->drawText("50G", { 335, 623 }, 10, RGB(255, 255, 255));
 
 	GraphicManager::GetInstance()->drawText("mp", { 410, 603 }, 10, RGB(0, 0, 0));
 	GraphicManager::GetInstance()->drawText("+20", { 400, 613 }, 10, RGB(0, 0, 0));
+	GraphicManager::GetInstance()->drawText("30G", { 400, 623 }, 10, RGB(255, 255, 255));
 	
 		
 }

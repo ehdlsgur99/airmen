@@ -122,7 +122,7 @@ void PlayerUI::render()
 		GraphicManager::GetInstance()->drawText(std::to_string(swordPower), { 1020, 380 }, 10, RGB(0, 0, 0));
 		//stat
 		GraphicManager::GetInstance()->drawText("공격력:", { 1090, 380 }, 10, RGB(0, 0, 0));
-		GraphicManager::GetInstance()->drawText(std::to_string(swordPower+10), { 1100, 390 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText(std::to_string(swordPower+10), { 1155, 380 }, 10, RGB(0, 0, 0));
 		if(swordPower==10){
 			GraphicManager::GetInstance()->render(layer[0]);
 		}
@@ -139,8 +139,8 @@ void PlayerUI::render()
 		GraphicManager::GetInstance()->drawText("체력+", { 940, 480 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText(std::to_string(armorPower), { 1020, 480 }, 10, RGB(0, 0, 0));
 		//stat
-		GraphicManager::GetInstance()->drawText("체력:", { 1090, 460 }, 10, RGB(0, 0, 0));
-		GraphicManager::GetInstance()->drawText(std::to_string(armorPower+100), { 1140, 460 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText("체력:", { 1090, 450 }, 10, RGB(0, 0, 0));
+		GraphicManager::GetInstance()->drawText(std::to_string(armorPower+100), { 1140, 450 }, 10, RGB(0, 0, 0));
 		if (armorPower == 20) {
 			GraphicManager::GetInstance()->render(layer[3]);
 		}
@@ -169,15 +169,15 @@ void PlayerUI::render()
 		}
 	}
 	
-	if (BuyhpPotion) {
+	
 		GraphicManager::GetInstance()->render(hpPotion);
 		GraphicManager::GetInstance()->drawText(std::to_string(hpPotionNum), { 870, 290 }, 10, RGB(0, 0, 0));
-	}
+	
 
-	if (BuympPotion){
+	
 		GraphicManager::GetInstance()->render(mpPotion);
 		GraphicManager::GetInstance()->drawText(std::to_string(mpPotionNum), { 934, 290 }, 10, RGB(0, 0, 0));
-	}
+	
 	GraphicManager::GetInstance()->drawText(std::to_string(coinNum), { 1145, 245 }, 10, RGB(0, 0, 0));
 	
 	

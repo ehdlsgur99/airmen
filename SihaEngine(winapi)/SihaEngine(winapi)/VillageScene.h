@@ -17,7 +17,7 @@ private:
 	
 	GameObject* bg;
 	GameObject* mg;
-	GameObject *ground[34];
+	GameObject *ground[70];
 	GameObject* house[4];
 	GameObject* box[10];
 	GameObject* obj[10];

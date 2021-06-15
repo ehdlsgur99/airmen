@@ -25,7 +25,7 @@ void VillageScene::init()
 	mg->setSrcSize(384, 288);
 	mg->setSize(1600, 900);
 
-	for(int i=0;i<34;i++){
+	for(int i=0;i<70;i++){
 		if (i % 2 == 0) {
 			ground[i] = new GameObject;
 			ground[i]->loadTexture("Resource/object/ground.png");
@@ -145,7 +145,9 @@ void VillageScene::init()
 	for (int i = 0; i < 6; i++) {
 		ObjectManager::GetInstance()->addObject(obj[i]);
 	}
-
+	for (int i = 0; i < 70; i++) {
+		ObjectManager::GetInstance()->addObject(ground[i]);
+	}
 	//Ãß°¡ 
 	
 
@@ -159,6 +161,7 @@ void VillageScene::init()
 
 void VillageScene::update()
 {
+	
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])) {
 		if (isOpen == true)
 			isOpen = false;
@@ -172,8 +175,11 @@ void VillageScene::update()
 	shop->update();
 
 	
-	render();
 	
+	render();
+	if(InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, obj[4])) {
+		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eGame);
+	}
 }
 
 void VillageScene::render()
@@ -181,7 +187,7 @@ void VillageScene::render()
 	GraphicManager::GetInstance()->render(bg);
 
 	GraphicManager::GetInstance()->render(mg);
-	for (int i = 0; i < 34; i++) {
+	for (int i = 0; i < 70; i++) {
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
 	GraphicManager::GetInstance()->render(house[0]);
@@ -221,8 +227,21 @@ void VillageScene::render()
 
 void VillageScene::release()
 {
-	Player::GetInstance()->release();
-	Npc::GetInstance()->release();
+	//delete bg;
+	//delete mg;
+	//for (int i = 0; i < 70; i++) {
+	//	delete ground[i];
+	//}
+	//for (int i = 0; i < 4; i++) {
+	//	delete house[i];
+	//	delete textbox[i];
+	//}
+	//for (int i = 0; i < 10; i++) {
+	//	delete box[i];
+	//	delete obj[i];
+	//}
+	
+	ObjectManager::GetInstance()->release();
 
 }
 

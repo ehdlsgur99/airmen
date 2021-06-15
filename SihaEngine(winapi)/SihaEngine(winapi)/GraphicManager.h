@@ -10,6 +10,7 @@ public:
 	GraphicManager();
 	~GraphicManager();
 public:
+	
 	// HWND, HDC
 	HWND					hWnd;
 	HDC						hdc, memdc;
