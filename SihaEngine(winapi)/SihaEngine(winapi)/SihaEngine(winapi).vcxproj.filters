@@ -74,6 +74,7 @@
     <ClCompile Include="GameBG.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="EndScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="GameBG.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="EndScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Class">

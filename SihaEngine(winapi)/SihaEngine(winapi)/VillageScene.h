@@ -14,7 +14,6 @@ private:
 	void render();
 	void release();
 private:
-	
 	GameObject* bg;
 	GameObject* mg;
 	GameObject *ground[70];

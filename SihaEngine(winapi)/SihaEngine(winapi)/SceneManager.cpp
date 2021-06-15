@@ -18,7 +18,7 @@ void SceneManager::SceneChange(int WhatScene)
 	if (scene)
 	{
 		scene->release();
-		delete scene;
+		//delete scene;
 	}
 
 	// Switch 로 내가 원하는 Scene 을 찾음
@@ -26,14 +26,17 @@ void SceneManager::SceneChange(int WhatScene)
 	{
 	case eTest:
 		scene = new TestScene;
+		scene->init();
 		sceneType = eTest;
 		break;
 	case eGame:
 		scene = new GameScene;
+		scene->init();
 		sceneType = eGame;
 		break;
 	case eVillage:
 		scene = new VillageScene;
+		scene->init();
 		sceneType = eVillage;
 		break;
 	/*case eIntro:

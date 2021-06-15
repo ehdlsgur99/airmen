@@ -50,3 +50,4 @@ using namespace std;
 #include "GameScene.h"
 #include "VillageScene.h"
 #include "IntroScene.h"
+#include "EndScene.h"

@@ -273,6 +273,8 @@ void Player::update()
 		{
 			nextState = eRight;
 			state = eRight;
+			// 체력이 0 이하면?
+
 		}
 	default:
 		break;

@@ -12,6 +12,8 @@ VillageScene::~VillageScene()
 
 void VillageScene::init()
 {
+	Player::GetInstance()->mappos = 0;
+
 	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/village_bg.png");
@@ -174,7 +176,6 @@ void VillageScene::update()
 	Npc::GetInstance()->update();
 	shop->update();
 
-	
 	
 	render();
 	if(InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, obj[4])) {

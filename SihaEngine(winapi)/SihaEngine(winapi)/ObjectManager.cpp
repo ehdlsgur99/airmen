@@ -24,7 +24,7 @@ void ObjectManager::addUi(GameObject* obj)
 
 void ObjectManager::release()
 {
-	// 오브젝트 벡터와, Ui 벡터의 크기만큼 for문을 돌려서 삭제
+	 // 오브젝트 벡터와, Ui 벡터의 크기만큼 for문을 돌려서 삭제
 	for (int i = 0; i < ObjectVector.size(); i++)
 	{
 		delete ObjectVector[i];
