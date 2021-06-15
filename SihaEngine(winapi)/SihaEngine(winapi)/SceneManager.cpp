@@ -24,6 +24,11 @@ void SceneManager::SceneChange(int WhatScene)
 	// Switch 로 내가 원하는 Scene 을 찾음
 	switch (WhatScene)
 	{
+	case eIntro:
+		scene = new IntroScene;
+		scene->init();
+		sceneType = eIntro;
+		break;
 	case eTest:
 		scene = new TestScene;
 		scene->init();

@@ -8,11 +8,15 @@ public:
 	IntroScene();
 	~IntroScene();
 
+
 private:
 	void init();
 	void update();
 	void render();
 	void release();
 private:
+	GameObject* main;
+	GameObject* pressAnyKey;
+	bool alpha;
 
 };

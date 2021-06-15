@@ -43,14 +43,14 @@ void Player::init()
 {
 	smash = new GameObject;
 	smash->setSize(150, 120);
-	smash->setPos(player->pos.x, player->pos.y);
+	smash->setPos(- 1000, player->pos.y);
 
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	{
-		nowHp = hp;
-		nowMp = mp ;
+		nowHp = hp = playerUI->armorPower + 100;
+		nowMp = mp = playerUI->ringPower + 100;
 		player->setPos(50, 560);
-		power = 10;
+		power = playerUI->swordPower + 10;
 		state = eRight;
 	}
 
@@ -292,7 +292,6 @@ void Player::update()
 		{
 			nextState = eRight;
 			state = eRight;
-			// 체력이 0 이하면?
 
 		}
 	default:
