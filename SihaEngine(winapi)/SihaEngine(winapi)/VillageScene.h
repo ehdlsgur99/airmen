@@ -22,7 +22,7 @@ private:
 	GameObject* box[10];
 	GameObject* obj[10];
 	GameObject* textbox[4];
-	GameObject* itmeEX[3];
+	
 	VillageMG* shop;
 	int shoptime = 0;
 	bool isOpen;

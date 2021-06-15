@@ -130,11 +130,7 @@ void VillageScene::init()
 	textbox[3]->setSize(185, 110);
 	textbox[3]->setPos(2900, 520);
 
-	itmeEX[0] = new GameObject;
-	itmeEX[0]->loadTexture("Resource/object/itemEX1.png");
-	itmeEX[0]->setSrcSize(120, 59);
-	itmeEX[0]->setSize(120, 59);
-	itmeEX[0]->setPos(330, 420);
+	
 	//add objectmanager 
 	ObjectManager::GetInstance()->addObject(house[0]);
 	ObjectManager::GetInstance()->addObject(house[1]);
@@ -173,6 +169,9 @@ void VillageScene::update()
 	
 	Player::GetInstance()->update();
 	Npc::GetInstance()->update();
+	shop->update();
+
+	
 	render();
 	
 }
@@ -197,7 +196,7 @@ void VillageScene::render()
 	}
 	
 	Npc::GetInstance()->render();
-	Player::GetInstance()->render();
+
 	
 	if (isOpen) {
 		
@@ -215,6 +214,8 @@ void VillageScene::render()
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[2])) {
 		GraphicManager::GetInstance()->render(textbox[3]);
 	}
+
+	Player::GetInstance()->render();
 	
 }
 

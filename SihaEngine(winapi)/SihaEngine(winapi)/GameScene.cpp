@@ -59,7 +59,7 @@ void GameScene::render()
 	gameBg->render();
 	tail->render();
 
-	Player::GetInstance()->render();
+	
 	mc->render();
 
 	
@@ -75,6 +75,8 @@ void GameScene::render()
 		std::string str = "STAGE" + std::to_string(Player::GetInstance()->level);
 		GraphicManager::GetInstance()->drawText(str, { 450, 400 }, 80, RGB(255, 255, 255));
 	}
+
+	Player::GetInstance()->render();
 	
 }
 

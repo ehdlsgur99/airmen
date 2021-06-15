@@ -27,6 +27,7 @@ public:
 	int level;
 
 	bool isSmash;
+	bool isUI;
 	bool isAttack;
 	bool isJump;
 public:
@@ -37,7 +38,6 @@ public:
 	~Player();
 	
 	int getPlayerState();
-	void Jump();
 	void init();
 	void update();
 	void render();

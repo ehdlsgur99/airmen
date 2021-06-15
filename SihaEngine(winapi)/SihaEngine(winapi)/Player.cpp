@@ -292,6 +292,15 @@ void Player::update()
 
 	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 		playerBar->update();
+	if (InputManager::GetInstance()->getKey(0x49)) 
+	{
+		playerUI->update();
+		if (isUI) 
+			isUI = false;
+		
+		else
+			isUI = true;
+		}
 }
 
 void Player::render()
@@ -303,6 +312,13 @@ void Player::render()
 
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 		playerBar->render(playerUI);
+
+
+	if (isUI)
+	{
+		playerUI->render();
+	}
+
 }
 
 void Player::release()
