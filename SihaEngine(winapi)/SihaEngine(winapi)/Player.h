@@ -20,9 +20,13 @@ public:
 
 public:
 	GameObject* player;
+	GameObject* smash;
 	PlayerBar* playerBar;
 	PlayerUI* playerUI;
 
+	int level;
+
+	bool isSmash;
 	bool isAttack;
 	bool isJump;
 public:
@@ -38,5 +42,7 @@ public:
 	void update();
 	void render();
 	void release();
+
+	void gravity(Tail* tail);
 };
 

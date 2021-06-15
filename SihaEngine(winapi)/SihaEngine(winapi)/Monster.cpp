@@ -14,19 +14,19 @@ void Monster::init(eMonsterType type)
 	{
 	case eSlime:
 		hp = 100;
-		power = 1;
+		power = 10;
 		loadTexture("Resource/monster/slime/Run-1.png");
 		setSize(96, 75);
 		setSrcSize(32, 25);
-		setPos(1000, 680);
-		speed = 1;
+		setPos(1600, 650);
+		speed = 2;
 		break;
 	case eSkeleton:
 		hp = 100;
-		power = 1;
+		power = 10;
 		loadTexture("Resource/monster/skeleton/Run-1.png");
 		setSize(srcSize.cx * 3, srcSize.cy * 3);
-		setPos(1000, 680);
+		setPos(1600, 650);
 		speed = 1;
 		break;
 	default:
@@ -82,7 +82,7 @@ void Monster::ani()
 
 void Monster::move()
 {
-	if(Player::GetInstance()->state == eRight)
+	if(Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump1 || Player::GetInstance()->state == eJump2)
 		pos.x -= speed * 2;
 	else
 		pos.x -= speed;
@@ -128,13 +128,10 @@ void Monster::attack()
 	if (Player::GetInstance()->state == eAttacked)
 		return;
 
-	Player::GetInstance()->hp -= power;
+	Player::GetInstance()->nowHp -= power;
 	Player::GetInstance()->state = eAttacked;
 
 	monsterState = eAttack;
-	
-
-
 }
 
 void Monster::attacked()
@@ -151,6 +148,30 @@ void Monster::attacked()
 
 	if (hp <= 0 && monsterState != eDie)
 	{
+		Player::GetInstance()->playerUI->coinNum += 25;
+		hp = 0;
+		isAttacked = true;
+		monsterState = eDie;
+	}
+	else
+	{
+		isAttacked = true;
+		monsterState = eHurt;
+	}
+}
+
+void Monster::smashAttacked()
+{
+	if (hp <= 0)
+		return;
+
+		hp -= Player::GetInstance()->power * 5;
+
+	pos.x += 50;
+
+	if (hp <= 0 && monsterState != eDie)
+	{
+		Player::GetInstance()->playerUI->coinNum += 25;
 		hp = 0;
 		isAttacked = true;
 		monsterState = eDie;

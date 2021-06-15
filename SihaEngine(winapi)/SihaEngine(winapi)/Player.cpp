@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-
+	level = 1;
 }
 
 Player::~Player()
@@ -23,21 +23,24 @@ void Player::init()
 	player->setSize(200, 161);
 	player->setPos(0, 620);
 
-	
+
+
 	playerUI = new PlayerUI;
 	playerUI->init();
 	playerBar = new PlayerBar;
 	playerBar->init();
 
+	smash = new GameObject;
+	smash->setSize(150, 120);
+	smash->setPos(player->pos.x, player->pos.y);
+
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	{
-		nowHp = hp = 100;
+		nowHp = hp = 10;
 		nowMp = mp = 100;
-		player->setPos(0, 600);
+		player->setPos(50, 560);
 		power = 10;
 		state = eRight;
-
-		
 	}
 
 }
@@ -48,8 +51,6 @@ void Player::init()
 void Player::update()
 {
 	// 캐릭터 애니메이션
-
-	
 
 	// 캐릭터 이동 예시
 	if (InputManager::GetInstance()->getKey(VK_LEFT))
@@ -84,9 +85,7 @@ void Player::update()
 			}
 		}
 			
-		}
-	
-
+	}
 	else if (InputManager::GetInstance()->getKey(0x41))
 	{
 		if (!isAttack || state != eAttack2 && state != eAttack1)
@@ -94,23 +93,39 @@ void Player::update()
 			state = eAttack1;
 			isAttack = true;
 		}
-		else if (isAttack && state == eAttack1 && player->aniNow >= 5)
+		else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
 		{
-			nextState = eAttack2;
+			if (nowMp >= 10)
+			{
+				nextState = eAttack2;
+				nowMp -= 10;
+			}
 		}
 	
 	}
+	// JUMP
 	if (InputManager::GetInstance()->getKey(VK_UP))
 	{
+
 		if (!isJump && state != eJump1)
 		{
 			state = eJump1;
 			isJump = true;
 			JumpCount = 0;
 		}
+		// 점프1중 일때
+		if (isJump && state == eJump1 && state != eJump2 && JumpCount > 2)
+		{
+			if (nowMp >= 10)
+			{
+				state = eJump2;
+				JumpCount = 0;
+				nowMp -= 10;
+			}
+		}
 	}
 
-	if (isJump  && GetTickCount64() - JumpTime >= 50)
+	if (isJump  && GetTickCount64() - JumpTime >= 50 && state == eJump1)
 	{
 		JumpTime = GetTickCount64();
 		if (JumpCount < 16)
@@ -129,9 +144,68 @@ void Player::update()
 			JumpCount = 0;
 			isJump = false;
 		}
-		
+	}
+	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump2)
+	{
+		JumpTime = GetTickCount64();
+		if (JumpCount < 8)
+		{
+			player->pos.y -= 15;
+			JumpCount++;
+		}
+		else
+		{
+			state = eIdle;
+			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+				state = eRight;
+			JumpCount = 0;
+			isJump = false;
+		}
 	}
 
+	// 포션 먹기
+	// 체력 포션
+	if (InputManager::GetInstance()->getKey(0x31))
+	{
+		if (playerUI->hpPotionNum > 0)
+		{
+			if (nowHp < 100)
+			{
+				playerUI->hpPotionNum -= 1;
+				nowHp += 20;
+				if (nowHp > 100)
+					nowHp = 100;
+			}
+			
+		}
+	}
+	// 마나 포션
+	if (InputManager::GetInstance()->getKey(0x32))
+	{
+		if (playerUI->mpPotionNum > 0)
+		{
+			if (nowMp < 100)
+			{
+				playerUI->mpPotionNum -= 1;
+				nowMp += 50;
+				if (nowMp > 100)
+					nowMp = 100;
+			}
+		}
+	}
+	// 스매쉬
+	if (InputManager::GetInstance()->getKey(0x53))
+	{
+		if (state == eAttack2 && !isSmash)
+		{
+			if (nowMp >= 30)
+			{
+				isSmash = true;
+				nowMp -= 30;
+				smash->setPos(player->pos.x + 20, player->pos.y + 50);
+			}
+		}
+	}
 
 	// 캐릭터 애니메이션
 	switch (state)
@@ -168,9 +242,7 @@ void Player::update()
 	case eJump2:
 
 		if (player->animation("Resource/player/doublejump/doublejump", 4, 100)) {
-			isJump = false;
-			nextState = eIdle;
-			state = eIdle;
+
 		}
 			
 		break;
@@ -206,6 +278,18 @@ void Player::update()
 		break;
 	}
 
+	// 스매쉬 이동
+	if (isSmash)
+	{
+		smash->animation("Resource/GameScene/smash",4, 100 );
+		smash->pos.x += 10;
+		if (smash->pos.x >= 2000)
+		{
+			isSmash = false;
+			smash->pos.x = -100;
+		}
+	}
+
 	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 		playerBar->update();
 }
@@ -214,11 +298,41 @@ void Player::render()
 {
 	GraphicManager::GetInstance()->render(player);
 
+	if (isSmash)
+		GraphicManager::GetInstance()->render(smash);
+
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-		playerBar->render();
+		playerBar->render(playerUI);
 }
 
 void Player::release()
 {
 	GraphicManager::GetInstance()->release();
+}
+
+void Player::gravity(Tail *tail)
+{
+	// 플레이어는 바닥에 붙어 있는게 아니면 중력에 영향 받아야함 ㅇㅇ
+	if (state != eJump1 && state != eJump2)
+	{
+		if (player->pos.y <= 560)
+		{
+			bool isCrush = false;
+			GameObject* tempObject = new GameObject;
+			tempObject->size = player->size;
+			tempObject->pos = player->pos;
+			tempObject->size.cy = 20;
+			tempObject->pos.y += 150;
+			for (int i = 0; i < tail->tails.size(); i++)
+			{
+				if (CollisionManager::GetInstance()->RectCollisionCheck(tempObject, tail->tails[i]))
+				{
+					isCrush = true;
+				}
+			}
+			if (!isCrush)
+				player->pos.y += 10;
+		}
+	}
+
 }

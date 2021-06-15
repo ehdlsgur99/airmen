@@ -15,6 +15,8 @@ void InputManager::init()
 	isKeyDown = false;
 	isKeyUp = true;
 	inputDelay = GetTickCount();
+
+
 }
 
 bool InputManager::getKey(int type)
@@ -25,12 +27,12 @@ bool InputManager::getKey(int type)
 
 	if (GetAsyncKeyState(type) & 0x8000)
 	{
-		if (now - inputDelay > 1000)
+		//if (now - inputDelay > 100)
 		{
 			inputDelay = GetTickCount();
 			return true;
 		}
-		
+		return false;
 	}
 	else
 		return false;

@@ -24,6 +24,8 @@ private:
 	bool isChange;
 	bool isPortal;
 
+	int startTime;
+
 
 	// 이번 페이즈 끝나는거 계산 하는 count
 	int endCount;

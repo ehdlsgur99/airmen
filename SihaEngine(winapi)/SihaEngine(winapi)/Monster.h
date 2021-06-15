@@ -13,6 +13,7 @@ public:
 	void ani();
 	void move();
 
+	void smashAttacked();
 	void attacked();
 	void attack();
 public:

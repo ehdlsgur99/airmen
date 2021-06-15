@@ -7,8 +7,8 @@ void PlayerUI::init()
 	armorPower = 10;
 	ringPower = 10;
 
-	hpPotionNum = 0;
-	mpPotionNum = 0;
+	hpPotionNum = 1;
+	mpPotionNum = 1;
 	coinNum = 0;
 }
 

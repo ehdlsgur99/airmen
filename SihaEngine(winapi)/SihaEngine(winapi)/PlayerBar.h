@@ -10,10 +10,15 @@ public:
 	GameObject* mpIcon;
 	GameObject* hpBar;
 	GameObject* mpBar;
+
+	GameObject* hpPotion;
+	GameObject* mpPotion;
+	GameObject* coin;
+
 public:
 	void init();
 	void update();
-	void render();
+	void render(PlayerUI* ui);
 	void release();
 };
 

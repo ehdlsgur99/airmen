@@ -47,7 +47,15 @@ void MonsterControl::spawnMonser()
 {
 	// 현재는 슬라임만 스폰
 	Monster* monster = new Monster;
-	monster->init(eSlime);
+	if (Player::GetInstance()->level%2)
+	{
+		monster->init(eSlime);
+	}
+	else
+	{
+		monster->init(eSkeleton);
+	}
+
 	monsters.push_back(monster);
 }
 
@@ -88,6 +96,13 @@ void MonsterControl::checkColiision()
 			default:
 				break;
 			}
+		}
+		// 스매시 충돌
+		if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, monsters[i]))
+		{
+
+			monsters[i]->smashAttacked();
+
 		}
 	}
 }

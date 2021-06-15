@@ -2,9 +2,9 @@
 
 void GameBG::init()
 {
-	level = 1;
+	level = Player::GetInstance()->level;
 
-	if (level == 1)
+	if (level % 2 == 1)
 	{
 		std::string path = "Resource/GameScene/BG/Layer_000";
 		int count = 9;
@@ -26,20 +26,20 @@ void GameBG::init()
 	}
 	else
 	{
-		std::string path = "Resource/GameScene/BG2/Hills Layer 0";
-		for (int i = 0; i < 6; i++)
+		std::string path = "Resource/GameScene/BG3/layer";
+		for (int i = 0; i < 4; i++)
 		{
 			layer1[i] = new GameObject;
 			layer1[i]->loadTexture(path + std::to_string(i + 1) + ".png");
 			layer1[i]->setPos(0, -100);
 			layer1[i]->setSize(1600, 900);
-			layer1[i]->setSrcSize(1600, 900);
+
 
 			layer2[i] = new GameObject;
 			layer2[i]->loadTexture(path + std::to_string(i + 1) + ".png");
 			layer2[i]->setPos(1600, -100);
 			layer2[i]->setSize(1600, 900);
-			layer2[i]->setSrcSize(1600, 900);
+
 		}
 	}
 
@@ -59,7 +59,7 @@ void GameBG::update()
 			if (level == 1)
 				count = 10;
 			else
-				count = 6;
+				count = 4;
 			for (int i = 0; i < count; i++)
 			{
 				layer1[i]->pos.x -= i + 1;
@@ -82,7 +82,7 @@ void GameBG::render()
 	if (level == 1)
 		count = 10;
 	else
-		count = 6;
+		count = 4;
 	for (int i = 0; i < count; i++)
 	{
 		GraphicManager::GetInstance()->render(layer1[i]);
