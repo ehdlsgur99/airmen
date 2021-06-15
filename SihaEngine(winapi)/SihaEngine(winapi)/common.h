@@ -5,6 +5,8 @@
 #include <atlimage.h>
 #include <string>
 #include <mmsystem.h>
+#include "time.h"
+#include "stdlib.h"
 
 #include <vector>
 

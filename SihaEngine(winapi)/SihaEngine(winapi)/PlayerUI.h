@@ -13,9 +13,9 @@ public:
 
 	GameObject* hpPotion;
 	GameObject* mpPotion;
-
-	GameObject* coin;
-
+	GameObject* layer[9];
+	
+	
 	int swordPower;
 	int armorPower;
 	int ringPower;
@@ -23,6 +23,13 @@ public:
 	int hpPotionNum;
 	int mpPotionNum;
 	int coinNum;
+
+	bool Buysword;
+	bool Buyarmor;
+	bool Buyring;
+	bool BuyhpPotion;
+	bool BuympPotion;
+	
 public:
 
 	void init();
