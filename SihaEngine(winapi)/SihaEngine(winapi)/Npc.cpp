@@ -16,8 +16,8 @@ void Npc::init()
 	npc[0]->loadTexture("Resource/npc/grocer/idle/oldman-idle-1.png");
 	npc[0]->setSrcSize(34, 42);
 	npc[0]->setSize(102,126);
-	npc[0]->setPos(2400, 635);
-
+	npc[0]->setPos(2000, 650);
+	
 	npc[1] = new GameObject;
 	npc[1]->loadTexture("Resource/npc/men/idle/NPC1.png");
 	npc[1]->setSrcSize(40, 47);
@@ -28,7 +28,7 @@ void Npc::init()
 	npc[2]->loadTexture("Resource/npc/porter/idle/hat-man-idle-1.png");
 	npc[2]->setSrcSize(39, 52);
 	npc[2]->setSize(117, 156);
-	npc[2]->setPos(3100, 620);
+	npc[2]->setPos(2900, 620);
 
 	npc[3] = new GameObject;
 	npc[3]->loadTexture("Resource/npc/woman/idle/woman-idle-1.png");

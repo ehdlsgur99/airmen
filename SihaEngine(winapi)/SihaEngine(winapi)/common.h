@@ -39,6 +39,7 @@ using namespace std;
 #include "Npc.h"
 #include "Monster.h"
 #include "MonsterControl.h"
+#include "VillageMG.h"
 
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.
