@@ -152,8 +152,6 @@ void VillageScene::init()
 	}
 	//Ãß°¡ 
 	
-
-	Player::GetInstance()->init();
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();

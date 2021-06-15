@@ -95,7 +95,7 @@ void GameScene::checkEnd()
 
 	}
 	// 2. 포탈 도달
-	if (GetTickCount() -  endCount >= 10000 && !isPortal)
+	if (GetTickCount() -  endCount >= 20000 && !isPortal)
 	{
 		createPortal();
 	}
@@ -108,6 +108,9 @@ void GameScene::checkEnd()
 			Player::GetInstance()->nowHp = Player::GetInstance()->hp;
 			Player::GetInstance()->nowMp = Player::GetInstance()->mp;
 			Player::GetInstance()->level++;
+			Player::GetInstance()->isJump = false;
+			Player::GetInstance()->isAttack = false;
+			Player::GetInstance()->isSmash = false;
 			// scene 변경
 			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
 			isChange = true;

@@ -3,6 +3,30 @@
 Player::Player()
 {
 	level = 1;
+
+	player = new GameObject;
+	player->loadTexture("Resource/player/idle/player1.png");
+	player->setSrcSize(50, 37);
+	player->setSize(200, 161);
+	player->setPos(0, 620);
+
+
+	playerUI = new PlayerUI;
+	playerUI->init();
+	playerBar = new PlayerBar;
+	playerBar->init();
+
+	smash = new GameObject;
+	smash->setSize(150, 120);
+	smash->setPos(player->pos.x, player->pos.y);
+
+
+	nowHp = hp = 100;
+	nowMp = mp = 100;
+	player->setPos(50, 560);
+	power = 10;
+	state = eRight;
+	
 }
 
 Player::~Player()
@@ -17,27 +41,14 @@ int Player::getPlayerState()
 
 void Player::init()
 {
-	player = new GameObject;
-	player->loadTexture("Resource/player/idle/player1.png");
-	player->setSrcSize(50, 37);
-	player->setSize(200, 161);
-	player->setPos(0, 620);
-
-
-
-	playerUI = new PlayerUI;
-	playerUI->init();
-	playerBar = new PlayerBar;
-	playerBar->init();
-
 	smash = new GameObject;
 	smash->setSize(150, 120);
 	smash->setPos(player->pos.x, player->pos.y);
 
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	{
-		nowHp = hp = 10;
-		nowMp = mp = 100;
+		nowHp = hp;
+		nowMp = mp ;
 		player->setPos(50, 560);
 		power = 10;
 		state = eRight;
@@ -50,6 +61,14 @@ void Player::init()
 
 void Player::update()
 {
+	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
+	{
+		if (player->pos.y <= 500)
+		{
+			player->pos.y += 10;
+		}
+
+	}
 	// 캐릭터 애니메이션
 
 	// 캐릭터 이동 예시
@@ -340,7 +359,7 @@ void Player::gravity(Tail *tail)
 			tempObject->size = player->size;
 			tempObject->pos = player->pos;
 			tempObject->size.cy = 20;
-			tempObject->pos.y += 150;
+			tempObject->pos.y += 130;
 			for (int i = 0; i < tail->tails.size(); i++)
 			{
 				if (CollisionManager::GetInstance()->RectCollisionCheck(tempObject, tail->tails[i]))

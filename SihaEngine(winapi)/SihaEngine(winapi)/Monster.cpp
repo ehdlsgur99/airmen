@@ -25,9 +25,9 @@ void Monster::init(eMonsterType type)
 		hp = 100;
 		power = 10;
 		loadTexture("Resource/monster/skeleton/Run-1.png");
-		setSize(srcSize.cx * 3, srcSize.cy * 3);
-		setPos(1600, 650);
-		speed = 1;
+		setSize(srcSize.cx * 4, srcSize.cy * 4);
+		setPos(1600, 580);
+		speed = 3;
 		break;
 	default:
 		break;

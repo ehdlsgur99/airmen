@@ -15,7 +15,7 @@ void Tail::update()
 	{
 		for (int i = 0; i < tails.size(); i++)
 		{
-			tails[i]->pos.x -= 5;
+			tails[i]->pos.x -= 6;
 		}
 	}
 	else
