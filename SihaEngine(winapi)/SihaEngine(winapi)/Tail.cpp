@@ -15,7 +15,7 @@ void Tail::update()
 	{
 		for (int i = 0; i < tails.size(); i++)
 		{
-			tails[i]->pos.x -= 5;
+			tails[i]->pos.x -= 6;
 		}
 	}
 	else
@@ -43,7 +43,7 @@ void Tail::createTail()
 	{
 		// tail 农扁 抄荐 积己
 		int width = rand() % 600 + 200;
-		int height = rand() % 100 + 550;
+		int height = rand() % 100 + 450;
 		tailTime = GetTickCount();
 
 		// tail 积己

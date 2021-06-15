@@ -16,6 +16,7 @@ private:
 	void render();
 	void release();
 private:
+	GameObject* die;
 	GameObject* portal;
 	GameBG* gameBg;
 	Tail* tail;
@@ -26,6 +27,7 @@ private:
 
 	int startTime;
 
+	bool isDie;
 
 	// 이번 페이즈 끝나는거 계산 하는 count
 	int endCount;

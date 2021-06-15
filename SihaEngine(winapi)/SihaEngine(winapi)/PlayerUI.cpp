@@ -9,7 +9,7 @@ void PlayerUI::init()
 
 	hpPotionNum = 1;
 	mpPotionNum = 1;
-	coinNum = 0;
+	coinNum = 1000;
 
 	 Buysword=false;
 	 Buyarmor = false;

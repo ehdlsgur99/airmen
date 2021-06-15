@@ -15,7 +15,8 @@ public:
 		eIntro = 0,
 		eGame,
 		eTest,
-		eVillage
+		eVillage,
+		eEnd
 	};
 public:
 	SceneManager();

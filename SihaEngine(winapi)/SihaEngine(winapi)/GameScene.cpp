@@ -25,6 +25,8 @@ void GameScene::init()
 	tail = new Tail;
 	tail->init();
 
+	isDie = false;
+
 	isChange = false;
 
 	Player::GetInstance()->init();
@@ -36,6 +38,23 @@ void GameScene::init()
 
 void GameScene::update()
 {
+
+	if (isDie)
+	{
+		if (die->alpha <= 255)
+		{
+			die->alpha += 1;
+		}
+		else
+		{
+			if (InputManager::GetInstance()->isKeyDown)
+			{
+				PostQuitMessage(0);
+			}
+		}
+		render();
+		return;
+	}
 
 	gameBg->update();
 
@@ -56,6 +75,12 @@ void GameScene::update()
 
 void GameScene::render()
 {
+	if (isDie)
+	{
+		GraphicManager::GetInstance()->render(die);
+		return;
+	}
+
 	gameBg->render();
 	tail->render();
 
@@ -77,7 +102,7 @@ void GameScene::render()
 	}
 
 	Player::GetInstance()->render();
-	
+
 }
 
 void GameScene::release()
@@ -92,10 +117,15 @@ void GameScene::checkEnd()
 	// 1. »ç¸Á
 	if (Player::GetInstance()->nowHp <= 0)
 	{
-
+		isDie = true;
+		die = new GameObject;
+		die->loadTexture("Resource/die.png");
+		die->setSize(1600, 900);
+		die->setPos(0, 0);
+		die->alpha = 0;
 	}
 	// 2. Æ÷Å» µµ´Þ
-	if (GetTickCount() -  endCount >= 10000 && !isPortal)
+	if (GetTickCount() -  endCount >= 20000 && !isPortal)
 	{
 		createPortal();
 	}
@@ -108,6 +138,9 @@ void GameScene::checkEnd()
 			Player::GetInstance()->nowHp = Player::GetInstance()->hp;
 			Player::GetInstance()->nowMp = Player::GetInstance()->mp;
 			Player::GetInstance()->level++;
+			Player::GetInstance()->isJump = false;
+			Player::GetInstance()->isAttack = false;
+			Player::GetInstance()->isSmash = false;
 			// scene º¯°æ
 			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
 			isChange = true;
@@ -120,7 +153,15 @@ void GameScene::createPortal()
 	isPortal = true;
 	portal = new GameObject;
 	portal->loadTexture("Resource/GameScene/portal1.png");
-	portal->setPos(1600, 525);
+	if (Player::GetInstance()->level % 2 == 1)
+	{
+		portal->setPos(1600, 525);
+	}
+	else
+	{
+		portal->setPos(1600, 520);
+	}
+
 	portal->setSize(200, 200);
 
 }

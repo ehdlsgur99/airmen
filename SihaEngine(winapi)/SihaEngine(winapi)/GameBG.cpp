@@ -56,14 +56,14 @@ void GameBG::update()
 		{
 			moveTime = GetTickCount();
 			int count;
-			if (level == 1)
+			if (level % 2 == 1)
 				count = 10;
 			else
 				count = 4;
 			for (int i = 0; i < count; i++)
 			{
-				layer1[i]->pos.x -= i + 1;
-				layer2[i]->pos.x -= i + 1;
+				layer1[i]->pos.x -= i + 3;
+				layer2[i]->pos.x -= i + 3;
 				if (layer1[i]->pos.x <= -1600)
 					layer1[i]->pos.x = 1600;
 				if (layer2[i]->pos.x <= -1600)
@@ -79,7 +79,7 @@ void GameBG::update()
 void GameBG::render()
 {
 	int count;
-	if (level == 1)
+	if (level % 2 == 1)
 		count = 10;
 	else
 		count = 4;

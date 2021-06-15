@@ -151,8 +151,7 @@ void VillageScene::init()
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
 	//Ãß°¡ 
-	Player::GetInstance()->init();
-	
+
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();

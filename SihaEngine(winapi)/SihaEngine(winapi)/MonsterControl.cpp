@@ -3,7 +3,7 @@
 void MonsterControl::init()
 {
 	spawnTime = 0.0f;
-	spawnDelay = 10000;
+	spawnDelay = 1000;
 }
 
 void MonsterControl::update()
