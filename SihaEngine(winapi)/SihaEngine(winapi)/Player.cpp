@@ -73,11 +73,7 @@ void Player::update()
 		}
 			
 		}
-	else if (InputManager::GetInstance()->getKey(VK_UP))
-	{
-		state = eJump;
-		
-	}
+	
 
 	else if (InputManager::GetInstance()->getKey(0x41))
 	{
@@ -92,7 +88,34 @@ void Player::update()
 		}
 	
 	}
-	
+	if (InputManager::GetInstance()->getKey(VK_UP))
+	{
+		if (!isJump || state != eJump2)
+		{
+			state = eJump1;
+			isJump = true;
+		
+				if(GetTickCount64() - JumpTime >= JumpPower)
+				{
+				
+						player->pos.y -= 100;
+					
+				
+						
+					
+					JumpTime = GetTickCount64();
+				
+				}
+				
+			
+			
+		}
+		if (isJump && state == eJump1 && player->aniNow >= 4)
+		{
+			nextState = eJump2;
+		}
+
+	}
 
 
 	// 캐릭터 애니메이션
@@ -102,20 +125,39 @@ void Player::update()
 		player->animation("Resource/player/idle/player", 6, 200);
 		break;
 	case eLeft:
-		if (player->animation("Resource/player/left/left", 6, 100))
+		if (player->animation("Resource/player/left/left", 6, 30))
 			state = eIdle;
 
 		break;
 	case eRight:
-		if (player->animation("Resource/player/right/right", 6, 100))
+		if (player->animation("Resource/player/right/right", 6, 30))
 		{
 			state = eIdle;
 			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 				state = eRight;
 		}
 		break;
-	case eJump:
-		player->animation("Resource/player/jump/jump", 6, 30);
+	case eJump1:
+
+		if (player->animation("Resource/player/jump/jump", 4, 200)) {
+			if (nextState == eJump2)
+				state = eJump2;
+			else
+			{
+				state = eIdle;
+				isJump = false;
+			}
+		}
+			
+		break;
+	case eJump2:
+
+		if (player->animation("Resource/player/doublejump/doublejump", 4, 100)) {
+			isJump = false;
+			nextState = eIdle;
+			state = eIdle;
+		}
+			
 		break;
 	case eAttack1:
 		if (player->animation("Resource/player/attack/attack1-", 6, 100))

@@ -18,11 +18,14 @@ private:
 	GameObject* bg;
 	GameObject* mg;
 	GameObject *ground[34];
-	GameObject* house[3];
+	GameObject* house[4];
 	GameObject* box[10];
 	GameObject* obj[10];
-
-
+	GameObject* textbox[4];
+	GameObject* itmeEX[3];
+	VillageMG* shop;
+	int shoptime = 0;
+	bool isOpen;
 	
 	
 };

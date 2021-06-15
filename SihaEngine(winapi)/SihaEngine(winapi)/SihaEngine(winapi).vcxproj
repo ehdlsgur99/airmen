@@ -158,6 +158,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="VillageMG.cpp" />
     <ClCompile Include="VillageScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="VillageMG.h" />
     <ClInclude Include="VillageScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

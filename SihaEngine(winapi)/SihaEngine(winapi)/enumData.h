@@ -4,7 +4,7 @@
 
 enum ePlayer
 {
-	eIdle = 0, eLeft, eRight, eJump, eAttack1, eAttack2, eAttacked
+	eIdle = 0, eLeft, eRight, eJump1,eJump2, eAttack1, eAttack2, eAttacked
 };
 
 enum eMonsterType

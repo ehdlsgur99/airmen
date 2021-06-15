@@ -10,6 +10,7 @@ GraphicManager::~GraphicManager()
 
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+
 	// 메인 프로시저
 	switch (msg)
 	{

@@ -12,6 +12,7 @@ VillageScene::~VillageScene()
 
 void VillageScene::init()
 {
+	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/village_bg.png");
 	bg->setPos(0, 0);
@@ -58,12 +59,23 @@ void VillageScene::init()
 	house[2]->setPos(1250 , 217);
 	house[2]->setSrcSize(221, 183);
 	house[2]->setSize(663, 549);
+	house[3] = new GameObject;
+	house[3]->loadTexture("Resource/object/house-d.png");
+	house[3]->setPos(2450, 217);
+	house[3]->setSrcSize(168, 183);
+	house[3]->setSize(504, 549);
 	
 	box[0] = new GameObject;
 	box[0]->loadTexture("Resource/object/crate-stack.png");
-	box[0]->setPos(510 , 573);
+	box[0]->setPos(510 , 580);
 	box[0]->setSrcSize(73, 68);
 	box[0]->setSize(200, 194);
+
+	box[1] = new GameObject;
+	box[1]->loadTexture("Resource/object/crate.png");
+	box[1]->setPos(2350, 670);
+	box[1]->setSrcSize(39, 35);
+	box[1]->setSize(117, 105);
 
 	obj[0] = new GameObject;
 	obj[0]->loadTexture("Resource/object/sign.png");
@@ -80,23 +92,89 @@ void VillageScene::init()
 	obj[2]->setPos(1142 , 688);
 	obj[2]->setSrcSize(24, 30);
 	obj[2]->setSize(72, 90);
-	Player::GetInstance()->init();
-	Npc::GetInstance()->init();
+	obj[3] = new GameObject;
+	obj[3]->loadTexture("Resource/object/wagon.png");
+	obj[3]->setPos(2042, 553);
+	obj[3]->setSrcSize(93, 75);
+	obj[3]->setSize(279, 225);
+	obj[4] = new GameObject;
+	obj[4]->loadTexture("Resource/object/well.png");
+	obj[4]->setPos(2982, 585);
+	obj[4]->setSrcSize(65, 65);
+	obj[4]->setSize(195, 195);
+	obj[5] = new GameObject;
+	obj[5]->loadTexture("Resource/object/bottle.png");
+	obj[5]->setPos(2370, 627);
+	obj[5]->setSrcSize(16, 16);
+	obj[5]->setSize(48, 48);
+
+
+	textbox[0] = new GameObject;
+	textbox[0]->loadTexture("Resource/object/textbox1.png");
+	textbox[0]->setSrcSize(183, 113);
+	textbox[0]->setSize(183, 113);
+	textbox[0]->setPos(330, 520);
+	textbox[1] = new GameObject;
+	textbox[1]->loadTexture("Resource/object/textbox2.png");
+	textbox[1]->setSrcSize(185, 114);
+	textbox[1]->setSize(185, 114);
+	textbox[1]->setPos(800, 520);
+	textbox[2] = new GameObject;
+	textbox[2]->loadTexture("Resource/object/textbox3.png");
+	textbox[2]->setSrcSize(184, 110);
+	textbox[2]->setSize(184, 110);
+	textbox[2]->setPos(2000, 520);
+	textbox[3] = new GameObject;
+	textbox[3]->loadTexture("Resource/object/textbox4.png");
+	textbox[3]->setSrcSize(185, 110);
+	textbox[3]->setSize(185, 110);
+	textbox[3]->setPos(2900, 520);
+
+	itmeEX[0] = new GameObject;
+	itmeEX[0]->loadTexture("Resource/object/itmeEX1.png");
+	itmeEX[0]->setSrcSize(120, 59);
+	itmeEX[0]->setSize(120, 59);
+	itmeEX[0]->setPos(330, 420);
+	//add objectmanager 
 	ObjectManager::GetInstance()->addObject(house[0]);
 	ObjectManager::GetInstance()->addObject(house[1]);
+	ObjectManager::GetInstance()->addObject(house[3]);
+	ObjectManager::GetInstance()->addObject(box[1]);
 	ObjectManager::GetInstance()->addObject(house[2]);
 	ObjectManager::GetInstance()->addObject(box[0]);
-	ObjectManager::GetInstance()->addObject(obj[0]);
-	ObjectManager::GetInstance()->addObject(obj[1]);
-	ObjectManager::GetInstance()->addObject(obj[2]);
+	ObjectManager::GetInstance()->addObject(textbox[0]);
+	ObjectManager::GetInstance()->addObject(textbox[1]);
+	ObjectManager::GetInstance()->addObject(textbox[2]);
+	ObjectManager::GetInstance()->addObject(textbox[3]);
+	for (int i = 0; i < 6; i++) {
+		ObjectManager::GetInstance()->addObject(obj[i]);
+	}
+
+	//추가 
+	
+
+	Player::GetInstance()->init();
+	Npc::GetInstance()->init();
+	shop = new VillageMG;
+	shop->init();
 	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	
 }
 
 void VillageScene::update()
 {
+	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])) {
+		if (isOpen == true)
+			isOpen = false;
+		else
+			isOpen = true;
+	}
+	
+	
 	Player::GetInstance()->update();
 	Npc::GetInstance()->update();
 	render();
+	
 }
 
 void VillageScene::render()
@@ -110,13 +188,34 @@ void VillageScene::render()
 	GraphicManager::GetInstance()->render(house[0]);
 	GraphicManager::GetInstance()->render(house[1]);
 	GraphicManager::GetInstance()->render(house[2]);
-
+	GraphicManager::GetInstance()->render(house[3]);
 	GraphicManager::GetInstance()->render(box[0]);
-	for (int i = 0; i < 3; i++) {
+	GraphicManager::GetInstance()->render(box[1]);
+	
+	for (int i = 0; i < 6; i++) {
 		GraphicManager::GetInstance()->render(obj[i]);
 	}
-	Player::GetInstance()->render();
+	
 	Npc::GetInstance()->render();
+	Player::GetInstance()->render();
+	
+	if (isOpen) {
+		
+			shop->render();
+			GraphicManager::GetInstance()->render(textbox[2]);
+	}
+	
+	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[1])) {
+		GraphicManager::GetInstance()->render(textbox[0]);
+	}
+	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[3])) {
+		GraphicManager::GetInstance()->render(textbox[1]);
+	}
+	
+	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[2])) {
+		GraphicManager::GetInstance()->render(textbox[3]);
+	}
+	
 }
 
 void VillageScene::release()

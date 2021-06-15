@@ -83,6 +83,9 @@
     <ClCompile Include="MonsterControl.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="VillageMG.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CollisionManager.h">
@@ -149,6 +152,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="MonsterControl.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="VillageMG.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
