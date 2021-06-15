@@ -26,6 +26,9 @@ public:
 	// 크기 관련
 	float Scale;
 
+	// 투명도
+	int alpha;
+
 	// 텍스쳐 불러오기
 	void loadTexture(std::string filename);
 

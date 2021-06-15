@@ -7,7 +7,7 @@ GameObject::GameObject()
 	isVisible = true;
 	Scale = 1.0f;
 
-
+	alpha = 255;
 }
 
 GameObject::~GameObject()

@@ -155,6 +155,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBar.cpp" />
+    <ClCompile Include="PlayerUI.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBar.h" />
+    <ClInclude Include="PlayerUI.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />

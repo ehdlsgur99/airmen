@@ -28,6 +28,7 @@ void GameScene::init()
 
 	Player::GetInstance()->init();
 
+
 	// bgm 재생
 	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 }
@@ -78,7 +79,7 @@ void GameScene::checkEnd()
 	// 2. 포탈 도달
 	if (GetTickCount() -  endCount >= 10000 && !isPortal)
 	{
-		createPortal();
+		//createPortal();
 	}
 	if (isPortal == true)
 	{

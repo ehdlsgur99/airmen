@@ -31,6 +31,7 @@
 using namespace std;
 
 // 새로 추가할 오브젝트 등등은 여기에..
+#include "PlayerUI.h"
 #include "Tail.h"
 #include "PlayerBar.h"
 #include "Player.h"

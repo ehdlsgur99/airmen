@@ -96,9 +96,9 @@ void GraphicManager::render(GameObject* obj)
 		//size.right = obj->getSize().cx;
 
 		// 편의에 따라 blt 류 함수 사용해도됨
-		obj->texture.Draw(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx ,obj->getSize().cy,
-			0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy);
-	/*	obj->texture.AlphaBlend(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx, obj->getSize().cy, 0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy,255, AC_SRC_OVER);*/
+		//obj->texture.Draw(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx ,obj->getSize().cy,
+		//	0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy);
+		obj->texture.AlphaBlend(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx, obj->getSize().cy, 0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy,obj->alpha, AC_SRC_OVER);
 
 
 

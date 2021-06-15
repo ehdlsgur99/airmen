@@ -1,62 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="GameBG.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="GraphicManager.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="IntroScene.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="MonsterControl.cpp" />
-    <ClCompile Include="Npc.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBar.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="System.cpp" />
-    <ClCompile Include="Tail.cpp" />
-    <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="VillageMG.cpp" />
-    <ClCompile Include="VillageScene.cpp" />
+    <ClCompile Include="VillageScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tail.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="VillageMG.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUI.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBar.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Npc.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterControl.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBG.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CollisionManager.h" />
-    <ClInclude Include="common.h" />
-    <ClInclude Include="enumData.h" />
-    <ClInclude Include="GameBG.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="GraphicManager.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="IntroScene.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="MonsterControl.h" />
-    <ClInclude Include="Npc.h" />
-    <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBar.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="System.h" />
-    <ClInclude Include="Tail.h" />
-    <ClInclude Include="TestScene.h" />
-    <ClInclude Include="VillageMG.h" />
-    <ClInclude Include="VillageScene.h" />
+    <ClInclude Include="common.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="VillageScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="enumData.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="VillageMG.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Tail.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUI.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBar.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Npc.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterControl.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBG.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Class">
       <UniqueIdentifier>{5e9091c1-70dc-441c-acdf-ac58e384f3c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{cca2d4a6-5a89-4f54-bf88-afbf8208a7ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{93e71c1d-0a7d-4647-8193-9f31cb6afe36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a38796a6-9a7d-4793-9076-4e34a89c6e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{79afadcf-3084-4d6f-8566-64f7f36d24da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

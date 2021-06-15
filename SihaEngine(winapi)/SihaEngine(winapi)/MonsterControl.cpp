@@ -47,7 +47,7 @@ void MonsterControl::spawnMonser()
 {
 	// 현재는 슬라임만 스폰
 	Monster* monster = new Monster;
-	monster->init(eSkeleton);
+	monster->init(eSlime);
 	monsters.push_back(monster);
 }
 

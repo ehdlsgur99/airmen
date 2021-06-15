@@ -21,6 +21,7 @@ public:
 public:
 	GameObject* player;
 	PlayerBar* playerBar;
+	PlayerUI* playerUI;
 
 	bool isAttack;
 	bool isJump;

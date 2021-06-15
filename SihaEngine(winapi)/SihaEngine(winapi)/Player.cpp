@@ -24,7 +24,8 @@ void Player::init()
 	player->setPos(0, 620);
 
 	
-
+	playerUI = new PlayerUI;
+	playerUI->init();
 	playerBar = new PlayerBar;
 	playerBar->init();
 
@@ -123,6 +124,8 @@ void Player::update()
 		else
 		{
 			state = eIdle;
+			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+				state = eRight;
 			JumpCount = 0;
 			isJump = false;
 		}
