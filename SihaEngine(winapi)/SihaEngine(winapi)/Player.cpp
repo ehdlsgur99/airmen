@@ -23,11 +23,20 @@ void Player::init()
 	player->setSize(200, 161);
 	player->setPos(0, 620);
 
+	
+
+	playerBar = new PlayerBar;
+	playerBar->init();
 
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	{
-		power = 100;
+		nowHp = hp = 100;
+		nowMp = mp = 100;
+		player->setPos(0, 600);
+		power = 10;
 		state = eRight;
+
+		
 	}
 
 }
@@ -81,12 +90,12 @@ void Player::update()
 
 	else if (InputManager::GetInstance()->getKey(0x41))
 	{
-		if (!isAttack || state != eAttack2)
+		if (!isAttack || state != eAttack2 && state != eAttack1)
 		{
 			state = eAttack1;
 			isAttack = true;
 		}
-		if (isAttack && state == eAttack1 && player->aniNow >= 4)
+		else if (isAttack && state == eAttack1 && player->aniNow >= 5)
 		{
 			nextState = eAttack2;
 		}
@@ -124,6 +133,7 @@ void Player::update()
 				state = eAttack2;
 			else
 			{
+				nextState = eRight;
 				state = eRight;
 				isAttack = false;
 			}		
@@ -147,11 +157,15 @@ void Player::update()
 	default:
 		break;
 	}
+
+	playerBar->update();
 }
 
 void Player::render()
 {
 	GraphicManager::GetInstance()->render(player);
+
+	playerBar->render();
 }
 
 void Player::release()

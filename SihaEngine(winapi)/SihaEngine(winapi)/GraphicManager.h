@@ -30,6 +30,8 @@ public:
 	void renderEnd();
 	void release();
 
+	void drawText(std::string str, POINT pos, int fontSize, COLORREF fontColor);
+
 
 };
 

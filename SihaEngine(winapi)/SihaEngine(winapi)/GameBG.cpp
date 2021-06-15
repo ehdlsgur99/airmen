@@ -2,48 +2,87 @@
 
 void GameBG::init()
 {
-	std::string path = "Resource/GameScene/BG/Layer_000";
-	int count = 9;
-	for (int i = 0; i < 10; i++)
-	{
-		layer1[i] = new GameObject;
-		layer1[i]->loadTexture(path + std::to_string(count) +".png");
-		layer1[i]->setPos(0, -100);
-		layer1[i]->setSize(1600, 900);
-		layer1[i]->setSrcSize(1600, 900);
+	level = 1;
 
-		layer2[i] = new GameObject;
-		layer2[i]->loadTexture(path + std::to_string(count) + ".png");
-		layer2[i]->setPos(1600, -100);
-		layer2[i]->setSize(1600, 900);
-		layer2[i]->setSrcSize(1600, 900);
-		count--;
+	if (level == 1)
+	{
+		std::string path = "Resource/GameScene/BG/Layer_000";
+		int count = 9;
+		for (int i = 0; i < 10; i++)
+		{
+			layer1[i] = new GameObject;
+			layer1[i]->loadTexture(path + std::to_string(count) + ".png");
+			layer1[i]->setPos(0, -100);
+			layer1[i]->setSize(1600, 900);
+			layer1[i]->setSrcSize(1600, 900);
+
+			layer2[i] = new GameObject;
+			layer2[i]->loadTexture(path + std::to_string(count) + ".png");
+			layer2[i]->setPos(1600, -100);
+			layer2[i]->setSize(1600, 900);
+			layer2[i]->setSrcSize(1600, 900);
+			count--;
+		}
+	}
+	else
+	{
+		std::string path = "Resource/GameScene/BG2/Hills Layer 0";
+		for (int i = 0; i < 6; i++)
+		{
+			layer1[i] = new GameObject;
+			layer1[i]->loadTexture(path + std::to_string(i + 1) + ".png");
+			layer1[i]->setPos(0, -100);
+			layer1[i]->setSize(1600, 900);
+			layer1[i]->setSrcSize(1600, 900);
+
+			layer2[i] = new GameObject;
+			layer2[i]->loadTexture(path + std::to_string(i + 1) + ".png");
+			layer2[i]->setPos(1600, -100);
+			layer2[i]->setSize(1600, 900);
+			layer2[i]->setSrcSize(1600, 900);
+		}
 	}
 
+	
 	moveTime = GetTickCount();
 }
 
 void GameBG::update()
 {
-	if (GetTickCount() - moveTime >= 10)
+	if (Player::GetInstance()->state == eRight )
 	{
-		moveTime = GetTickCount();
-		for (int i = 0; i < 10; i++)
+		if (GetTickCount() - moveTime >= 10)
 		{
-			layer1[i]->pos.x -= i;
-			layer2[i]->pos.x -= i;
-			if (layer1[i]->pos.x <= -1600)
-				layer1[i]->pos.x = 1600;
-			if (layer2[i]->pos.x <= -1600)
-				layer2[i]->pos.x = 1600;
+			moveTime = GetTickCount();
+			int count;
+			if (level == 1)
+				count = 10;
+			else
+				count = 6;
+			for (int i = 0; i < count; i++)
+			{
+				layer1[i]->pos.x -= i + 1;
+				layer2[i]->pos.x -= i + 1;
+				if (layer1[i]->pos.x <= -1600)
+					layer1[i]->pos.x = 1600;
+				if (layer2[i]->pos.x <= -1600)
+					layer2[i]->pos.x = 1600;
+			}
 		}
 	}
+
+
 	
 }
 
 void GameBG::render()
 {
-	for (int i = 0; i < 10; i++)
+	int count;
+	if (level == 1)
+		count = 10;
+	else
+		count = 6;
+	for (int i = 0; i < count; i++)
 	{
 		GraphicManager::GetInstance()->render(layer1[i]);
 		GraphicManager::GetInstance()->render(layer2[i]);

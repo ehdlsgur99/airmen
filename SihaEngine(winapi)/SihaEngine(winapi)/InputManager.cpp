@@ -14,15 +14,24 @@ void InputManager::init()
 
 	isKeyDown = false;
 	isKeyUp = true;
+	inputDelay = GetTickCount();
 }
 
 bool InputManager::getKey(int type)
 {
 	//if (isKeyDown == false)
 	//	return false;
+	int now = GetTickCount();
 
 	if (GetAsyncKeyState(type) & 0x8000)
-		return true;
+	{
+		if (now - inputDelay > 1000)
+		{
+			inputDelay = GetTickCount();
+			return true;
+		}
+		
+	}
 	else
 		return false;
 }

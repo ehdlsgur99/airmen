@@ -5,6 +5,11 @@ void Monster::init(eMonsterType type)
 	this->monsterType = type;
 	this->monsterState = eRun;
 
+	hpbar = new GameObject;
+	hpbar->loadTexture("Resource/monster/hpbar.png");
+	hpbar->setSrcSize(200, 20);
+	hpbar->setSize(100, 5);
+
 	switch (monsterType)
 	{
 	case eSlime:
@@ -13,8 +18,16 @@ void Monster::init(eMonsterType type)
 		loadTexture("Resource/monster/slime/Run-1.png");
 		setSize(96, 75);
 		setSrcSize(32, 25);
-		setPos(1000, 700);
-		speed = 2;
+		setPos(1000, 680);
+		speed = 1;
+		break;
+	case eSkeleton:
+		hp = 100;
+		power = 1;
+		loadTexture("Resource/monster/skeleton/Run-1.png");
+		setSize(srcSize.cx * 3, srcSize.cy * 3);
+		setPos(1000, 680);
+		speed = 1;
 		break;
 	default:
 		break;
@@ -38,6 +51,7 @@ void Monster::ani()
 		path = "Resource/monster/slime/";
 		break;
 	default:
+		path = "Resource/monster/skeleton/";
 		break;
 	}
 	// 몬스터 모션
@@ -68,7 +82,10 @@ void Monster::ani()
 
 void Monster::move()
 {
-	pos.x -= speed;
+	if(Player::GetInstance()->state == eRight)
+		pos.x -= speed * 2;
+	else
+		pos.x -= speed;
 }
 
 void Monster::update()
@@ -78,16 +95,30 @@ void Monster::update()
 
 	// 캐릭터 이동
 	move();
+
+	// hpbar 설정
+	hpbar->setPos(pos.x, pos.y - 40);
+
+	if (hp <= 0)
+	{
+		hpbar->size.cx = 1;
+		hpbar->size.cy = 1;
+	}
+	else
+		hpbar->size.cx = 100 * hp / 100;
 }
 
 void Monster::render()
 {
 	GraphicManager::GetInstance()->render(this);
+	if(!isDie)
+		GraphicManager::GetInstance()->render(hpbar);
+
 }
 
 void Monster::release()
 {
-
+	delete hpbar;
 }
 
 void Monster::attack()
@@ -108,6 +139,7 @@ void Monster::attack()
 
 void Monster::attacked()
 {
+
 	if (hp <= 0)
 		return;
 	if (Player::GetInstance()->state == eAttack1)
@@ -115,8 +147,11 @@ void Monster::attacked()
 	else if (Player::GetInstance()->state == eAttack2)
 		hp -= Player::GetInstance()->power * 2;
 
+	pos.x += 50;
+
 	if (hp <= 0 && monsterState != eDie)
 	{
+		hp = 0;
 		isAttacked = true;
 		monsterState = eDie;
 	}

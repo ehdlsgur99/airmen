@@ -23,6 +23,10 @@ public:
 	bool isAttacked;
 	bool isAttack;
 
+	int playerOldState;
+
+	GameObject* hpbar;
+
 	eMonsterType monsterType;
 	eMonsterState monsterState;
 };

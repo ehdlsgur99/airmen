@@ -97,6 +97,10 @@ void GraphicManager::render(GameObject* obj)
 		// 편의에 따라 blt 류 함수 사용해도됨
 		obj->texture.Draw(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx ,obj->getSize().cy,
 			0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy);
+	/*	obj->texture.AlphaBlend(memdc, obj->getPos().x, obj->getPos().y, obj->getSize().cx, obj->getSize().cy, 0, 0, obj->getSrcSize().cx, obj->getSrcSize().cy,255, AC_SRC_OVER);*/
+
+
+
 	}
 }
 
@@ -113,5 +117,32 @@ void GraphicManager::renderEnd()
 void GraphicManager::release()
 {
 	// release 뭐 이건 나중에 함
+}
+
+void GraphicManager::drawText(std::string str, POINT pos, int fontSize, COLORREF fontColor)
+{
+	// 자료형 변환 해줘야함 ;;;
+		// string to tchar 로..
+	int slength = (int)str.length() + 1;
+	int len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), slength, 0, 0);
+	TCHAR* buf = new TCHAR[len];
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), slength, buf, len);
+	TCHAR* r(buf);
+
+	SetTextColor(memdc, fontColor);
+	SetBkMode(memdc, TRANSPARENT);
+
+
+	HFONT font;
+	HFONT oldFont;
+
+	font = CreateFont(fontSize, fontSize, 0, 0, FW_THIN, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, 0, L"Resource/Font.ttf");
+	oldFont = (HFONT)SelectObject(memdc, font);
+
+	TextOut(memdc, pos.x, pos.y,r,len - 1);
+
+	SelectObject(memdc, oldFont);
+	DeleteObject(font);
+
 }
 

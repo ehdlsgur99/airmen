@@ -9,10 +9,15 @@ enum ePlayer
 
 enum eMonsterType
 {
-	eSlime
+	eSlime, eSkeleton
 };
 
 enum eMonsterState
 {
 	eRun, eHurt, eDie, eAttack
+};
+
+enum eMapType
+{
+	eForest,
 };

@@ -6,6 +6,8 @@ GameObject::GameObject()
 	aniTime = 0;
 	isVisible = true;
 	Scale = 1.0f;
+
+
 }
 
 GameObject::~GameObject()
@@ -26,8 +28,10 @@ void GameObject::loadTexture(std::string fileName)
 
 	// 예전에 있던 이미지 파괴
 	texture.Destroy();
-
 	texture.Load(r);
+
+	srcSize.cx = texture.GetWidth();
+	srcSize.cy = texture.GetHeight();
 }
 
 void GameObject::setPos(int x, int y)

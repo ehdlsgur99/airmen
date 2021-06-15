@@ -147,16 +147,19 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GraphicManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterControl.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBar.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="System.cpp" />
+    <ClCompile Include="Tail.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="VillageScene.cpp" />
   </ItemGroup>
@@ -171,16 +174,19 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GraphicManager.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterControl.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBar.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="Tail.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="VillageScene.h" />
   </ItemGroup>

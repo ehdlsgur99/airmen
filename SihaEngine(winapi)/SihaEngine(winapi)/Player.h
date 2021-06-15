@@ -9,13 +9,15 @@ public:
 	ePlayer nextState;
 	int hp;
 	int mp;
+	int nowHp;
+	int nowMp;
 
 	std::string name;
 	int mappos = 0;
 
 public:
 	GameObject* player;
-	
+	PlayerBar* playerBar;
 
 	bool isAttack;
 

@@ -20,6 +20,7 @@ void MonsterControl::update()
 		monsters[i]->update();
 		if (monsters[i]->isDie)
 		{
+			monsters[i]->release();
 			monsters.erase(monsters.begin() + i);
 			break;
 		}
@@ -46,15 +47,20 @@ void MonsterControl::spawnMonser()
 {
 	// 현재는 슬라임만 스폰
 	Monster* monster = new Monster;
-	monster->init(eSlime);
+	monster->init(eSkeleton);
 	monsters.push_back(monster);
 }
 
 void MonsterControl::checkColiision()
 {
+	// 공격 충돌용 오브젝트
+	GameObject* tempPlayer = new GameObject;
+	tempPlayer->pos = Player::GetInstance()->player->pos;
+	tempPlayer->size = Player::GetInstance()->player->size;
+	tempPlayer->size.cx += 50;
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		// 충돌
+		// 몸통 충돌
 		if(CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, monsters[i]))
 		{
 			// 플레이어가 상태에 따른 변화
@@ -63,6 +69,16 @@ void MonsterControl::checkColiision()
 			case eRight:
 				monsters[i]->attack();
 				break;
+			default:
+				break;
+			}
+		}
+		// 공격 충돌
+		if (CollisionManager::GetInstance()->RectCollisionCheck(tempPlayer, monsters[i]))
+		{
+			// 플레이어가 상태에 따른 변화
+			switch (Player::GetInstance()->getPlayerState())
+			{
 			case eAttack1:
 				monsters[i]->attacked();
 				break;
@@ -72,7 +88,6 @@ void MonsterControl::checkColiision()
 			default:
 				break;
 			}
-
 		}
 	}
 }

@@ -31,6 +31,8 @@
 using namespace std;
 
 // 새로 추가할 오브젝트 등등은 여기에..
+#include "Tail.h"
+#include "PlayerBar.h"
 #include "Player.h"
 #include "GameBG.h"
 #include "Camera.h"
@@ -38,8 +40,9 @@ using namespace std;
 #include "Monster.h"
 #include "MonsterControl.h"
 
+
 // 새로 추가한 scene 들은 여기에 추가 합시다.
 #include "TestScene.h"
 #include "GameScene.h"
 #include "VillageScene.h"
-
+#include "IntroScene.h"

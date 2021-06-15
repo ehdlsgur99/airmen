@@ -20,6 +20,8 @@ public:
 	bool isKeyDown;
 	bool isKeyUp;
 
+	int inputDelay;
+
 public:
 	void init();
 	// 내가 원하는 키랑, 현재 입력된 키가 같으면 true
