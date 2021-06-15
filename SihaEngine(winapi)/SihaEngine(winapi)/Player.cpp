@@ -106,7 +106,7 @@ void Player::update()
 	// JUMP
 	if (InputManager::GetInstance()->getKey(VK_UP))
 	{
-
+		
 		if (!isJump && state != eJump1)
 		{
 			state = eJump1;

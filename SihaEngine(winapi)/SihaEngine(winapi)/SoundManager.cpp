@@ -34,6 +34,7 @@ void SoundManager::PlayBg(std::string path)
 
 void SoundManager::PlayEf(std::string path)
 {
+	
 	// 자료형 변환 해줘야함 ;;;
 	// string to tchar 로..
 	int slength = (int)path.length() + 1;

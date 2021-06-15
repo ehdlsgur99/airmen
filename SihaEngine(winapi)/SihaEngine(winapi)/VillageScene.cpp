@@ -151,9 +151,8 @@ void VillageScene::init()
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
 	//Ãß°¡ 
-	
-
 	Player::GetInstance()->init();
+	
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();
@@ -165,10 +164,12 @@ void VillageScene::update()
 {
 	
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])) {
+		
 		if (isOpen == true)
 			isOpen = false;
 		else
 			isOpen = true;
+		
 	}
 	
 	
@@ -197,20 +198,21 @@ void VillageScene::render()
 	GraphicManager::GetInstance()->render(house[3]);
 	GraphicManager::GetInstance()->render(box[0]);
 	GraphicManager::GetInstance()->render(box[1]);
-	
+
 	for (int i = 0; i < 6; i++) {
 		GraphicManager::GetInstance()->render(obj[i]);
 	}
-	
+
 	Npc::GetInstance()->render();
 
-	
+
 	if (isOpen) {
-		
-			shop->render();
-			GraphicManager::GetInstance()->render(textbox[2]);
+		shop->render();
+		GraphicManager::GetInstance()->render(textbox[2]);
+		if (!CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])) {
+			isOpen = false;
+		}
 	}
-	
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[1])) {
 		GraphicManager::GetInstance()->render(textbox[0]);
 	}

@@ -98,22 +98,64 @@ void VillageMG::update()
 {	
 	
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 325 && InputManager::GetInstance()->LButtonPos.x < 389 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467) {
-		Player::GetInstance()->playerUI->Buysword = true;
+		if (Player::GetInstance()->playerUI->coinNum >= 100 && randbox[0] == 0) {
+			Player::GetInstance()->playerUI->Buysword = true;
+			Player::GetInstance()->playerUI->coinNum -= 100;
+		}
+		else if (Player::GetInstance()->playerUI->coinNum >= 300 && randbox[0] == 1) {
+			Player::GetInstance()->playerUI->Buysword = true;
+			Player::GetInstance()->playerUI->coinNum -= 300;
+		}
+		else if (Player::GetInstance()->playerUI->coinNum >= 500 && randbox[0] == 2) {
+			Player::GetInstance()->playerUI->Buysword = true;
+			Player::GetInstance()->playerUI->coinNum -= 500;
+		}
 
 	}
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 390 && InputManager::GetInstance()->LButtonPos.x < 454 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467) {
-		Player::GetInstance()->playerUI->Buyarmor = true;
+		InputManager::GetInstance()->delay();
+		if (Player::GetInstance()->playerUI->coinNum >= 100 && randbox[1] == 0) {
+			Player::GetInstance()->playerUI->Buyarmor = true;
+			Player::GetInstance()->playerUI->coinNum -= 100;
+		}
+		else if (Player::GetInstance()->playerUI->coinNum >= 300 && randbox[1] == 1) {
+			Player::GetInstance()->playerUI->Buyarmor = true;
+			Player::GetInstance()->playerUI->coinNum -= 300;
+		}
+		else if (Player::GetInstance()->playerUI->coinNum >= 500 && randbox[1] == 2) {
+			Player::GetInstance()->playerUI->Buyarmor = true;
+			Player::GetInstance()->playerUI->coinNum -= 500;
+		}
 	}
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 460 && InputManager::GetInstance()->LButtonPos.x < 524 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467) {
+	 if (Player::GetInstance()->playerUI->coinNum >= 100 && randbox[2] == 0) {
 		Player::GetInstance()->playerUI->Buyring = true;
+		Player::GetInstance()->playerUI->coinNum -= 100;
+	}
+	 else  if (Player::GetInstance()->playerUI->coinNum >= 300 && randbox[2] == 1) {
+		 Player::GetInstance()->playerUI->Buyring = true;
+		 Player::GetInstance()->playerUI->coinNum -= 300;
+	 }
+	 else  if (Player::GetInstance()->playerUI->coinNum >= 500 && randbox[2] == 2) {
+		 Player::GetInstance()->playerUI->Buyring = true;
+		 Player::GetInstance()->playerUI->coinNum -= 500;
+	 }
+
 	}
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 330 && InputManager::GetInstance()->LButtonPos.x < 394 && InputManager::GetInstance()->LButtonPos.y>533 && InputManager::GetInstance()->LButtonPos.y < 597) {
-		Player::GetInstance()->playerUI->BuyhpPotion = true;
-		Player::GetInstance()->playerUI->hpPotionNum++;
+	
+		if (Player::GetInstance()->playerUI->coinNum >= 50) {
+			Player::GetInstance()->playerUI->BuyhpPotion = true;
+			Player::GetInstance()->playerUI->hpPotionNum++;
+			Player::GetInstance()->playerUI->coinNum -= 50;
+		}
 	}
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 395 && InputManager::GetInstance()->LButtonPos.x < 459 && InputManager::GetInstance()->LButtonPos.y>533 && InputManager::GetInstance()->LButtonPos.y < 597) {
-		Player::GetInstance()->playerUI->BuympPotion = true;
-		Player::GetInstance()->playerUI->mpPotionNum++;
+		if (Player::GetInstance()->playerUI->coinNum >= 30) {
+			Player::GetInstance()->playerUI->BuympPotion = true;
+			Player::GetInstance()->playerUI->mpPotionNum++;
+			Player::GetInstance()->playerUI->coinNum -= 30;
+		}
 	}
 
 }

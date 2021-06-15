@@ -37,3 +37,9 @@ bool InputManager::getKey(int type)
 	else
 		return false;
 }
+void InputManager::delay() {
+	int now = GetTickCount();
+	if (now - inputDelay > 1000) {
+		inputDelay = GetTickCount();
+	}
+}
