@@ -332,8 +332,8 @@ void Player::render()
 	if (isSmash)
 		GraphicManager::GetInstance()->render(smash);
 
-	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-		playerBar->render(playerUI);
+	//if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+	playerBar->render(playerUI);
 
 
 	if (isUI)
