@@ -183,7 +183,7 @@ void Player::update()
 	}
 
 	// 포션 먹기
-	// 체력 포션
+	// 체력 포션 1번키
 	if (InputManager::GetInstance()->getKey(0x31))
 	{
 		if (playerUI->hpPotionNum > 0)
@@ -199,6 +199,7 @@ void Player::update()
 		}
 	}
 	// 마나 포션
+	// 2번키
 	if (InputManager::GetInstance()->getKey(0x32))
 	{
 		if (playerUI->mpPotionNum > 0)
@@ -320,7 +321,8 @@ void Player::update()
 		
 		else
 			isUI = true;
-		}
+		Sleep(100);
+	}
 }
 
 void Player::render()

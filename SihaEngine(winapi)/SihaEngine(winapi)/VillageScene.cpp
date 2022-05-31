@@ -13,6 +13,7 @@ VillageScene::~VillageScene()
 void VillageScene::init()
 {
 	Player::GetInstance()->mappos = 0;
+	Player::GetInstance()->player->setPos(0, 630);
 
 	//배경 및 오브젝트
 	bg = new GameObject;
@@ -168,7 +169,7 @@ void VillageScene::update()
 			isOpen = false;
 		else
 			isOpen = true;
-		
+		Sleep(100);
 	}
 	
 	
@@ -214,13 +215,16 @@ void VillageScene::render()
 	}
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[1])) {
 		GraphicManager::GetInstance()->render(textbox[0]);
+		Sleep(100);
 	}
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[3])) {
 		GraphicManager::GetInstance()->render(textbox[1]);
+		Sleep(100);
 	}
 	
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[2])) {
 		GraphicManager::GetInstance()->render(textbox[3]);
+		Sleep(100);
 	}
 
 	Player::GetInstance()->render();

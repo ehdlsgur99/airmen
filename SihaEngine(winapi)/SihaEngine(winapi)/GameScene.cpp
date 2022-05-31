@@ -132,7 +132,7 @@ void GameScene::checkEnd()
 	if (isPortal == true)
 	{
 		if(Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump2 || Player::GetInstance()->state == eJump1)
-		portal->pos.x -= 7;
+			portal->pos.x -= 4;
 		if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
 		{
 			Player::GetInstance()->nowHp = Player::GetInstance()->hp;
@@ -155,11 +155,11 @@ void GameScene::createPortal()
 	portal->loadTexture("Resource/GameScene/portal1.png");
 	if (Player::GetInstance()->level % 2 == 1)
 	{
-		portal->setPos(1600, 525);
+		portal->setPos(1600, 522);
 	}
 	else
 	{
-		portal->setPos(1600, 520);
+		portal->setPos(1600, 516);
 	}
 
 	portal->setSize(200, 200);
