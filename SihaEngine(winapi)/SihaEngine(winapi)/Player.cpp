@@ -313,7 +313,7 @@ void Player::update()
 
 	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 		playerBar->update();
-	if (InputManager::GetInstance()->getKey(0x49)) 
+	if (InputManager::GetInstance()->getKey(0x49) && InputManager::GetInstance()-> delay(500))
 	{
 		playerUI->update();
 		if (isUI) 
@@ -321,7 +321,6 @@ void Player::update()
 		
 		else
 			isUI = true;
-		Sleep(100);
 	}
 }
 

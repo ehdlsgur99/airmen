@@ -163,13 +163,13 @@ void VillageScene::init()
 void VillageScene::update()
 {
 	
-	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])) {
+	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])
+		&& InputManager::GetInstance()->delay(500)) {
 		
 		if (isOpen == true)
 			isOpen = false;
 		else
 			isOpen = true;
-		Sleep(100);
 	}
 	
 	
@@ -215,16 +215,13 @@ void VillageScene::render()
 	}
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[1])) {
 		GraphicManager::GetInstance()->render(textbox[0]);
-		Sleep(100);
 	}
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[3])) {
 		GraphicManager::GetInstance()->render(textbox[1]);
-		Sleep(100);
 	}
 	
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[2])) {
 		GraphicManager::GetInstance()->render(textbox[3]);
-		Sleep(100);
 	}
 
 	Player::GetInstance()->render();
