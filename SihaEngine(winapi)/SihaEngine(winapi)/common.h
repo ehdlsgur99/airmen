@@ -15,7 +15,7 @@
 
 #include "Singleton.h"
 #include "System.h"
-
+#include "UserInfo.h"
 
 
 #include "GameObject.h"
