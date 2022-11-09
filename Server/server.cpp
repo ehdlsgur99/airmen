@@ -1,4 +1,11 @@
 #include "common.h"
+#include <list>
+#include "UserInfo.h"
+
+// UserInfo 包府 List
+std::list<UserInfo> userList;
+// Socket 包府 List
+std::list<SocketInfo> socketList;
 
 int serverport;
 //#define SERVERPORT 9000

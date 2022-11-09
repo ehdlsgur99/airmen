@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common.h"
+
 struct UserInfo {
 	int Frame;
 	int ID;
@@ -15,4 +17,9 @@ struct UserInfo {
 	int ClientTime;
 	int ServerTime;
 	int OtherRTT;
+};
+
+struct SocketInfo {
+	SOCKET client_sock;
+	int ID;
 };
