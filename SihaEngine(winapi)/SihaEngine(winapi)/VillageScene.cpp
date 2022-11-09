@@ -191,6 +191,9 @@ void VillageScene::update()
 	if(InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, obj[4])) {
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eGame);
 	}
+	if (InputManager::GetInstance()->getKey(0x4E)) {
+		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+	}
 }
 
 void VillageScene::render()

@@ -44,6 +44,11 @@ void SceneManager::SceneChange(int WhatScene)
 		scene->init();
 		sceneType = eVillage;
 		break;
+	case ePvp:
+		scene = new PVPScene;
+		scene->init();
+		sceneType = ePvp;
+		break;
 	/*case eIntro:
 		scene = new IntroScene;
 		break;

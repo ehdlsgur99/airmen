@@ -51,3 +51,4 @@ using namespace std;
 #include "VillageScene.h"
 #include "IntroScene.h"
 #include "EndScene.h"
+#include "PVPScene.h"
