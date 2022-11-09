@@ -195,6 +195,7 @@
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="VillageMG.h" />
     <ClInclude Include="VillageScene.h" />
+    <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

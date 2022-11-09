@@ -10,8 +10,17 @@ VillageScene::~VillageScene()
 
 }
 
+void print()
+{
+	printf("callback test");
+}
+
 void VillageScene::init()
 {
+	pvpButton = new Button();
+	pvpButton->init("Resource/Button/PVPButton.png", "Resource/Button/PVPButton_.png",
+		POINT{ 50, 150 }, SIZE{ 100, 50 }, print);
+
 	Player::GetInstance()->mappos = 0;
 	Player::GetInstance()->player->setPos(0, 630);
 
@@ -162,7 +171,7 @@ void VillageScene::init()
 
 void VillageScene::update()
 {
-	
+	pvpButton->update();
 	if (InputManager::GetInstance()->getKey(VK_SPACE) && CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, Npc::GetInstance()->npc[0])
 		&& InputManager::GetInstance()->delay(500)) {
 		
@@ -225,7 +234,7 @@ void VillageScene::render()
 	}
 
 	Player::GetInstance()->render();
-	
+	pvpButton->render();
 }
 
 void VillageScene::release()

@@ -157,6 +157,9 @@
       <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="EndScene.h" />
+    <ClInclude Include="UserInfo.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Class">
