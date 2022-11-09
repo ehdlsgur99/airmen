@@ -6,7 +6,6 @@ void VillageMG::init()
 	for (int i = 0; i < 3; i++) {
 		randbox[i] = rand() % 3;
 	}
-	
 
 	shop = new GameObject;
 	shop->loadTexture("Resource/object/inven.png");
@@ -96,7 +95,6 @@ void VillageMG::init()
 }
 void VillageMG::update()
 {	
-	
 	if (InputManager::GetInstance()->isLButtonDonw && InputManager::GetInstance()->LButtonPos.x > 325 && InputManager::GetInstance()->LButtonPos.x < 389 && InputManager::GetInstance()->LButtonPos.y>403 && InputManager::GetInstance()->LButtonPos.y < 467
 		&& InputManager::GetInstance()->delay(500)) {
 		if (Player::GetInstance()->playerUI->coinNum >= 100 && randbox[0] == 0) {
@@ -252,8 +250,7 @@ void VillageMG::render()
 	GraphicManager::GetInstance()->drawText("mp", { 410, 603 }, 10, RGB(0, 0, 0));
 	GraphicManager::GetInstance()->drawText("+20", { 400, 613 }, 10, RGB(0, 0, 0));
 	GraphicManager::GetInstance()->drawText("30G", { 400, 623 }, 10, RGB(255, 255, 255));
-	
-		
+
 }
 
 void VillageMG::release()
