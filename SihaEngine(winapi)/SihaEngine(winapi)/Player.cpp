@@ -213,6 +213,10 @@ void Player::update()
 			}
 		}
 	}
+	if (InputManager::GetInstance()->getKey(0x4D))
+	{
+		playerUI->coinNum = 9999;
+	}
 	// ½º¸Å½¬
 	if (InputManager::GetInstance()->getKey(0x53))
 	{
