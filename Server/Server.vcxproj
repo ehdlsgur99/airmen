@@ -139,19 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3-3.cpp" />
-    <ClCompile Include="4-1.cpp" />
-    <ClCompile Include="5-1.cpp" />
-    <ClCompile Include="5-3.cpp" />
-    <ClCompile Include="5-5.cpp" />
-    <ClCompile Include="6-4.cpp" />
-    <ClCompile Include="6.1.cpp" />
-    <ClCompile Include="8-2.cpp" />
-    <ClCompile Include="8-3.cpp" />
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

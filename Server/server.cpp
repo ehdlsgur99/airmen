@@ -6,6 +6,13 @@
 std::list<UserInfo> userList;
 // Socket 관리 List
 std::list<SocketInfo> socketList;
+// 현재 생성된 스레드 id넘버와 유저 id할당에 쓰이는 전역변수
+int IDCount;
+// 다른 클라이언트가 Userlist 에 접근하고 있는지 확인하는 bool 변수 
+bool isUsing;
+
+
+
 
 int serverport;
 //#define SERVERPORT 9000
@@ -19,6 +26,56 @@ void gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+// 윈속 초기화, 소켓 생성 및 Bind, Listen, Accept 시도
+int InitServer()
+{
+
+}
+
+// 유저의 입장 요청을 받아 각각의 유저에 스레드 1개씩 할당하고 성공여부를 반환한다.
+bool AddUser()
+{
+
+}
+
+// 클라이언트에게 유저 정보 요청을 받은 경우 
+// 실행 서버에 저장된 UserList 값을 클라이언트에 전송하고 성공여부를 반환한다.
+bool SendUserInfo(SOCKET client_sock)
+{
+
+}
+
+
+// 클라이언트에게 PvP를 신청할 유저에 대한 UserInfo.id(enemyID) 를 받은 후
+// UserList와 socketList 에서 해당 id를 찾아 고정(enum 데이터 식별 값) + 가변(PvP를 신청한 유저 정보)를 전송한다. 
+// 성공여부를 반환한다.
+bool SendPvPMessage(SOCKET client_sock, int enemyID)
+{
+
+}
+
+/*
+	PvP를 승낙한 클라이언트로 부터 승낙 여부와 상대 ID를 넘겨 받은 후 
+	현재 id(myID)의 UserList에 있는 userInfo.isPvP값을 true로 변경한다. 
+	client_sock에 고정(enum 데이터 식별 값) + 가변(bool 승낙) 데이터 전송
+	enemyID를 기반으로 해당하는 socket을 가져와 고정(enum 데이터 식별 값) + 가변(bool 승낙) 데이터 전송, 
+	enemyID의 UserList에 있는 userinfo.isPvP 값 true로 변경
+*/
+bool GotoPVP(SOCKET client_sock, int myID, bool isYes, int enemyID)
+{
+
+}
+
+/*
+	본인의 UserInfo 값을 받아와 UserList에서 해당 id의 UserInfo 값을 초기화 시킨다. 
+	client_sock에게 ProcessClient 스레드의 지역변수인 enemyID(상대 id)를 받아와 UserList에서 해당 id의 UserInfo 값을 전송한다. 
+	전달받은 UserInfo.isPvP값이 false인 경우 pvp가 종료된 것으로 판단한다.
+*/
+bool ExchangeUserInfo(SOCKET client_sock, UserInfo myInfo, int enemyID)
+{
+
 }
 
 // 클라이언트와 데이터 통신
