@@ -50,7 +50,7 @@ void TestScene::update()
 
 	 if (InputManager::GetInstance()->getKey(VK_SPACE))
 	 {
-		 SceneManager::GetInstance()->SceneChange(SceneManager::eGame);
+		 SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
 		 return;
 	 }
 

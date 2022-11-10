@@ -16,6 +16,7 @@ public:
 		eGame,
 		eTest,
 		eVillage,
+		ePvp,
 		eEnd
 	};
 public:

@@ -109,7 +109,7 @@ void PlayerUI::init()
 
 void PlayerUI::update()
 {
-	
+
 }
 
 void PlayerUI::render()
@@ -133,7 +133,6 @@ void PlayerUI::render()
 			GraphicManager::GetInstance()->render(layer[2]);
 		}
 	}
-	
 	if (Buyarmor) {
 		GraphicManager::GetInstance()->render(armor);
 		GraphicManager::GetInstance()->drawText("Ã¼·Â+", { 940, 480 }, 10, RGB(0, 0, 0));
