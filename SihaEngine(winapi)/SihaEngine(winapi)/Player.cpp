@@ -1,5 +1,17 @@
 #include "common.h"
 
+// Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
+DWORD WINAPI ClientThread(LPVOID arg)
+{
+	Sleep(1000);
+	UserInfo* userInfo = (UserInfo*)arg;
+	while (1)
+	{
+		// thread test 성공
+	}
+	return 0;
+}
+
 Player::Player()
 {
 	level = 1;
@@ -26,6 +38,14 @@ Player::Player()
 	player->setPos(50, 560);
 	power = 10;
 	state = eRight;
+
+	// 생성자에서 쓰레드 생성
+	// =====================================
+	// playerInfo 초기화 확인필수!
+	// =====================================
+	HANDLE hThread = CreateThread(NULL, 0, ClientThread, &playerInfo, 0, NULL);
+	if (hThread == NULL) return ;
+	CloseHandle(hThread);
 	
 }
 

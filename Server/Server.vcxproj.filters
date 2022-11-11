@@ -26,5 +26,8 @@
     <ClInclude Include="UserInfo.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="EnumData.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
