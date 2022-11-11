@@ -12,6 +12,7 @@
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
+#pragma comment(lib, "ws2_32")
 
 #include "Singleton.h"
 #include "System.h"
@@ -29,6 +30,9 @@
 
 #include "enumData.h"
 #include "Button.h"
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
 
 using namespace std;
 
@@ -52,3 +56,4 @@ using namespace std;
 #include "IntroScene.h"
 #include "EndScene.h"
 #include "PVPScene.h"
+#include "Client.h"
