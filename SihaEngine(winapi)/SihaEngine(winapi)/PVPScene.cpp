@@ -11,13 +11,13 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	//Player::GetInstance()->mappos = 0;
-	//Player::GetInstance()->player->setPos(0, 630);
+	Player::GetInstance()->mappos = 0;
+	Player::GetInstance()->player->setPos(0, 630);
 
 	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
-	//bg->loadTexture("Resource/village_bg.png");
+	
 	bg->setPos(0, 0);
 	//bg->setSrcSize(1280, 1024);
 	bg->setSize(1600, 900);
@@ -57,7 +57,7 @@ void PVPScene::init()
 	for (int i = 0; i < 50; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 }
 
 void PVPScene::update()
