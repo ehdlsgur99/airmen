@@ -1,7 +1,7 @@
 #include "common.h"
 #include <list>
-#include "UserInfo.h"
 
+#include "UserInfo.h"
 // UserInfo 관리 List
 std::list<UserInfo> userList;
 // Socket 관리 List
@@ -11,11 +11,7 @@ int IDCount;
 // 다른 클라이언트가 Userlist 에 접근하고 있는지 확인하는 bool 변수 
 bool isUsing;
 
-
-
-
-int serverport;
-//#define SERVERPORT 9000
+#define SERVERPORT 9000
 #define BUFSIZE    512
 #define MAX_THREADS	100
 int threadCount = 0;
@@ -31,20 +27,20 @@ void gotoxy(int x, int y)
 // 윈속 초기화, 소켓 생성 및 Bind, Listen, Accept 시도
 int InitServer()
 {
-
+	return false;
 }
 
 // 유저의 입장 요청을 받아 각각의 유저에 스레드 1개씩 할당하고 성공여부를 반환한다.
 bool AddUser()
 {
-
+	return false;
 }
 
 // 클라이언트에게 유저 정보 요청을 받은 경우 
 // 실행 서버에 저장된 UserList 값을 클라이언트에 전송하고 성공여부를 반환한다.
 bool SendUserInfo(SOCKET client_sock)
 {
-
+	return false;
 }
 
 
@@ -53,7 +49,7 @@ bool SendUserInfo(SOCKET client_sock)
 // 성공여부를 반환한다.
 bool SendPvPMessage(SOCKET client_sock, int enemyID)
 {
-
+	return false;
 }
 
 /*
@@ -65,7 +61,7 @@ bool SendPvPMessage(SOCKET client_sock, int enemyID)
 */
 bool GotoPVP(SOCKET client_sock, int myID, bool isYes, int enemyID)
 {
-
+	return false;
 }
 
 /*
@@ -75,7 +71,7 @@ bool GotoPVP(SOCKET client_sock, int myID, bool isYes, int enemyID)
 */
 bool ExchangeUserInfo(SOCKET client_sock, UserInfo myInfo, int enemyID)
 {
-
+	return false;
 }
 
 // 클라이언트와 데이터 통신
@@ -188,9 +184,6 @@ int main(int argc, char* argv[])
 {
 	int retval;
 
-	printf("서버 포트 입력 : ");
-	scanf("%d", &serverport);
-
 	// 윈속 초기화
 	WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -198,20 +191,23 @@ int main(int argc, char* argv[])
 
 	// 소켓 생성
 	SOCKET listen_sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (listen_sock == INVALID_SOCKET) err_quit("socket()");
+	if (listen_sock == INVALID_SOCKET) 
+		err_quit("socket()");
 
 	// bind()
 	struct sockaddr_in serveraddr;
 	memset(&serveraddr, 0, sizeof(serveraddr));
 	serveraddr.sin_family = AF_INET;
 	serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	serveraddr.sin_port = htons(serverport);
+	serveraddr.sin_port = htons(SERVERPORT);
 	retval = bind(listen_sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
-	if (retval == SOCKET_ERROR) err_quit("bind()");
+	if (retval == SOCKET_ERROR) 
+		err_quit("bind()");
 
 	// listen()
 	retval = listen(listen_sock, SOMAXCONN);
-	if (retval == SOCKET_ERROR) err_quit("listen()");
+	if (retval == SOCKET_ERROR) 
+		err_quit("listen()");
 
 	// 데이터 통신에 사용할 변수
 	SOCKET client_sock;

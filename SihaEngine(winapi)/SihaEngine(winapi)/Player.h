@@ -48,6 +48,9 @@ public:
 	void render();
 	void release();
 
+	// SERVER - CLIENT 연결함수
+	bool enterGame();
+
 	void gravity(Tail* tail);
 };
 

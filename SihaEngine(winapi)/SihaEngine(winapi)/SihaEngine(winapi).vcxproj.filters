@@ -78,9 +78,6 @@
     <ClCompile Include="PVPScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h" />
@@ -169,7 +166,7 @@
     <ClInclude Include="PVPScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Client.h">
+    <ClInclude Include="Define.h">
       <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
