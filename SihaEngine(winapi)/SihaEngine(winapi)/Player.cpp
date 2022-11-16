@@ -88,7 +88,7 @@ Player::Player()
 	// =====================================
 	// 서버 연결
 	// =====================================
-	enterGame();
+	//enterGame();
 	
 
 	HANDLE hThread = CreateThread(NULL, 0, ClientThread, &playerInfo, 0, NULL);
@@ -137,6 +137,14 @@ void Player::update()
 		}
 
 	}
+	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+	{
+		if (player->pos.y <= 500)
+		{
+			player->pos.y += 10;
+		}
+
+	}
 	// 캐릭터 애니메이션
 
 	// 캐릭터 이동 예시
@@ -155,6 +163,13 @@ void Player::update()
 			}
 			
 		}
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		{
+			if (player->pos.x <= -20)
+				player->pos.x += 10;
+			else
+				player->pos.x -= 10;
+		}
 	}
 	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
 	{
@@ -170,6 +185,13 @@ void Player::update()
 				ObjectManager::GetInstance()->cameraMove(10, 0);
 				mappos += 10;
 			}
+		}
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		{
+			if (player->pos.x >= 1400)
+				player->pos.x -= 10;
+			else
+				player->pos.x += 10;
 		}
 			
 	}

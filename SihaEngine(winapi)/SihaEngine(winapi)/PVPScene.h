@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.h"
+#define GROUNDINDEX 40
 
 class PVPScene : public Scene
 {
@@ -17,7 +18,7 @@ private:
 	GameObject* bg;
 	GameObject* backbd;
 	GameObject* backst;
-	GameObject* ground[50];
+	GameObject* ground[GROUNDINDEX];
 	
 
 
