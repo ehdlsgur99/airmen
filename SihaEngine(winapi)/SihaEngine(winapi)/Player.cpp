@@ -443,6 +443,14 @@ bool Player::enterGame()
 	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
+	UserInfo* userInfo = new UserInfo;
+
+	//구조체  받기
+	char buf[BUFSIZE];
+	retval = recv(sock, buf, sizeof(UserInfo), 0);
+	buf[retval] = '\0';
+	userInfo = (UserInfo*)buf;
+
 	return true;
 }
 

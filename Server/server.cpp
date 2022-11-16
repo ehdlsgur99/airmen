@@ -3,7 +3,7 @@
 
 #include "UserInfo.h"
 // UserInfo 관리 List
-std::list<UserInfo> userList;
+std::list<UserInfo*> userList;
 // Socket 관리 List
 std::list<SocketInfo> socketList;
 // 현재 생성된 스레드 id넘버와 유저 id할당에 쓰이는 전역변수
@@ -84,6 +84,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	int addrlen;
 	char buf[BUFSIZE + 1];
 
+
 	int threadID = threadCount;
 	//printf("%d", threadID);
 
@@ -94,84 +95,29 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 	int len; 
 
+	// UserList에 현재 유저 UserInfo  추가
+	UserInfo *userInfo = new UserInfo;
+	userInfo->ID = threadID;
+	userInfo->nowhp = 100;
+	userInfo->nowmp = 500;
+	userList.push_back(userInfo);
+
+	// SocketList에 현재 유저 SocketInfo 추가
+	SocketInfo socketInfo;
+	socketInfo.client_sock = client_sock;
+	socketInfo.ID = userInfo->ID;
+
+	socketList.push_back(socketInfo);
+
 	// 클라이언트와 데이터 통신
-	while (1) {
-		// 파일 이름 크기 받기
-		retval = recv(client_sock, (char*)&len, sizeof(len), MSG_WAITALL);
-		if (retval == SOCKET_ERROR) {
-			err_display("recv()");
-			break;
-		}
-		else if (retval == 0)
-			break;
-
-		// 파일 이름 내용 받기
-		// 데이터 받기(가변 길이)
-		retval = recv(client_sock, buf, len, MSG_WAITALL);
-		if (retval == SOCKET_ERROR) {
-			err_display("recv()");
-			break;
-		}
-		else if (retval == 0)
-			break;
-
-		// 받은 데이터 출력
-		// 파일 이름
-		buf[retval] = '\0';
-		printf("[TCP/%s:%d] %s", addr, ntohs(clientaddr.sin_port), buf);
-
-		// File 생성하기
-		FILE* fp = fopen(buf, "ab");
-		if (fp == NULL)
-		{
-			printf("파일 입출력 오류");
-			break;
-		}
-
-		// 파일 전체 크기
-		int totalfileSize;
-		retval = recv(client_sock, (char*)&totalfileSize, sizeof(int), MSG_WAITALL);
-		if (retval == SOCKET_ERROR) {
-			err_display("recv()");
-			break;
-		}
-		else if (retval == 0)
-			break;
-		printf("\t 파일 사이즈 : %d \n", totalfileSize);
-
-		int nowFileSize = 0;
-		int size = 512;
-		// 파일 데이터 받기
-		while (1)
-		{
-			// 데이터 내용
-			retval = recv(client_sock, buf, size, MSG_WAITALL);
-			if (retval == SOCKET_ERROR) {
-				err_display("recv()");
-				break;
-			}
-			else if (retval == 0)
-				break;
-			fwrite(buf, 1, retval, fp);
-			nowFileSize += retval;
-
-			if (isFlag)
-			{
-				isFlag = false;
-				gotoxy(0, 15 + threadID);
-				printf("포트번호 : %d 진행도 : %.2f %% \t\t\t\t\t", ntohs(clientaddr.sin_port),
-					((float)nowFileSize / (float)totalfileSize) * 100.f);
-				gotoxy(0, (threadCount + 1) * 2);
-				isFlag = true;
-			}
-
-		}
-		gotoxy(0, 15 + threadID);
-		printf("포트번호 : %d 진행도 : %.2f %% \t\t\t\t\t", ntohs(clientaddr.sin_port),
-			((float)nowFileSize / (float)totalfileSize) * 100.f);
-		gotoxy(0, (threadCount + 1) * 2);
-		fclose(fp);
+	// UserInfo 데이터 보내기
+	retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
+	if (retval == SOCKET_ERROR) {
+		err_display("send()");
 	}
+
+	while(1) {}
+
 
 	// 소켓 닫기
 	closesocket(client_sock);
@@ -215,7 +161,7 @@ int main(int argc, char* argv[])
 	int addrlen;
 	HANDLE hThread[MAX_THREADS];
 
-
+	printf("현재 접속중인 유저 수: %d ", threadCount);
 	while (1) {
 		// accept()
 		addrlen = sizeof(clientaddr);
@@ -234,10 +180,11 @@ int main(int argc, char* argv[])
 		// 스레드 생성
 		hThread[threadCount] = CreateThread(NULL, 0, ProcessClient,
 			(LPVOID)client_sock, 0, NULL);
-		threadCount++;
 		if (hThread[threadCount] == NULL) { closesocket(client_sock); }
 		else { CloseHandle(hThread[threadCount]); }
+		threadCount++;
 
+		printf("\n현재 접속중인 유저 수: %d ", threadCount);
 
 	}
 
