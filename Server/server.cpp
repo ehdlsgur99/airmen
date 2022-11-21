@@ -98,8 +98,19 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	// UserList에 현재 유저 UserInfo  추가
 	UserInfo *userInfo = new UserInfo;
 	userInfo->ID = threadID;
+	userInfo->isPvP = false;
+	userInfo->maxhp = 100;
 	userInfo->nowhp = 100;
+	userInfo->maxmp = 500;
 	userInfo->nowmp = 500;
+	userInfo->x = 0;
+	userInfo->y = 0;
+	userInfo->state = 0;
+	userInfo->ClientTime = 0;
+	userInfo->ServerTime = 0;
+	userInfo->OtherRTT = 0;
+
+
 	userList.push_back(userInfo);
 
 	// SocketList에 현재 유저 SocketInfo 추가
