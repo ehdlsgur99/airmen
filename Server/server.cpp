@@ -2,6 +2,7 @@
 #include <list>
 
 #include "UserInfo.h"
+#include "EnumData.h"
 // UserInfo 관리 List
 std::list<UserInfo*> userList;
 // Socket 관리 List
@@ -126,8 +127,39 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	if (retval == SOCKET_ERROR) {
 		err_display("send()");
 	}
+	eDataType dataType;
+	while(1) {
+		// EnumData 받기
+		retval = recv(client_sock, (char*)&dataType, sizeof(dataType), MSG_WAITALL);
+		if (retval == SOCKET_ERROR) {
+			err_display("recv()");
+			break;
+		}
+		else if (retval == 0)
+			break;
+	
+		// DataType 에 따른 다음 동작
+		// 플레이어 데이터인 UserInfo를 발송한다.
+		if (eDataType::eNone == dataType)
+		{
+			// PVP 상황인경우 여기서 상대방 정보를 보내준다.
+		}
+		// 플레이어 정보들을 넘겨준다.
+		if (eDataType::eRquest == dataType)
+		{
+			std::list<UserInfo*>::iterator iter;
+			int userNum = userList.size();
+			retval = send(client_sock, (char*)&userNum, sizeof(userNum), 0);
 
-	while(1) {}
+			UserInfo *temp = new UserInfo;
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				temp = *iter;
+				retval = send(client_sock, (char*)temp, sizeof(UserInfo), 0);
+			}
+		}
+	
+	}
 
 
 	// 소켓 닫기

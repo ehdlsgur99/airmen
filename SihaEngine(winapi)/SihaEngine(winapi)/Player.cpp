@@ -44,18 +44,85 @@ void err_display(int errcode)
 // Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
-	Sleep(1000);
-	UserInfo* userInfo = (UserInfo*)arg;
+	//UserInfo* userInfo = (UserInfo*)arg;
+	
+	eDataType type = eDataType::eRquest;
+	int retval;
 	while (1)
 	{
-		// thread test 성공
+		retval = send(Player::GetInstance()->sock, (char*)&type, sizeof(type), 0);
+		if (retval == SOCKET_ERROR) {
+			err_display("send()");
+		}
+		// DataType 에 따른 다음 동작
+		if (eDataType::eNone == type)
+		{
+			// 플레이어 데이터인 UserInfo를 발송한다.
+
+			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
+		}
+		// 다른 플레이어 정보를 받아온다.
+		if (eDataType::eRquest == type)
+		{
+			// 다른 플레이어가 몇명인지 받아온다.
+			int otherNum ;
+			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
+
+			std::vector<UserInfo*> userInfos;
+			userInfos.reserve(otherNum);
+			// UserInfo 구조체  받기
+			char buf[BUFSIZE];
+			UserInfo *temp = new UserInfo;
+			// 다른 유저들의 데이터를 받아온다.
+			for (int i = 0; i < otherNum; ++i)
+			{
+				retval = recv(Player::GetInstance()->sock, buf, sizeof(UserInfo), 0);
+				buf[retval] = '\0';
+				temp = (UserInfo*)buf;
+				userInfos.push_back(temp);
+			}
+		}
 	}
 	return 0;
+}
+
+
+bool Player::enterGame()
+{
+	//"127.0.0.1";
+	char* SERVERIP = (char*)"127.0.0.1";
+
+	// 윈속 초기화
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
+		return 1;
+
+	// 소켓 생성
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) err_quit("socket()");
+
+	// connect()
+	struct sockaddr_in serveraddr;
+	memset(&serveraddr, 0, sizeof(serveraddr));
+	serveraddr.sin_family = AF_INET;
+	inet_pton(AF_INET, SERVERIP, &serveraddr.sin_addr);
+	serveraddr.sin_port = htons(SERVERPORT);
+	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
+	if (retval == SOCKET_ERROR) err_quit("connect()");
+
+	// UserInfo 구조체  받기
+	char buf[BUFSIZE];
+	retval = recv(sock, buf, sizeof(UserInfo), 0);
+	buf[retval] = '\0';
+	userInfo = (UserInfo*)buf;
+
+	return true;
 }
 
 Player::Player()
 {
 	level = 1;
+
+	userInfo = new UserInfo;
 
 	player = new GameObject;
 	player->loadTexture("Resource/player/idle/player1.png");
@@ -88,7 +155,7 @@ Player::Player()
 	// =====================================
 	// 서버 연결
 	// =====================================
-	//enterGame();
+	enterGame();
 	
 
 	HANDLE hThread = CreateThread(NULL, 0, ClientThread, &playerInfo, 0, NULL);
@@ -441,40 +508,6 @@ void Player::release()
 	GraphicManager::GetInstance()->release();
 }
 
-bool Player::enterGame()
-{
-	int retval;
-	//"127.0.0.1";
-	char* SERVERIP = (char*)"127.0.0.1";
-
-	// 윈속 초기화
-	WSADATA wsa;
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-		return 1;
-
-	// 소켓 생성
-	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock == INVALID_SOCKET) err_quit("socket()");
-
-	// connect()
-	struct sockaddr_in serveraddr;
-	memset(&serveraddr, 0, sizeof(serveraddr));
-	serveraddr.sin_family = AF_INET;
-	inet_pton(AF_INET, SERVERIP, &serveraddr.sin_addr);
-	serveraddr.sin_port = htons(SERVERPORT);
-	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
-	if (retval == SOCKET_ERROR) err_quit("connect()");
-
-	UserInfo* userInfo = new UserInfo;
-
-	//구조체  받기
-	char buf[BUFSIZE];
-	retval = recv(sock, buf, sizeof(UserInfo), 0);
-	buf[retval] = '\0';
-	userInfo = (UserInfo*)buf;
-
-	return true;
-}
 
 void Player::gravity(Tail *tail)
 {

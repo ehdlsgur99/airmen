@@ -35,6 +35,13 @@ public:
 	bool isUI;
 	bool isAttack;
 	bool isJump;
+
+public:
+	// 서버 관련 변수
+	int retval;
+	SOCKET sock;
+	WSADATA wsa;
+	UserInfo* userInfo;
 public:
 	
 	int power;
