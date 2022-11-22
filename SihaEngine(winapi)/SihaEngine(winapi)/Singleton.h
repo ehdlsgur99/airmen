@@ -6,7 +6,8 @@ class CSingleton
 private:
 	static T* mSingleton;
 public:
-	CSingleton() {};
+	CSingleton() {
+	};
 	~CSingleton()
 	{
 		delete mSingleton;

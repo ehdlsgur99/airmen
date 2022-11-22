@@ -12,11 +12,6 @@ public:
 	int nowHp;
 	int nowMp;
 
-	// =====================================
-	// playerInfo 초기화 추가 해줘합니다!
-	// =====================================
-	UserInfo playerInfo;
-
 	std::string name;
 	int mappos = 0;
 	int JumpTime = 0;
@@ -48,6 +43,8 @@ public:
 
 	Player();
 	~Player();
+
+	UserInfo* getUserInfo();
 	
 	int getPlayerState();
 	void init();

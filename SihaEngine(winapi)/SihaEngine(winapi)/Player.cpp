@@ -44,21 +44,25 @@ void err_display(int errcode)
 // Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
-	//UserInfo* userInfo = (UserInfo*)arg;
 	
-	eDataType type = eDataType::eRquest;
+	eDataType type = eDataType::eNone;
 	int retval;
+	Player::GetInstance()->getUserInfo();
 	while (1)
 	{
 		retval = send(Player::GetInstance()->sock, (char*)&type, sizeof(type), 0);
 		if (retval == SOCKET_ERROR) {
 			err_display("send()");
 		}
+
+		// recv로 type 받아와야함
+
 		// DataType 에 따른 다음 동작
 		if (eDataType::eNone == type)
 		{
 			// 플레이어 데이터인 UserInfo를 발송한다.
-
+			UserInfo* user = Player::GetInstance()->userInfo;
+			retval = send(Player::GetInstance()->sock, (const char*)Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
 		}
 		// 다른 플레이어 정보를 받아온다.
@@ -122,7 +126,7 @@ Player::Player()
 {
 	level = 1;
 
-	userInfo = new UserInfo;
+	//userInfo = new UserInfo;
 
 	player = new GameObject;
 	player->loadTexture("Resource/player/idle/player1.png");
@@ -157,11 +161,11 @@ Player::Player()
 	// =====================================
 	enterGame();
 	
-
-	HANDLE hThread = CreateThread(NULL, 0, ClientThread, &playerInfo, 0, NULL);
+	getUserInfo();
+	HANDLE hThread = CreateThread(NULL, 0, ClientThread, 0, 0, NULL);
 	if (hThread == NULL) return ;
 	CloseHandle(hThread);
-	
+
 }
 
 Player::~Player()
@@ -174,11 +178,16 @@ int Player::getPlayerState()
 	return state;
 }
 
+UserInfo* Player::getUserInfo()
+{
+	return userInfo;
+}
+
 void Player::init()
 {
 	smash = new GameObject;
 	smash->setSize(150, 120);
-	smash->setPos(- 1000, player->pos.y);
+	smash->setPos(-1000, player->pos.y);
 
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	{
