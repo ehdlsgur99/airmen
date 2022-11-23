@@ -119,7 +119,7 @@ bool Player::enterGame()
 	buf[retval] = '\0';
 	userInfo = (UserInfo*)buf;
 
-	return true;
+ 	return true;
 }
 
 Player::Player()
@@ -163,7 +163,7 @@ Player::Player()
 	
 	getUserInfo();
 	HANDLE hThread = CreateThread(NULL, 0, ClientThread, 0, 0, NULL);
-	if (hThread == NULL) return ;
+	if (hThread == NULL) return;
 	CloseHandle(hThread);
 
 }

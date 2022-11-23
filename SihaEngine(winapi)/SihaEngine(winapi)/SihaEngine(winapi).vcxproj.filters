@@ -78,6 +78,9 @@
     <ClCompile Include="PVPScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="OtherPlayer.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h" />
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="OtherPlayer.h">
+      <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

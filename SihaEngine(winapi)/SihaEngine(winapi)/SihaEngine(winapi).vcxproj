@@ -154,6 +154,7 @@
     <ClCompile Include="MonsterControl.cpp" />
     <ClCompile Include="Npc.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="OtherPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBar.cpp" />
     <ClCompile Include="PlayerUI.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="MonsterControl.h" />
     <ClInclude Include="Npc.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="OtherPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBar.h" />
     <ClInclude Include="PlayerUI.h" />

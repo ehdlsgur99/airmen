@@ -59,4 +59,4 @@ using namespace std;
 #include "IntroScene.h"
 #include "EndScene.h"
 #include "PVPScene.h"
-//#include "Client.h"
+#include "OtherPlayer.h"

@@ -87,7 +87,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 
 	int threadID = threadCount;
-	//printf("%d", threadID);
+	printf("%d", threadID);
 
 	// 클라이언트 정보 얻기
 	addrlen = sizeof(clientaddr);
