@@ -44,7 +44,6 @@ void err_display(int errcode)
 // Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
-	
 	eDataType type = eDataType::eNone;
 	int retval;
 	Player::GetInstance()->getUserInfo();
