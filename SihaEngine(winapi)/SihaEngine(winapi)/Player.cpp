@@ -1,5 +1,7 @@
 #include "common.h"
 
+UserInfo info;
+
 // 소켓 함수 오류 출력 후 종료
 void err_quit(const char* msg)
 {
@@ -44,7 +46,9 @@ void err_display(int errcode)
 // Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
-	
+
+
+	UserInfo info;
 	eDataType type = eDataType::eNone;
 	int retval;
 	Player::GetInstance()->getUserInfo();
@@ -60,9 +64,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		// DataType 에 따른 다음 동작
 		if (eDataType::eNone == type)
 		{
+			info = Player::GetInstance()->userInfo;
 			// 플레이어 데이터인 UserInfo를 발송한다.
-			UserInfo* user = Player::GetInstance()->userInfo;
-			retval = send(Player::GetInstance()->sock, (const char*)Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
 		}
 		// 다른 플레이어 정보를 받아온다.
@@ -115,10 +119,13 @@ bool Player::enterGame()
 
 	// UserInfo 구조체  받기
 	char buf[BUFSIZE];
-	retval = recv(sock, buf, sizeof(UserInfo), 0);
+	//retval = recv(sock, buf, sizeof(UserInfo), 0);
+	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
 	buf[retval] = '\0';
-	userInfo = (UserInfo*)buf;
+	userInfo;
 
+	//info.ID = userInfo->ID;
+	//info.power = userInfo->power;
  	return true;
 }
 
@@ -162,7 +169,7 @@ Player::Player()
 	enterGame();
 	
 	getUserInfo();
-	HANDLE hThread = CreateThread(NULL, 0, ClientThread, 0, 0, NULL);
+	HANDLE hThread = CreateThread(NULL, 0, ClientThread, &userInfo, 0, NULL);
 	if (hThread == NULL) return;
 	CloseHandle(hThread);
 
@@ -178,7 +185,7 @@ int Player::getPlayerState()
 	return state;
 }
 
-UserInfo* Player::getUserInfo()
+UserInfo Player::getUserInfo()
 {
 	return userInfo;
 }
