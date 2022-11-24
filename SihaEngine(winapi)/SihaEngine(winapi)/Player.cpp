@@ -48,7 +48,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 {
 
 
-	UserInfo* info = (UserInfo*)arg;
+	UserInfo info;
 	eDataType type = eDataType::eNone;
 	int retval;
 	Player::GetInstance()->getUserInfo();
@@ -64,9 +64,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		// DataType 에 따른 다음 동작
 		if (eDataType::eNone == type)
 		{
-			info;
+			info = Player::GetInstance()->userInfo;
 			// 플레이어 데이터인 UserInfo를 발송한다.
-			retval = send(Player::GetInstance()->sock, (const char*)Player::GetInstance()->getUserInfo(), sizeof(UserInfo), 0);
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
 		}
 		// 다른 플레이어 정보를 받아온다.
@@ -119,12 +119,13 @@ bool Player::enterGame()
 
 	// UserInfo 구조체  받기
 	char buf[BUFSIZE];
-	retval = recv(sock, buf, sizeof(UserInfo), 0);
+	//retval = recv(sock, buf, sizeof(UserInfo), 0);
+	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
 	buf[retval] = '\0';
-	userInfo = (UserInfo*)buf;
+	userInfo;
 
-	info.ID = userInfo->ID;
-	info.power = userInfo->power;
+	//info.ID = userInfo->ID;
+	//info.power = userInfo->power;
  	return true;
 }
 
@@ -184,7 +185,7 @@ int Player::getPlayerState()
 	return state;
 }
 
-UserInfo* Player::getUserInfo()
+UserInfo Player::getUserInfo()
 {
 	return userInfo;
 }

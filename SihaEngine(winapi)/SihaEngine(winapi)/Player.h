@@ -11,7 +11,7 @@ public:
 	Player();
 	~Player();
 
-	UserInfo* getUserInfo();
+	UserInfo getUserInfo();
 
 	int getPlayerState();
 	void init();
@@ -55,7 +55,7 @@ public:
 	int retval;
 	SOCKET sock;
 	WSADATA wsa;
-	UserInfo* userInfo;
+	UserInfo userInfo;
 
 };
 
