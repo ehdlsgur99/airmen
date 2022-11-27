@@ -5,6 +5,25 @@
 class Player : public CSingleton<Player>
 {
 public:
+
+	int power;
+
+	Player();
+	~Player();
+
+	UserInfo getUserInfo();
+
+	int getPlayerState();
+	void init();
+	void update();
+	void render();
+	void release();
+
+	// SERVER - CLIENT 연결함수
+	bool enterGame();
+
+	void gravity(Tail* tail);
+public:
 	ePlayer state;
 	ePlayer nextState;
 	int hp;
@@ -36,25 +55,7 @@ public:
 	int retval;
 	SOCKET sock;
 	WSADATA wsa;
-	UserInfo* userInfo;
-public:
-	
-	int power;
+	UserInfo userInfo;
 
-	Player();
-	~Player();
-
-	UserInfo* getUserInfo();
-	
-	int getPlayerState();
-	void init();
-	void update();
-	void render();
-	void release();
-
-	// SERVER - CLIENT 연결함수
-	bool enterGame();
-
-	void gravity(Tail* tail);
 };
 

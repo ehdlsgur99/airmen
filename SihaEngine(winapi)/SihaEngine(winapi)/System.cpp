@@ -12,6 +12,8 @@ System::~System()
 
 void System::init()
 {
+	Player::GetInstance();
+
 	// 그래픽 클래스를 초기화 한다.
 	GraphicManager::GetInstance()->init();
 
