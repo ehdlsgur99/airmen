@@ -142,17 +142,17 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		//	break;
 		
 		// 패킷 받기
-		UserInfo* temp = new UserInfo;
+		UserInfo* packet = new UserInfo;
 		char buf[BUFSIZE];
 
 		retval = recv(client_sock, buf, sizeof(UserInfo), 0);
-		temp = (UserInfo*)buf;
+		packet = (UserInfo*)buf;
 
 		// DataType 에 따른 다음 동작
 		std::list<UserInfo*>::iterator iter;
 		int userNum = userList.size();
 		// 플레이어 데이터인 UserInfo를 발송한다.
-		if (eDataType::eNone == temp->DataType)
+		if (eDataType::eNone == packet->DataType)
 		{
 	/*		UserInfo* temp = new UserInfo;
 			char buf[BUFSIZE];*/
@@ -162,22 +162,23 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			{
 				if ((*iter)->ID == socketInfo.ID)
 				{
-					(*iter) = temp;
+					(*iter) = packet;
 				}
 				
 			}
 			// PVP 상황인경우 여기서 상대방 정보를 보내준다.
 		}
 		// 플레이어 정보들을 넘겨준다.
-		if (eDataType::eRquest == temp->DataType)
+		if (eDataType::eRquest == packet->DataType)
 		{
+			// 접속 인원 전송
 			retval = send(client_sock, (char*)&userNum, sizeof(userNum), 0);
 
-			UserInfo *temp = new UserInfo;
+			UserInfo *sendTemp = new UserInfo;
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
-				temp = *iter;
-				retval = send(client_sock, (char*)temp, sizeof(UserInfo), 0);
+				sendTemp = *iter;
+				retval = send(client_sock, (char*)sendTemp, sizeof(UserInfo), 0);
 			}
 		}
 	
