@@ -39,6 +39,7 @@ using namespace std;
 
 
 // 새로 추가할 오브젝트 등등은 여기에..
+#include "Button.h"
 #include "PlayerUI.h"
 #include "Tail.h"
 #include "PlayerBar.h"
@@ -49,7 +50,7 @@ using namespace std;
 #include "Monster.h"
 #include "MonsterControl.h"
 #include "VillageMG.h"
-#include "Button.h"
+#include "PVPButton.h"
 
 
 // 새로 추가한 scene 들은 여기에 추가 합시다.

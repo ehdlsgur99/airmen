@@ -10,16 +10,10 @@ VillageScene::~VillageScene()
 
 }
 
-void print()
-{
-	printf("callback test");
-}
-
 void VillageScene::init()
 {
-	pvpButton = new Button();
-	pvpButton->init("Resource/Button/PVPButton.png", "Resource/Button/PVPButton_.png",
-		POINT{ 50, 150 }, SIZE{ 100, 50 }, print);
+	pvpButton = new PVPButton();
+
 
 	Player::GetInstance()->mappos = 0;
 	Player::GetInstance()->player->setPos(0, 630);

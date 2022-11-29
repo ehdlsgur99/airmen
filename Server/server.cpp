@@ -98,6 +98,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 	// UserList에 현재 유저 UserInfo  추가
 	UserInfo *userInfo = new UserInfo;
+	userInfo->DataType = eDataType::eNone;
 	userInfo->ID = threadID;
 	userInfo->isPvP = false;
 	userInfo->maxhp = 100;
@@ -132,46 +133,52 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	eDataType dataType;
 	while(1) {
 		// EnumData 받기
-		retval = recv(client_sock, (char*)&dataType, sizeof(dataType), MSG_WAITALL);
-		if (retval == SOCKET_ERROR) {
-			err_display("recv()");
-			break;
-		}
-		else if (retval == 0 )
-			break;
+		//retval = recv(client_sock, (char*)&dataType, sizeof(dataType), MSG_WAITALL);
+		//if (retval == SOCKET_ERROR) {
+		//	err_display("recv()");
+		//	break;
+		//}
+		//else if (retval == 0 )
+		//	break;
+		
+		// 패킷 받기
+		UserInfo* packet = new UserInfo;
+		char buf[BUFSIZE];
 
+		retval = recv(client_sock, buf, sizeof(UserInfo), 0);
+		packet = (UserInfo*)buf;
 
 		// DataType 에 따른 다음 동작
 		std::list<UserInfo*>::iterator iter;
 		int userNum = userList.size();
 		// 플레이어 데이터인 UserInfo를 발송한다.
-		if (eDataType::eNone == dataType)
+		if (eDataType::eNone == packet->DataType)
 		{
-			UserInfo* temp = new UserInfo;
-			char buf[BUFSIZE];
-
-			retval = recv(client_sock, buf, sizeof(UserInfo), 0);
-			temp = (UserInfo*)buf;
+	/*		UserInfo* temp = new UserInfo;
+			char buf[BUFSIZE];*/
+			//retval = recv(client_sock, buf, sizeof(UserInfo), 0);
+			//temp = (UserInfo*)buf;
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
 				if ((*iter)->ID == socketInfo.ID)
 				{
-					(*iter) = temp;
+					(*iter) = packet;
 				}
 				
 			}
 			// PVP 상황인경우 여기서 상대방 정보를 보내준다.
 		}
 		// 플레이어 정보들을 넘겨준다.
-		if (eDataType::eRquest == dataType)
+		if (eDataType::eRquest == packet->DataType)
 		{
+			// 접속 인원 전송
 			retval = send(client_sock, (char*)&userNum, sizeof(userNum), 0);
 
-			UserInfo *temp = new UserInfo;
+			UserInfo *sendTemp = new UserInfo;
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
-				temp = *iter;
-				retval = send(client_sock, (char*)temp, sizeof(UserInfo), 0);
+				sendTemp = *iter;
+				retval = send(client_sock, (char*)sendTemp, sizeof(UserInfo), 0);
 			}
 		}
 	

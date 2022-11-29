@@ -14,6 +14,10 @@ public:
 	void update();
 	void render();
 	void release();
+
+	bool getIsOn();
+
+	void setVisible(bool isVisible);
 private:
 	// button : 평소 버튼 이미지, button_ : 버튼 눌렸을 때 이미지
 	GameObject* button;
