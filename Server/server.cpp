@@ -113,6 +113,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	userInfo->OtherRTT = 0;
 	userInfo->power = 100;
 	userInfo->Frame = 0;
+	userInfo->dir = 0;
 
 
 	userList.push_back(userInfo);

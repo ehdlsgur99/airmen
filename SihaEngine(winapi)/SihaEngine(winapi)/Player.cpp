@@ -148,7 +148,8 @@ Player::Player()
 	nowMp = mp = 100;
 	player->setPos(50, 560);
 	power = 10;
-	state = eRight;
+	dir = eRight;
+	state = eWalk;
 
 	// 생성자에서 쓰레드 생성
 	// =====================================
