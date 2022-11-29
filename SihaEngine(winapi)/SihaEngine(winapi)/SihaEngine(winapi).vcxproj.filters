@@ -193,4 +193,9 @@
       <UniqueIdentifier>{79afadcf-3084-4d6f-8566-64f7f36d24da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="소스.txt">
+      <Filter>Utils</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -11,14 +11,14 @@ SoundManager::~SoundManager()
 	
 }
 
-void SoundManager::PlayBg(std::string path)
+void SoundManager::PlayBg(std::string option,std::string path)
 {
 
 
 	std::string str;
-	str += "play ";
+	str += option;
 	str += path;
-	str += " repeat";
+	//str += " repeat";
 
 	// 자료형 변환 해줘야함 ;;;
 	// string to tchar 로..

@@ -12,6 +12,7 @@ PVPScene::~PVPScene()
 void PVPScene::init()
 {
 	Player::GetInstance()->player->setPos(0, 630);
+	OtherPlayer::GetInstance()->Oplayer->setPos(0, 630);
 
 	//배경 및 오브젝트
 	bg = new GameObject;
@@ -56,15 +57,18 @@ void PVPScene::init()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	//SoundManager::GetInstance()->PlayBg("Resource/PVPScene/cyberpunk-street.mp3");
+	SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
 }
 
 void PVPScene::update()
 {
 	Player::GetInstance()->update();
+	OtherPlayer::GetInstance()->update();
 	render();
 	if (InputManager::GetInstance()->getKey(0x4F)) {
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
 	}
 	
 }
@@ -78,6 +82,7 @@ void PVPScene::render()
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
 	Player::GetInstance()->render();
+	OtherPlayer::GetInstance()->render();
 }
 
 void PVPScene::release()

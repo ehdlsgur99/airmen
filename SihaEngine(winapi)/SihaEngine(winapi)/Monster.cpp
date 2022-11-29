@@ -82,7 +82,7 @@ void Monster::ani()
 
 void Monster::move()
 {
-	if(Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump1 || Player::GetInstance()->state == eJump2)
+	if(Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump)
 		pos.x -= speed * 3;
 	else
 		pos.x -= speed;

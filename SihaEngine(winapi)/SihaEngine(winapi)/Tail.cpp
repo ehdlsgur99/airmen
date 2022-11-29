@@ -11,7 +11,7 @@ void Tail::update()
 	createTail();
 
 	// ÀÌµ¿
-	if (Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump1 || Player::GetInstance()->state == eJump2)
+	if (Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump)
 	{
 		for (int i = 0; i < tails.size(); i++)
 		{

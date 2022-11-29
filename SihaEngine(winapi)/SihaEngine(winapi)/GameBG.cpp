@@ -49,8 +49,7 @@ void GameBG::init()
 
 void GameBG::update()
 {
-	if (Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump1 ||
-		Player::GetInstance()->state == eJump2)
+	if (Player::GetInstance()->state == eWalk || Player::GetInstance()->state == eJump)
 	{
 		if (GetTickCount() - moveTime >= 10)
 		{

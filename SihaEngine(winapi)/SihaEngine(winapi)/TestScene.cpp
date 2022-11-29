@@ -22,7 +22,7 @@ void TestScene::init()
 	testObj->setPos(100, 100);
 
 	// bgm ���
-	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 }
 
 void TestScene::update()

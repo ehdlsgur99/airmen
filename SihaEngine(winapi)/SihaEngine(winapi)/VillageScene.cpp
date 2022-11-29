@@ -165,7 +165,7 @@ void VillageScene::init()
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();
-	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("play ", "Resource/bg.mp3");
 	
 }
 

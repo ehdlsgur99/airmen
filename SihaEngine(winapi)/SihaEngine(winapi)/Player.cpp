@@ -202,7 +202,7 @@ void Player::init()
 		nowMp = mp = playerUI->ringPower + 100;
 		player->setPos(50, 560);
 		power = playerUI->swordPower + 10;
-		state = eRight;
+		dir = eRight;
 	}
 
 }
@@ -212,31 +212,20 @@ void Player::init()
 
 void Player::update()
 {
+	if (player->pos.y <= 500)
+	{
+		player->pos.y += 10;
+	}
+	// 마을씬 동작
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
 	{
-		if (player->pos.y <= 500)
+		//왼쪽
+		if (InputManager::GetInstance()->getKey(VK_LEFT))
 		{
-			player->pos.y += 10;
-		}
+			dir = eLeft;
+			if (!isJump)
+				state = eWalk;
 
-	}
-	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
-	{
-		if (player->pos.y <= 500)
-		{
-			player->pos.y += 10;
-		}
-
-	}
-	// 캐릭터 애니메이션
-
-	// 캐릭터 이동 예시
-	if (InputManager::GetInstance()->getKey(VK_LEFT))
-	{
-		if(!isJump)
-			state = eLeft;
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
-		{
 			if (mappos >= 800 && mappos <= 1000)
 				player->pos.x += 10;
 			if (mappos >= 0) {
@@ -244,24 +233,13 @@ void Player::update()
 				ObjectManager::GetInstance()->cameraMove(-10, 0);
 				mappos -= 10;
 			}
-			
 		}
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
-		{
-			if (player->pos.x <= -20)
-				player->pos.x += 10;
-			else
-				player->pos.x -= 10;
-		}
-	}
-	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
-	{
-		if (!isJump)
-			state = eRight;
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
-		{
-
-			if(mappos>=800&&mappos<=1000)
+		//오른쪽
+		else if (InputManager::GetInstance()->getKey(VK_RIGHT)) {
+			dir = eRight;
+			if (!isJump)
+				state = eWalk;
+			if (mappos >= 800 && mappos <= 1000)
 				player->pos.x -= 10;
 			if (mappos <= 1600) {
 				player->pos.x += 10;
@@ -269,55 +247,84 @@ void Player::update()
 				mappos += 10;
 			}
 		}
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		//공격
+		else if (InputManager::GetInstance()->getKey(0x41))
 		{
+			if (!isAttack || state != eAttack2 && state != eAttack1)
+			{
+				state = eAttack1;
+				isAttack = true;
+			}
+			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+			{
+				if (nowMp >= 10)
+				{
+					nextState = eAttack2;
+					nowMp -= 10;
+				}
+			}
+
+		}
+	}
+	// PVP씬 동작
+	else if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+	{
+		//왼쪽
+		if (InputManager::GetInstance()->getKey(VK_LEFT))
+		{
+			dir = eLeft;
+			if (!isJump)
+				state = eWalk;
+
+			if (player->pos.x <= -20)
+				player->pos.x += 10;
+			else
+				player->pos.x -= 10;
+		}
+		//오른쪽
+		else if (InputManager::GetInstance()->getKey(VK_RIGHT))
+		{
+			dir = eRight;
+			if (!isJump)
+				state = eWalk;
 			if (player->pos.x >= 1400)
 				player->pos.x -= 10;
 			else
 				player->pos.x += 10;
 		}
-			
-	}
-	else if (InputManager::GetInstance()->getKey(0x41))
-	{
-		if (!isAttack || state != eAttack2 && state != eAttack1)
+		//공격
+		else if (InputManager::GetInstance()->getKey(0x41))
 		{
-			state = eAttack1;
-			isAttack = true;
-		}
-		else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
-		{
-			if (nowMp >= 10)
+
+			if (!isAttack || state != eAttack2 && state != eAttack1)
 			{
-				nextState = eAttack2;
-				nowMp -= 10;
+				state = eAttack1;
+				isAttack = true;
+			}
+			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+			{
+				if (nowMp >= 10)
+				{
+					nextState = eAttack2;
+					nowMp -= 10;
+				}
 			}
 		}
-	
+		//스매쉬
 	}
-	// JUMP
+	//점프 
 	if (InputManager::GetInstance()->getKey(VK_UP))
 	{
-		
-		if (!isJump && state != eJump1)
+
+		if (!isJump && state != eJump)
 		{
-			state = eJump1;
+			state = eJump;
 			isJump = true;
 			JumpCount = 0;
 		}
-		// 점프1중 일때
-		if (isJump && state == eJump1 && state != eJump2 && JumpCount > 2)
-		{
-			if (nowMp >= 10)
-			{
-				state = eJump2;
-				JumpCount = 0;
-				nowMp -= 10;
-			}
-		}
 	}
 
-	if (isJump  && GetTickCount64() - JumpTime >= 50 && state == eJump1)
+	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump)
 	{
 		JumpTime = GetTickCount64();
 		if (JumpCount < 16)
@@ -337,24 +344,6 @@ void Player::update()
 			isJump = false;
 		}
 	}
-	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump2)
-	{
-		JumpTime = GetTickCount64();
-		if (JumpCount < 8)
-		{
-			player->pos.y -= 15;
-			JumpCount++;
-		}
-		else
-		{
-			state = eIdle;
-			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-				state = eRight;
-			JumpCount = 0;
-			isJump = false;
-		}
-	}
-
 	// 포션 먹기
 	// 체력 포션 1번키
 	if (InputManager::GetInstance()->getKey(0x31))
@@ -368,7 +357,7 @@ void Player::update()
 				if (nowHp > 100)
 					nowHp = 100;
 			}
-			
+
 		}
 	}
 	// 마나 포션
@@ -405,87 +394,144 @@ void Player::update()
 	}
 
 	// 캐릭터 애니메이션
-	switch (state)
+	if (dir == eLeft)
 	{
-	case eIdle:
-		player->animation("Resource/player/idle/player", 6, 200);
-		break;
-	case eLeft:
-		if (player->animation("Resource/player/left/left", 6, 30))
-			state = eIdle;
-
-		break;
-	case eRight:
-		if (player->animation("Resource/player/right/right", 6, 30))
+		switch (state)
 		{
-			state = eIdle;
-			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-				state = eRight;
-		}
-		break;
-	case eJump1:
+		case eIdle:
+			player->animation("Resource/player/Left State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (player->animation("Resource/player/Left State/left/left", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
 
-		if (player->animation("Resource/player/jump/jump", 4, 200)) {
-			//if (nextState == eJump2)
-			//	state = eJump2;
-			//else
-			//{
-			//	state = eIdle;
-			//	isJump = false;
-			//}
-		}
-			
-		break;
-	case eJump2:
+			if (player->animation("Resource/player/Left State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
 
-		if (player->animation("Resource/player/doublejump/doublejump", 4, 100)) {
-
-		}
-			
-		break;
-	case eAttack1:
-		if (player->animation("Resource/player/attack/attack1-", 6, 100))
-		{
-			if (nextState == eAttack2)
-				state = eAttack2;
-			else
+			break;
+		case eAttack1:
+			if (player->animation("Resource/player/Left State/attack/attack1-", 6, 100))
 			{
-				nextState = eRight;
-				state = eRight;
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (player->animation("Resource/player/Left State/attack/attack2-", 6, 100))
+			{
 				isAttack = false;
-			}		
-		}
-		break;
-	case eAttack2:
-		if (player->animation("Resource/player/attack/attack2-", 6, 100))
-		{
-			isAttack = false;
-			nextState = eRight;
-			state = eRight;
-		}
-			
-		break;
-	case eAttacked:
-		if (player->animation("Resource/player/hurt/hurt-", 6, 200))
-		{
-			nextState = eRight;
-			state = eRight;
+				nextState = eIdle;
+				state = eIdle;
+			}
 
+			break;
+		case eAttacked:
+			if (player->animation("Resource/player/Left State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+
+			}
+		default:
+			break;
 		}
-	default:
-		break;
+
 	}
+	else if (dir == eRight)
+	{
+		switch (state)
+		{
+		case eIdle:
+			player->animation("Resource/player/Right State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (player->animation("Resource/player/Right State/right/right", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
+			if (player->animation("Resource/player/Right State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
 
+			break;
+		case eAttack1:
+			if (player->animation("Resource/player/Right State/attack/attack1-", 6, 100))
+			{
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (player->animation("Resource/player/Right State/attack/attack2-", 6, 100))
+			{
+				isAttack = false;
+				nextState = eIdle;
+				state = eIdle;
+			}
+
+			break;
+		case eAttacked:
+			if (player->animation("Resource/player/Right State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+			}
+		default:
+			break;
+		}
+	}
+	
 	// 스매쉬 이동
 	if (isSmash)
 	{
-		smash->animation("Resource/GameScene/smash",4, 100 );
-		smash->pos.x += 10;
-		if (smash->pos.x >= 2000)
+		if (dir == eLeft) 
 		{
-			isSmash = false;
-			smash->pos.x = -100;
+			smash->animation("Resource/GameScene/smash", 4, 100);
+			smash->pos.x -= 10;
+			if (smash->pos.x <= 0)
+			{
+				isSmash = false;
+				smash->pos.x = -100;
+			}
 		}
+		else if (dir == eRight)
+		{
+			smash->animation("Resource/GameScene/smash", 4, 100);
+			smash->pos.x += 10;
+			if (smash->pos.x >= 2000)
+			{
+				isSmash = false;
+				smash->pos.x = -100;
+			}
+		}
+		
 	}
 
 	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
@@ -510,8 +556,6 @@ void Player::render()
 
 	//if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	playerBar->render(playerUI);
-
-
 	if (isUI)
 	{
 		playerUI->render();
@@ -528,7 +572,7 @@ void Player::release()
 void Player::gravity(Tail *tail)
 {
 	// 플레이어는 바닥에 붙어 있는게 아니면 중력에 영향 받아야함 ㅇㅇ
-	if (state != eJump1 && state != eJump2)
+	if (state != eJump)
 	{
 		if (player->pos.y <= 560)
 		{

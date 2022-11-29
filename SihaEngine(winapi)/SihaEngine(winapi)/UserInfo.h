@@ -15,4 +15,5 @@ typedef struct UserInfo {
 	int ClientTime = -1;
 	int ServerTime = -1;
 	int OtherRTT = -1;
+	int dir = -1;
 };

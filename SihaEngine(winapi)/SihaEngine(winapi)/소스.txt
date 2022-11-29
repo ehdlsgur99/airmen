@@ -1,0 +1,149 @@
+	// 캐릭터 이동 예시
+	if (InputManager::GetInstance()->getKey(VK_LEFT))
+	{
+		
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
+		{
+			
+			
+		}
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		{
+			if (player->pos.x <= -20)
+				player->pos.x += 10;
+			else
+				player->pos.x -= 10;
+		}
+	}
+	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
+	{
+		if (!isJump)
+			state = eRight;
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
+		{
+
+			if(mappos>=800&&mappos<=1000)
+				player->pos.x -= 10;
+			if (mappos <= 1600) {
+				player->pos.x += 10;
+				ObjectManager::GetInstance()->cameraMove(10, 0);
+				mappos += 10;
+			}
+		}
+		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		{
+			if (player->pos.x >= 1400)
+				player->pos.x -= 10;
+			else
+				player->pos.x += 10;
+		}
+			
+	}
+	else if (InputManager::GetInstance()->getKey(0x41))
+	{
+		if (!isAttack || state != eAttack2 && state != eAttack1)
+		{
+			state = eAttack1;
+			isAttack = true;
+		}
+		else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+		{
+			if (nowMp >= 10)
+			{
+				nextState = eAttack2;
+				nowMp -= 10;
+			}
+		}
+	
+	}
+	// JUMP
+	if (InputManager::GetInstance()->getKey(VK_UP))
+	{
+		
+		if (!isJump && state != eJump1)
+		{
+			state = eJump1;
+			isJump = true;
+			JumpCount = 0;
+		}
+		// 점프1중 일때
+		if (isJump && state == eJump1 && state != eJump2 && JumpCount > 2)
+		{
+			if (nowMp >= 10)
+			{
+				state = eJump2;
+				JumpCount = 0;
+				nowMp -= 10;
+			}
+		}
+	}
+
+	if (isJump  && GetTickCount64() - JumpTime >= 50 && state == eJump1)
+	{
+		JumpTime = GetTickCount64();
+		if (JumpCount < 16)
+		{
+			if (JumpCount < 8)
+				player->pos.y -= 15;
+			else
+				player->pos.y += 15;
+			JumpCount++;
+		}
+		else
+		{
+			state = eIdle;
+			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+				state = eRight;
+			JumpCount = 0;
+			isJump = false;
+		}
+	}
+	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump2)
+	{
+		JumpTime = GetTickCount64();
+		if (JumpCount < 8)
+		{
+			player->pos.y -= 15;
+			JumpCount++;
+		}
+		else
+		{
+			state = eIdle;
+			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+				state = eRight;
+			JumpCount = 0;
+			isJump = false;
+		}
+	}
+
+	// 포션 먹기
+	// 체력 포션 1번키
+	if (InputManager::GetInstance()->getKey(0x31))
+	{
+		if (playerUI->hpPotionNum > 0)
+		{
+			if (nowHp < 100)
+			{
+				playerUI->hpPotionNum -= 1;
+				nowHp += 20;
+				if (nowHp > 100)
+					nowHp = 100;
+			}
+			
+		}
+	}
+	// 마나 포션
+	// 2번키
+	if (InputManager::GetInstance()->getKey(0x32))
+	{
+		if (playerUI->mpPotionNum > 0)
+		{
+			if (nowMp < 100)
+			{
+				playerUI->mpPotionNum -= 1;
+				nowMp += 50;
+				if (nowMp > 100)
+					nowMp = 100;
+			}
+		}
+	}

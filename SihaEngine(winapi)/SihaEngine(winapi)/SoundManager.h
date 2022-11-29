@@ -9,7 +9,7 @@ public:
 	~SoundManager();
 public:
 	// 배경음을 출력하는 메서드
-	void PlayBg(std::string path);
+	void PlayBg(std::string option, std::string path);
 
 	// 효과음을 출력하는 메서드
 	void PlayEf(std::string path);
