@@ -64,23 +64,29 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		// 다른 플레이어 정보를 받아온다.
 		if (eDataType::eRquest == Player::GetInstance()->getUserInfo().DataType)
 		{
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+
+
 			// 다른 플레이어가 몇명인지 받아온다.
 			int otherNum ;
 			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
 
-			std::vector<UserInfo*> userInfos;
-			userInfos.reserve(otherNum);
+			Player::GetInstance()->userInfos.clear();
+			Player::GetInstance()->userInfos.reserve(otherNum);
 			// UserInfo 구조체  받기
 			char buf[BUFSIZE];
-			UserInfo *temp = new UserInfo;
+			
 			// 다른 유저들의 데이터를 받아온다.
 			for (int i = 0; i < otherNum; ++i)
 			{
+				UserInfo* temp = new UserInfo;
 				retval = recv(Player::GetInstance()->sock, buf, sizeof(UserInfo), 0);
 				buf[retval] = '\0';
 				temp = (UserInfo*)buf;
-				userInfos.push_back(temp);
+				Player::GetInstance()->userInfos.push_back(temp);
 			}
+			Player::GetInstance()->getUserInfos();
+			SetEvent(Player::GetInstance()->readOtherUserEvent);
 		}
 	}
 	return 0;
@@ -114,15 +120,27 @@ bool Player::enterGame()
 	//retval = recv(sock, buf, sizeof(UserInfo), 0);
 	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
 	buf[retval] = '\0';
-	userInfo;
 
 	//info.ID = userInfo->ID;
 	//info.power = userInfo->power;
  	return true;
 }
 
+void Player::setDataType(eDataType dataType)
+{
+	userInfo.DataType = dataType;
+}
+
+std::vector<UserInfo*> Player::getUserInfos()
+{
+	return userInfos;
+}
+
 Player::Player()
 {
+
+	readOtherUserEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+
 	level = 1;
 
 	//userInfo = new UserInfo;

@@ -22,6 +22,10 @@ public:
 	// SERVER - CLIENT 연결함수
 	bool enterGame();
 
+	void setDataType(eDataType dataType);
+
+	std::vector<UserInfo*> getUserInfos();
+
 	void gravity(Tail* tail);
 public:
 	ePlayer state;
@@ -56,6 +60,8 @@ public:
 	SOCKET sock;
 	WSADATA wsa;
 	UserInfo userInfo;
+	std::vector<UserInfo*> userInfos;
 
+	HANDLE readOtherUserEvent;
 };
 
