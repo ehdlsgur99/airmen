@@ -50,3 +50,14 @@ void Button::render()
 void Button::release()
 {
 }
+
+bool Button::getIsOn()
+{
+	return isOn;
+}
+
+void Button::setVisible(bool isVisible)
+{
+	button->isVisible = isVisible;
+	button_->isVisible = isVisible;
+}

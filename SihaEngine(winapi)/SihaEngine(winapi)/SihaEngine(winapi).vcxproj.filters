@@ -81,6 +81,7 @@
     <ClCompile Include="OtherPlayer.cpp">
       <Filter>Class</Filter>
     </ClCompile>
+    <ClCompile Include="PVPButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="OtherPlayer.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="PVPButton.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Class">

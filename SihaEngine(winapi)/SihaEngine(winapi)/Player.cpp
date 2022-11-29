@@ -46,31 +46,23 @@ void err_display(int errcode)
 // Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
-
-
-	UserInfo info;
-	eDataType type = eDataType::eNone;
 	int retval;
 	Player::GetInstance()->getUserInfo();
 	while (1)
 	{
-		retval = send(Player::GetInstance()->sock, (char*)&type, sizeof(type), 0);
-		if (retval == SOCKET_ERROR) {
+		//retval = send(Player::GetInstance()->sock, (char*)&type, sizeof(type), 0);
+	/*	if (retval == SOCKET_ERROR) {
 			err_display("send()");
-		}
-
-		// recv로 type 받아와야함
-
+		}*/
 		// DataType 에 따른 다음 동작
-		if (eDataType::eNone == type)
+		if (eDataType::eNone == Player::GetInstance()->getUserInfo().DataType)
 		{
-			info = Player::GetInstance()->userInfo;
 			// 플레이어 데이터인 UserInfo를 발송한다.
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
 		}
 		// 다른 플레이어 정보를 받아온다.
-		if (eDataType::eRquest == type)
+		if (eDataType::eRquest == Player::GetInstance()->getUserInfo().DataType)
 		{
 			// 다른 플레이어가 몇명인지 받아온다.
 			int otherNum ;

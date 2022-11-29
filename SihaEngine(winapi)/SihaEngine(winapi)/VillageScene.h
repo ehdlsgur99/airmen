@@ -22,7 +22,7 @@ private:
 	GameObject* obj[10];
 	GameObject* textbox[4];
 	
-	Button* pvpButton;
+	PVPButton* pvpButton;
 
 	VillageMG* shop;
 	int shoptime = 0;
