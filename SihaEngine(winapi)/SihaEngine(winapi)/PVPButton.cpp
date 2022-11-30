@@ -52,12 +52,12 @@ void PVPButton::render()
 		
 		for (int i = 0; i < btnVector.size(); i++)
 		{
-			std::string str = std::to_string(Player::GetInstance()->userInfos[i]->ID) +
-				std::to_string(Player::GetInstance()->userInfos[i]->power) +
-				std::to_string(Player::GetInstance()->userInfos[i]->maxhp) +
-				std::to_string(Player::GetInstance()->userInfos[i]->maxmp);
+			std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
+				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
+				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
+				" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
 
-			GraphicManager::GetInstance()->drawText(str, POINT{ 0, 100 + i * 50 }, 50, RGB(255, 255, 255));
+			GraphicManager::GetInstance()->drawText(str, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
 
 			btnVector[i]->render();
 		}
@@ -77,8 +77,8 @@ void PVPButton::createList()
 	for (int i = 0; i < userNum; i++)
 	{
 		Button* btn = new Button();
-		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 100, 100 + i* 50 },
-			SIZE{ 100, 50 }, []() {});
+		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + i* 50 },
+			SIZE{ 80, 30 }, []() {});
 		btnVector.push_back(btn);
 	}
 

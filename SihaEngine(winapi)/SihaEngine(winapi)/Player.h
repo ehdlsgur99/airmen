@@ -24,7 +24,7 @@ public:
 
 	void setDataType(eDataType dataType);
 
-	std::vector<UserInfo*> getUserInfos();
+	std::vector<UserInfo> getUserInfos();
 
 	void gravity(Tail* tail);
 public:
@@ -60,7 +60,7 @@ public:
 	SOCKET sock;
 	WSADATA wsa;
 	UserInfo userInfo;
-	std::vector<UserInfo*> userInfos;
+	std::vector<UserInfo> userInfos;
 
 	HANDLE readOtherUserEvent;
 };

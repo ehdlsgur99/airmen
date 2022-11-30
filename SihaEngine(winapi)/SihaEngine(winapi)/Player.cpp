@@ -74,18 +74,17 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			Player::GetInstance()->userInfos.clear();
 			Player::GetInstance()->userInfos.reserve(otherNum);
 			// UserInfo 구조체  받기
-			char buf[BUFSIZE];
+			//char buf[BUFSIZE];
 			
 			// 다른 유저들의 데이터를 받아온다.
 			for (int i = 0; i < otherNum; ++i)
 			{
-				UserInfo* temp = new UserInfo;
-				retval = recv(Player::GetInstance()->sock, buf, sizeof(UserInfo), 0);
-				buf[retval] = '\0';
-				temp = (UserInfo*)buf;
+				UserInfo temp;
+				retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
 				Player::GetInstance()->userInfos.push_back(temp);
 			}
 			Player::GetInstance()->getUserInfos();
+			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 			SetEvent(Player::GetInstance()->readOtherUserEvent);
 		}
 	}
@@ -131,7 +130,7 @@ void Player::setDataType(eDataType dataType)
 	userInfo.DataType = dataType;
 }
 
-std::vector<UserInfo*> Player::getUserInfos()
+std::vector<UserInfo> Player::getUserInfos()
 {
 	return userInfos;
 }
