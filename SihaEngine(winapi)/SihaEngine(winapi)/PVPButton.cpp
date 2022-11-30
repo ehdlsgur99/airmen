@@ -32,7 +32,9 @@ void PVPButton::update()
 		listButton->setVisible(false);
 		isListUP = true;
 		// Player 호출해서 서버로부터 데이터를 받아온다.
-		//Player::GetInstance()
+		Player::GetInstance()->setDataType(eDataType::eRquest);
+		
+		createList();
 	}
 }
 
@@ -43,7 +45,44 @@ void PVPButton::render()
 	{
 		GraphicManager::GetInstance()->render(listBG);
 
+		//int userNum = Player::GetInstance()->userInfos.size();
+		//if (userNum != btnVector.size())
+		//	createList();
+		
+		
+		for (int i = 0; i < btnVector.size(); i++)
+		{
+			std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
+				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
+				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
+				" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
+
+			GraphicManager::GetInstance()->drawText(str, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
+
+			btnVector[i]->render();
+		}
+		
+
 	}
+}
+
+void PVPButton::createList()
+{
+	WaitForSingleObject(Player::GetInstance()->readOtherUserEvent, INFINITE);
+
+	int userNum = Player::GetInstance()->userInfos.size();
+	btnVector.clear();
+	btnVector.reserve(userNum);
+	// 유저의 숫자 만큼 블록 생성'
+	for (int i = 0; i < userNum; i++)
+	{
+		Button* btn = new Button();
+		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + i* 50 },
+			SIZE{ 80, 30 }, []() {});
+		btnVector.push_back(btn);
+	}
+
+
 }
 
 void PVPButton::toggleListUp()

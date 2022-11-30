@@ -115,7 +115,6 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	userInfo->Frame = 0;
 	userInfo->dir = 0;
 
-
 	userList.push_back(userInfo);
 
 	// SocketList에 현재 유저 SocketInfo 추가
