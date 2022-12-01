@@ -21,6 +21,14 @@ public:
 	// 리스트 배경
 	GameObject* listBG;
 
+	// 초대장 배경
+	GameObject* pvpBG;
+	
+	Button* yesBtn;
+
+	Button* noBtn;
+
+
 	// 리스트업 상태
 	bool isListUP;
 

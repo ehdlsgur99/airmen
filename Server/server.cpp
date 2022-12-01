@@ -107,6 +107,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	userInfo->nowmp = 500;
 	userInfo->x = 0;
 	userInfo->y = 0;
+	userInfo->PVPID = -1;
 	userInfo->state = 0;
 	userInfo->ClientTime = 0;
 	userInfo->ServerTime = 0;
@@ -131,6 +132,9 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	}
 	eDataType dataType;
 	while(1) {
+
+		std::list<UserInfo*>::iterator iter;
+
 		// EnumData 받기
 		//retval = recv(client_sock, (char*)&dataType, sizeof(dataType), MSG_WAITALL);
 		//if (retval == SOCKET_ERROR) {
@@ -148,7 +152,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		packet = (UserInfo*)buf;
 
 		// DataType 에 따른 다음 동작
-		std::list<UserInfo*>::iterator iter;
+		
 		int userNum = userList.size();
 		// 플레이어 데이터인 UserInfo를 발송한다.
 		if (eDataType::eNone == packet->DataType)
@@ -168,7 +172,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			// PVP 상황인경우 여기서 상대방 정보를 보내준다.
 		}
 		// 플레이어 정보들을 넘겨준다.
-		if (eDataType::eRquest == packet->DataType)
+		if (eDataType::eRequest == packet->DataType)
 		{
 			// 접속 인원 전송
 			retval = send(client_sock, (char*)&userNum, sizeof(userNum), 0);
@@ -180,6 +184,31 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				retval = send(client_sock, (char*)sendTemp, sizeof(UserInfo), 0);
 			}
 		}
+		if (eDataType::eInviteSend == packet->DataType)
+		{
+			// 서버에서의 유저 상태를 보내는 데이터
+			std::list<UserInfo*>::iterator iter = userList.begin();
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == packet->PVPID)
+				{
+					(*iter)->DataType = eInviteRecv;
+					(*iter)->PVPID = threadID;
+				}
+			}
+			
+		}
+		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
+		iter = userList.begin();
+		for (iter = userList.begin(); iter != userList.end(); iter++)
+		{
+			if ((*iter)->ID == threadID)
+			{
+				userInfo = (*iter);
+				break;
+			}
+		}
+		retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
 	
 	}
 

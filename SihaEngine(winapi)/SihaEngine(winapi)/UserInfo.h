@@ -4,6 +4,7 @@ typedef struct UserInfo {
 	int DataType = -1;
 	int Frame=-1;
 	int ID = -1;
+	int PVPID = -1;
 	int maxhp=-1;
 	int maxmp=-1;
 	int power=-1;

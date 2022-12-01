@@ -9,6 +9,7 @@ struct UserInfo {
 	int DataType;
 	int Frame;
 	int ID;
+	int PVPID;
 	int maxhp;
 	int maxmp;
 	int power;

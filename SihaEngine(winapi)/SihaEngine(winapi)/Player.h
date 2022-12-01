@@ -34,6 +34,7 @@ public:
 	int mp;
 	int nowHp;
 	int nowMp;
+	int pvpID;
 
 	std::string name;
 	int mappos = 0;
@@ -61,6 +62,7 @@ public:
 	WSADATA wsa;
 	UserInfo userInfo;
 	std::vector<UserInfo> userInfos;
+	UserInfo enemyInfo;
 
 	HANDLE readOtherUserEvent;
 };
