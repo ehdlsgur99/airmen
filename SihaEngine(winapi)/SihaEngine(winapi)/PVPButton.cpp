@@ -79,10 +79,10 @@ void PVPButton::render()
 		//if (userNum != btnVector.size())
 		//	createList();
 		
-		
+		Player::GetInstance()->getUserInfos();
 		for (int i = 0; i < btnVector.size(); i++)
 		{
-			Player::GetInstance()->getUserInfos();
+			
 			std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
 				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
 				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
@@ -103,7 +103,7 @@ void PVPButton::render()
 
 void PVPButton::createList()
 {
-	WaitForSingleObject(Player::GetInstance()->readOtherUserEvent, 10000);
+	WaitForSingleObject(Player::GetInstance()->readOtherUserEvent, 1000);
 
 	int userNum = Player::GetInstance()->userInfos.size();
 	btnVector.clear();
@@ -116,7 +116,7 @@ void PVPButton::createList()
 			SIZE{ 80, 30 }, []() {});
 		btnVector.push_back(btn);
 	}
-	Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+	//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 
 }
 

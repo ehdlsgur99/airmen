@@ -197,7 +197,19 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 					(*iter)->PVPID = threadID;
 				}
 			}
-			
+		}
+		if (eDataType::eInviteRecv == packet->DataType)
+		{
+			// 서버에서의 유저 상태를 보내는 데이터
+			std::list<UserInfo*>::iterator iter = userList.begin();
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == packet->PVPID)
+				{
+					(*iter)->DataType = eInviteRecv;
+					(*iter)->PVPID = threadID;
+				}
+			}
 		}
 		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
 		iter = userList.begin();
