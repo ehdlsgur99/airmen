@@ -167,6 +167,10 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			{
 				if ((*iter)->ID == socketInfo.ID)
 				{
+					if ((*iter)->DataType == eInviteRecv)
+						packet->DataType = eInviteRecv;
+					if ((*iter)->DataType == eGoToPVP)
+						packet->DataType = eGoToPVP;
 					(*iter) = packet;
 				}
 				
@@ -184,9 +188,15 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			{
 				sendTemp = *iter;
 				retval = send(client_sock, (char*)sendTemp, sizeof(UserInfo), 0);
+				// 나는 none으로 대기
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					packet->DataType = eDataType::eNone;
+					(*iter) = packet;
+				}
 			}
 		}
-		// 어떤 플레이어가 초대 메세지 발송
+		// 플레이어가 상대에게 초대 메세지 발송
 		if (eDataType::eInviteSend == packet->DataType)
 		{
 			// 서버에서의 유저 상태를 보내는 데이터
@@ -198,18 +208,65 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 					(*iter)->DataType = eInviteRecv;
 					(*iter)->PVPID = threadID;
 				}
+				// 나는 none으로 대기
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					packet->DataType = eDataType::eNone;
+					(*iter) = packet;
+				}
 			}
 		}
 		if (eDataType::eInviteRecv == packet->DataType)
 		{
+			if (packet->isPvP)
+				packet->DataType = eDataType::eGoToPVP;
 			// 서버에서의 유저 상태를 보내는 데이터
 			std::list<UserInfo*>::iterator iter = userList.begin();
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
+				//for (iter = userList.begin(); iter != userList.end(); iter++)
+				//{
+				//	if ((*iter)->ID == socketInfo.ID)
+				//	{
+				//		(*iter) = packet;
+				//	}
+				//}
+				// 상대는 recv로 전환
+				//if ((*iter)->ID == packet->PVPID)
+				//{
+				//	(*iter)->DataType = eInviteRecv;
+				//	(*iter)->PVPID = threadID;
+				//}
+				// 나는 none으로 대기
+				//if ((*iter)->ID == socketInfo.ID)
+				//{
+				//	packet->DataType = eDataType::eNone;
+				//	(*iter) = packet;
+				//}
+			}
+		}
+		if (eDataType::eGoToPVP == packet->DataType)
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
 				if ((*iter)->ID == packet->PVPID)
 				{
-					(*iter)->DataType = eInviteRecv;
-					(*iter)->PVPID = threadID;
+					(*iter)->DataType = eGoToPVP;
+				}
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					(*iter) = packet;
+				}
+
+			}
+		}
+		if (eDataType::eInPVP == packet->DataType)
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					(*iter) = packet;
 				}
 			}
 		}

@@ -2,7 +2,7 @@
 
 UserInfo info;
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â ÈÄ Á¾·á
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥ í›„ ì¢…ë£Œ
 void err_quit(const char* msg)
 {
 	LPVOID lpMsgBuf;
@@ -16,7 +16,7 @@ void err_quit(const char* msg)
 	exit(1);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥
 void err_display(const char* msg)
 {
 	LPVOID lpMsgBuf;
@@ -29,7 +29,7 @@ void err_display(const char* msg)
 	LocalFree(lpMsgBuf);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥
 void err_display(int errcode)
 {
 	LPVOID lpMsgBuf;
@@ -38,12 +38,12 @@ void err_display(int errcode)
 		NULL, errcode,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(char*)&lpMsgBuf, 0, NULL);
-	printf("[¿À·ù] %s\n", (char*)lpMsgBuf);
+	printf("[ì˜¤ë¥˜] %s\n", (char*)lpMsgBuf);
 	LocalFree(lpMsgBuf);
 }
 
 
-// Player Å¬·¡½º°¡ ½Ì±ÛÅæÀÌ°í º¸±â ½±°Ô ¿©±â¿¡ ¾²·¹µå¸¦ »ý¼ºÇÕ´Ï´Ù.
+// Player í´ëž˜ìŠ¤ê°€ ì‹±ê¸€í†¤ì´ê³  ë³´ê¸° ì‰½ê²Œ ì—¬ê¸°ì— ì“°ë ˆë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
 	int retval;
@@ -57,23 +57,23 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		switch (Player::GetInstance()->getUserInfo().DataType)
 		{
 		case eDataType::eNone:
-			// ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍÀÎ UserInfo¸¦ ¹ß¼ÛÇÑ´Ù.
+			// í”Œë ˆì´ì–´ ë°ì´í„°ì¸ UserInfoë¥¼ ë°œì†¡í•œë‹¤.
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// PVP ÃÊ´ë ¸Þ¼¼Áö ¹Þ±â
+			// PVP ì´ˆëŒ€ ë©”ì„¸ì§€ ë°›ê¸°
 			break;
 		case eDataType::eRequest:
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
-			// ´Ù¸¥ ÇÃ·¹ÀÌ¾î°¡ ¸î¸íÀÎÁö ¹Þ¾Æ¿Â´Ù.
+			// ë‹¤ë¥¸ í”Œë ˆì´ì–´ê°€ ëª‡ëª…ì¸ì§€ ë°›ì•„ì˜¨ë‹¤.
 			int otherNum;
 			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
 
 			Player::GetInstance()->userInfos.clear();
 			Player::GetInstance()->userInfos.reserve(otherNum);
-			// UserInfo ±¸Á¶Ã¼  ¹Þ±â
+			// UserInfo êµ¬ì¡°ì²´  ë°›ê¸°
 			//char buf[BUFSIZE];
 
-			// ´Ù¸¥ À¯ÀúµéÀÇ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿Â´Ù.
+			// ë‹¤ë¥¸ ìœ ì €ë“¤ì˜ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 			for (int i = 0; i < otherNum; ++i)
 			{
 				UserInfo temp;
@@ -81,24 +81,35 @@ DWORD WINAPI ClientThread(LPVOID arg)
 				Player::GetInstance()->userInfos.push_back(temp);
 			}
 			Player::GetInstance()->getUserInfos();
-			// dataType ´Ù½Ã eNoneÀ¸·Î º¯°æ
-			SetEvent(Player::GetInstance()->readOtherUserEvent);
+
+			// dataType ë‹¤ì‹œ eNoneìœ¼ë¡œ ë³€ê²½
 			Player::GetInstance()->userInfo.DataType = eNone;
+			SetEvent(Player::GetInstance()->readOtherUserEvent);
+		
 			break;
 		case eDataType::eInviteSend:
-			// ¼±ÅÃÇÑ »ó´ë¹æ ¾ÆÀÌµð¿Í ³» À¯Àú Á¤º¸¸¦ º¸³½´Ù
+			// ì„ íƒí•œ ìƒëŒ€ë°© ì•„ì´ë””ì™€ ë‚´ ìœ ì € ì •ë³´ë¥¼ ë³´ë‚¸ë‹¤
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// dataType ´Ù½Ã eNoneÀ¸·Î º¯°æ
+			// dataType ë‹¤ì‹œ eNoneìœ¼ë¡œ ë³€ê²½
 			//Player::GetInstance()->userInfo.DataType = eNone;
-			break;
+			break; 
 		case eDataType::eInviteRecv:
-			// ¼ö¶ô¿©ºÎ Àü¼Û
-			break;
-		case eDataType::eGoToPVP:
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
 			break;
-		case eDataType::eInPVP:
+		case eDataType::eGoToPVP:
+			// ìˆ˜ë½ì—¬ë¶€ ì „ì†¡
+			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
+			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+			break;
+		case eDataType::eInPVP:
+
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+
+
 			break;
 		}
 		
@@ -107,28 +118,31 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//	retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		//}
 
-		// ³¡³¯¶§ ¼­¹ö·ÎºÎÅÍ ÆÐÅ¶À» ¹Þ¾Æ¿Â´Ù. ³» µ¥ÀÌÅÍ or »ó´ë µ¥ÀÌÅÍ(pvp)
-		UserInfo temp;
+		// ëë‚ ë•Œ ì„œë²„ë¡œë¶€í„° íŒ¨í‚·ì„ ë°›ì•„ì˜¨ë‹¤. ë‚´ ë°ì´í„° or ìƒëŒ€ ë°ì´í„°(pvp)
+		UserInfo temp; 
 		//retval = recv(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
-		// ¸¸¾à ÃÊ´ë ¹ÞÀº »óÈ²ÀÌ¶ó¸é?
-		// ÇöÀç »óÅÂ º¯°æ
+		// ë§Œì•½ ì´ˆëŒ€ ë°›ì€ ìƒí™©ì´ë¼ë©´?
+		// í˜„ìž¬ ìƒíƒœ ë³€ê²½
+		if (temp.DataType == eDataType::eNone)
+		{
+			//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+		}
 		if (temp.DataType == eDataType::eInviteRecv)
 		{
-			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
-			// »ó´ëÀÇ id°¡ µé¾îÀÖ´Ù.
-			Player::GetInstance()->enemyInfo = temp;
+			// ìƒëŒ€ì˜ idê°€ ë“¤ì–´ìžˆë‹¤.
 			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
 			Player::GetInstance()->userInfo.PVPID = temp.PVPID;
 		}
 		if (temp.DataType == eDataType::eGoToPVP)
 		{
-			// scene ÀÌµ¿
-			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+			// scene ì´ë™
+//			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+			Player::GetInstance()->userInfo.DataType = eDataType::eGoToPVP;
 		}
 		if (temp.DataType == eDataType::eInPVP)
 		{
-			Player::GetInstance()->enemyInfo = temp;
+			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
 		}
 		
 
@@ -145,11 +159,11 @@ bool Player::enterGame()
 	//"127.0.0.1";
 	char* SERVERIP = (char*)"127.0.0.1";
 
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
 
-	// ¼ÒÄÏ »ý¼º
+	// ì†Œì¼“ ìƒì„±
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
@@ -162,7 +176,7 @@ bool Player::enterGame()
 	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
-	// UserInfo ±¸Á¶Ã¼  ¹Þ±â
+	// UserInfo êµ¬ì¡°ì²´  ë°›ê¸°
 	char buf[BUFSIZE];
 	//retval = recv(sock, buf, sizeof(UserInfo), 0);
 	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
@@ -218,13 +232,13 @@ Player::Player()
 	dir = eRight;
 	state = eWalk;
 
-	// »ý¼ºÀÚ¿¡¼­ ¾²·¹µå »ý¼º
+	// ìƒì„±ìžì—ì„œ ì“°ë ˆë“œ ìƒì„±
 	// =====================================
-	// playerInfo ÃÊ±âÈ­ È®ÀÎÇÊ¼ö!
+	// playerInfo ì´ˆê¸°í™” í™•ì¸í•„ìˆ˜!
 	// =====================================
 
 	// =====================================
-	// ¼­¹ö ¿¬°á
+	// ì„œë²„ ì—°ê²°
 	// =====================================
 	enterGame();
 	
@@ -267,8 +281,8 @@ void Player::init()
 
 }
 
-// getKey »ç¿ëÇÒ¶§
-// https://m.blog.naver.com/power2845/50143021565 Âü°í
+// getKey ì‚¬ìš©í• ë•Œ
+// https://m.blog.naver.com/power2845/50143021565 ì°¸ê³ 
 
 void Player::update()
 {
@@ -276,10 +290,10 @@ void Player::update()
 	{
 		player->pos.y += 10;
 	}
-	// ¸¶À»¾À µ¿ÀÛ
+	// ë§ˆì„ì”¬ ë™ìž‘
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
 	{
-		//¿ÞÂÊ
+		//ì™¼ìª½
 		if (InputManager::GetInstance()->getKey(VK_LEFT))
 		{
 			dir = eLeft;
@@ -294,7 +308,7 @@ void Player::update()
 				mappos -= 10;
 			}
 		}
-		//¿À¸¥ÂÊ
+		//ì˜¤ë¥¸ìª½
 		else if (InputManager::GetInstance()->getKey(VK_RIGHT)) {
 			dir = eRight;
 			if (!isJump)
@@ -307,7 +321,7 @@ void Player::update()
 				mappos += 10;
 			}
 		}
-		//°ø°Ý
+		//ê³µê²©
 		else if (InputManager::GetInstance()->getKey(0x41))
 		{
 			if (!isAttack || state != eAttack2 && state != eAttack1)
@@ -326,10 +340,10 @@ void Player::update()
 
 		}
 	}
-	// PVP¾À µ¿ÀÛ
+	// PVPì”¬ ë™ìž‘
 	else if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
 	{
-		//¿ÞÂÊ
+		//ì™¼ìª½
 		if (InputManager::GetInstance()->getKey(VK_LEFT))
 		{
 			dir = eLeft;
@@ -341,7 +355,7 @@ void Player::update()
 			else
 				player->pos.x -= 10;
 		}
-		//¿À¸¥ÂÊ
+		//ì˜¤ë¥¸ìª½
 		else if (InputManager::GetInstance()->getKey(VK_RIGHT))
 		{
 			dir = eRight;
@@ -352,7 +366,7 @@ void Player::update()
 			else
 				player->pos.x += 10;
 		}
-		//°ø°Ý
+		//ê³µê²©
 		else if (InputManager::GetInstance()->getKey(0x41))
 		{
 
@@ -370,9 +384,9 @@ void Player::update()
 				}
 			}
 		}
-		//½º¸Å½¬
+		//ìŠ¤ë§¤ì‰¬
 	}
-	//Á¡ÇÁ 
+	//ì í”„ 
 	if (InputManager::GetInstance()->getKey(VK_UP))
 	{
 
@@ -404,8 +418,8 @@ void Player::update()
 			isJump = false;
 		}
 	}
-	// Æ÷¼Ç ¸Ô±â
-	// Ã¼·Â Æ÷¼Ç 1¹øÅ°
+	// í¬ì…˜ ë¨¹ê¸°
+	// ì²´ë ¥ í¬ì…˜ 1ë²ˆí‚¤
 	if (InputManager::GetInstance()->getKey(0x31))
 	{
 		if (playerUI->hpPotionNum > 0)
@@ -420,8 +434,8 @@ void Player::update()
 
 		}
 	}
-	// ¸¶³ª Æ÷¼Ç
-	// 2¹øÅ°
+	// ë§ˆë‚˜ í¬ì…˜
+	// 2ë²ˆí‚¤
 	if (InputManager::GetInstance()->getKey(0x32))
 	{
 		if (playerUI->mpPotionNum > 0)
@@ -439,7 +453,7 @@ void Player::update()
 	{
 		playerUI->coinNum = 9999;
 	}
-	// ½º¸Å½¬
+	// ìŠ¤ë§¤ì‰¬
 	if (InputManager::GetInstance()->getKey(0x53))
 	{
 		if (state == eAttack2 && !isSmash)
@@ -453,7 +467,7 @@ void Player::update()
 		}
 	}
 
-	// Ä³¸¯ÅÍ ¾Ö´Ï¸ÞÀÌ¼Ç
+	// ìºë¦­í„° ì• ë‹ˆë©”ì´ì…˜
 	if (dir == eLeft)
 	{
 		switch (state)
@@ -568,7 +582,7 @@ void Player::update()
 		}
 	}
 	
-	// ½º¸Å½¬ ÀÌµ¿
+	// ìŠ¤ë§¤ì‰¬ ì´ë™
 	if (isSmash)
 	{
 		if (dir == eLeft) 
@@ -631,7 +645,7 @@ void Player::release()
 
 void Player::gravity(Tail *tail)
 {
-	// ÇÃ·¹ÀÌ¾î´Â ¹Ù´Ú¿¡ ºÙ¾î ÀÖ´Â°Ô ¾Æ´Ï¸é Áß·Â¿¡ ¿µÇâ ¹Þ¾Æ¾ßÇÔ ¤·¤·
+	// í”Œë ˆì´ì–´ëŠ” ë°”ë‹¥ì— ë¶™ì–´ ìžˆëŠ”ê²Œ ì•„ë‹ˆë©´ ì¤‘ë ¥ì— ì˜í–¥ ë°›ì•„ì•¼í•¨ ã…‡ã…‡
 	if (state != eJump)
 	{
 		if (player->pos.y <= 560)

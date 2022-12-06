@@ -66,6 +66,27 @@ void PVPButton::update()
 			}
 		}
 	}
+
+	if (Player::GetInstance()->getUserInfo().DataType == eInviteRecv)
+	{
+		yesBtn->update();
+		noBtn->update();
+		if (yesBtn->getIsOn())
+		{
+			Player::GetInstance()->userInfo.isPvP = true;
+			Player::GetInstance()->setDataType(eDataType::eGoToPVP);
+			pvpBG->isVisible = false;
+			yesBtn->setVisible(false);
+			noBtn->setVisible(false);
+		}
+		else if (noBtn->getIsOn())
+		{
+			Player::GetInstance()->userInfo.isPvP = false;
+			pvpBG->isVisible  = false;
+			yesBtn->setVisible(false);
+			noBtn->setVisible(false);
+		}
+	}
 }
 
 void PVPButton::render()
@@ -99,7 +120,7 @@ void PVPButton::render()
 		GraphicManager::GetInstance()->render(pvpBG);
 		yesBtn->render();
 		noBtn->render();
-		std::string str = " " + std::to_string(Player::GetInstance()->enemyInfo.PVPID) + "번 님이 PVP를 신청했습니다.";
+		std::string str = " " + std::to_string(Player::GetInstance()->userInfo.PVPID) + "번 님이 PVP를 신청했습니다.";
 
 		GraphicManager::GetInstance()->drawText(str, POINT{ 500, 460 }, 20, RGB(255, 255, 255));
 
