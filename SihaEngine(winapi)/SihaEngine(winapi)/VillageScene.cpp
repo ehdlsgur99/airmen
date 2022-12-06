@@ -159,7 +159,7 @@ void VillageScene::init()
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();
-	SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
 	
 }
 
@@ -186,6 +186,9 @@ void VillageScene::update()
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eGame);
 	}
 	if (InputManager::GetInstance()->getKey(0x4E)) {
+		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+	}
+	if (Player::GetInstance()->getUserInfo().isPvP) {
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 	}
 }
