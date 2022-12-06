@@ -103,7 +103,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
-			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+			//SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			break;
 		case eDataType::eInPVP:
 

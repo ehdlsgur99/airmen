@@ -251,11 +251,12 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			{
 				if ((*iter)->ID == packet->PVPID)
 				{
-					(*iter)->DataType = eGoToPVP;
+					(*iter)->DataType = eGoToPVP;				
 				}
 				if ((*iter)->ID == socketInfo.ID)
 				{
 					(*iter) = packet;
+					(*iter)->isPvP = true;
 				}
 
 			}
@@ -271,18 +272,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 			}
 		}
-		if (eDataType::eInPVP == packet->DataType)
-		{
-			std::list<UserInfo*>::iterator iter = userList.begin();
-			for (iter = userList.begin(); iter != userList.end(); iter++)
-			{
-				if ((*iter)->ID == packet->PVPID)
-				{
-					(*iter)->DataType = eInPVP;
-					(*iter)->PVPID = threadID;
-				}
-			}
-		}
+
 		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
 		iter = userList.begin();
 		for (iter = userList.begin(); iter != userList.end(); iter++)
