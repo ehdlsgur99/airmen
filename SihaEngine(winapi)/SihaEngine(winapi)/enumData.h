@@ -4,7 +4,7 @@
 
 enum ePlayer
 {
-	eIdle = 0, eLeft, eRight, eJump1,eJump2, eAttack1, eAttack2, eAttacked
+	eIdle = 0, eLeft,eRight,eJump, eAttack1, eAttack2, eAttacked, eWalk
 };
 
 enum eMonsterType
@@ -29,3 +29,8 @@ enum eDataType
 {
 	eNone = 0, eRequest, eInviteSend, eInviteRecv, eGoToPVP, eInPVP
 };
+
+//enum ePlayerDir
+//{
+//	eLeft =0, eRight 
+//};

@@ -12,7 +12,7 @@ PVPScene::~PVPScene()
 void PVPScene::init()
 {
 	Player::GetInstance()->player->setPos(0, 630);
-
+	OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
 	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
@@ -56,15 +56,29 @@ void PVPScene::init()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	//SoundManager::GetInstance()->PlayBg("Resource/PVPScene/cyberpunk-street.mp3");
+	SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
 }
 
 void PVPScene::update()
 {
+	Player::GetInstance()->userInfo.x = Player::GetInstance()->player->pos.x;
+	Player::GetInstance()->userInfo.y = Player::GetInstance()->player->pos.y;
+	Player::GetInstance()->userInfo.dir = Player::GetInstance()->dir;
+	Player::GetInstance()->userInfo.state = Player::GetInstance()->state;
+
+	/*Player::GetInstance()->userInfo.x = 1300;
+	Player::GetInstance()->userInfo.y = 630;
+	Player::GetInstance()->userInfo.dir = eLeft;
+	Player::GetInstance()->userInfo.state =eJump;*/
+	Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
+
 	Player::GetInstance()->update();
+	OtherPlayer::GetInstance()->update();
 	render();
 	if (InputManager::GetInstance()->getKey(0x4F)) {
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
 	}
 	
 }
@@ -78,6 +92,7 @@ void PVPScene::render()
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
 	Player::GetInstance()->render();
+	OtherPlayer::GetInstance()->render();
 }
 
 void PVPScene::release()

@@ -18,7 +18,7 @@ void VillageScene::init()
 	Player::GetInstance()->mappos = 0;
 	Player::GetInstance()->player->setPos(0, 630);
 
-	//¹è°æ ¹× ¿ÀºêÁ§Æ®
+	//Â¹Ã¨Â°Ã¦ Â¹Ã— Â¿Ã€ÂºÃªÃÂ§Ã†Â®
 	bg = new GameObject;
 	bg->loadTexture("Resource/village_bg.png");
 	bg->setPos(0, 0);
@@ -154,12 +154,14 @@ void VillageScene::init()
 	for (int i = 0; i < 70; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	//Ãß°¡ 
+	//ÃƒÃŸÂ°Â¡ 
 
 	Npc::GetInstance()->init();
 	shop = new VillageMG;
 	shop->init();
+
 	//SoundManager::GetInstance()->PlayBg("Resource/bg.mp3");
+
 	
 }
 

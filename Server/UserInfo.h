@@ -22,6 +22,7 @@ struct UserInfo {
 	int ClientTime;
 	int ServerTime;
 	int OtherRTT;
+	int dir;
 };
 
 struct SocketInfo {

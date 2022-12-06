@@ -2,7 +2,7 @@
 
 UserInfo info;
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â ÈÄ Á¾·á
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥ í›„ ì¢…ë£Œ
 void err_quit(const char* msg)
 {
 	LPVOID lpMsgBuf;
@@ -16,7 +16,7 @@ void err_quit(const char* msg)
 	exit(1);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥
 void err_display(const char* msg)
 {
 	LPVOID lpMsgBuf;
@@ -29,7 +29,7 @@ void err_display(const char* msg)
 	LocalFree(lpMsgBuf);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥
 void err_display(int errcode)
 {
 	LPVOID lpMsgBuf;
@@ -38,12 +38,12 @@ void err_display(int errcode)
 		NULL, errcode,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(char*)&lpMsgBuf, 0, NULL);
-	printf("[¿À·ù] %s\n", (char*)lpMsgBuf);
+	printf("[ì˜¤ë¥˜] %s\n", (char*)lpMsgBuf);
 	LocalFree(lpMsgBuf);
 }
 
 
-// Player Å¬·¡½º°¡ ½Ì±ÛÅæÀÌ°í º¸±â ½±°Ô ¿©±â¿¡ ¾²·¹µå¸¦ »ı¼ºÇÕ´Ï´Ù.
+// Player í´ë˜ìŠ¤ê°€ ì‹±ê¸€í†¤ì´ê³  ë³´ê¸° ì‰½ê²Œ ì—¬ê¸°ì— ì“°ë ˆë“œë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
 	int retval;
@@ -57,23 +57,23 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		switch (Player::GetInstance()->getUserInfo().DataType)
 		{
 		case eDataType::eNone:
-			// ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍÀÎ UserInfo¸¦ ¹ß¼ÛÇÑ´Ù.
+			// í”Œë ˆì´ì–´ ë°ì´í„°ì¸ UserInfoë¥¼ ë°œì†¡í•œë‹¤.
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// PVP ÃÊ´ë ¸Ş¼¼Áö ¹Ş±â
+			// PVP ì´ˆëŒ€ ë©”ì„¸ì§€ ë°›ê¸°
 			break;
 		case eDataType::eRequest:
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
-			// ´Ù¸¥ ÇÃ·¹ÀÌ¾î°¡ ¸î¸íÀÎÁö ¹Ş¾Æ¿Â´Ù.
+			// ë‹¤ë¥¸ í”Œë ˆì´ì–´ê°€ ëª‡ëª…ì¸ì§€ ë°›ì•„ì˜¨ë‹¤.
 			int otherNum;
 			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
 
 			Player::GetInstance()->userInfos.clear();
 			Player::GetInstance()->userInfos.reserve(otherNum);
-			// UserInfo ±¸Á¶Ã¼  ¹Ş±â
+			// UserInfo êµ¬ì¡°ì²´  ë°›ê¸°
 			//char buf[BUFSIZE];
 
-			// ´Ù¸¥ À¯ÀúµéÀÇ µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿Â´Ù.
+			// ë‹¤ë¥¸ ìœ ì €ë“¤ì˜ ë°ì´í„°ë¥¼ ë°›ì•„ì˜¨ë‹¤.
 			for (int i = 0; i < otherNum; ++i)
 			{
 				UserInfo temp;
@@ -82,15 +82,15 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			}
 			Player::GetInstance()->getUserInfos();
 
-			// dataType ´Ù½Ã eNoneÀ¸·Î º¯°æ
+			// dataType ë‹¤ì‹œ eNoneìœ¼ë¡œ ë³€ê²½
 			Player::GetInstance()->userInfo.DataType = eNone;
 			SetEvent(Player::GetInstance()->readOtherUserEvent);
 		
 			break;
 		case eDataType::eInviteSend:
-			// ¼±ÅÃÇÑ »ó´ë¹æ ¾ÆÀÌµğ¿Í ³» À¯Àú Á¤º¸¸¦ º¸³½´Ù
+			// ì„ íƒí•œ ìƒëŒ€ë°© ì•„ì´ë””ì™€ ë‚´ ìœ ì € ì •ë³´ë¥¼ ë³´ë‚¸ë‹¤
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// dataType ´Ù½Ã eNoneÀ¸·Î º¯°æ
+			// dataType ë‹¤ì‹œ eNoneìœ¼ë¡œ ë³€ê²½
 			//Player::GetInstance()->userInfo.DataType = eNone;
 			break; 
 		case eDataType::eInviteRecv:
@@ -98,7 +98,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 			break;
 		case eDataType::eGoToPVP:
-			// ¼ö¶ô¿©ºÎ Àü¼Û
+			// ìˆ˜ë½ì—¬ë¶€ ì „ì†¡
 			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
 			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
@@ -106,8 +106,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			break;
 		case eDataType::eInPVP:
-		
+
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+
 
 			break;
 		}
@@ -117,25 +118,25 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//	retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		//}
 
-		// ³¡³¯¶§ ¼­¹ö·ÎºÎÅÍ ÆĞÅ¶À» ¹Ş¾Æ¿Â´Ù. ³» µ¥ÀÌÅÍ or »ó´ë µ¥ÀÌÅÍ(pvp)
+		// ëë‚ ë•Œ ì„œë²„ë¡œë¶€í„° íŒ¨í‚·ì„ ë°›ì•„ì˜¨ë‹¤. ë‚´ ë°ì´í„° or ìƒëŒ€ ë°ì´í„°(pvp)
 		UserInfo temp; 
 		//retval = recv(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
-		// ¸¸¾à ÃÊ´ë ¹ŞÀº »óÈ²ÀÌ¶ó¸é?
-		// ÇöÀç »óÅÂ º¯°æ
+		// ë§Œì•½ ì´ˆëŒ€ ë°›ì€ ìƒí™©ì´ë¼ë©´?
+		// í˜„ì¬ ìƒíƒœ ë³€ê²½
 		if (temp.DataType == eDataType::eNone)
 		{
 			//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 		}
 		if (temp.DataType == eDataType::eInviteRecv)
 		{
-			// »ó´ëÀÇ id°¡ µé¾îÀÖ´Ù.
+			// ìƒëŒ€ì˜ idê°€ ë“¤ì–´ìˆë‹¤.
 			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
 			Player::GetInstance()->userInfo.PVPID = temp.PVPID;
 		}
 		if (temp.DataType == eDataType::eGoToPVP)
 		{
-			// scene ÀÌµ¿
+			// scene ì´ë™
 //			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			Player::GetInstance()->userInfo.DataType = eDataType::eGoToPVP;
 		}
@@ -158,11 +159,11 @@ bool Player::enterGame()
 	//"127.0.0.1";
 	char* SERVERIP = (char*)"127.0.0.1";
 
-	// À©¼Ó ÃÊ±âÈ­
+	// ìœˆì† ì´ˆê¸°í™”
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		return 1;
 
-	// ¼ÒÄÏ »ı¼º
+	// ì†Œì¼“ ìƒì„±
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) err_quit("socket()");
 
@@ -175,7 +176,7 @@ bool Player::enterGame()
 	retval = connect(sock, (struct sockaddr*)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR) err_quit("connect()");
 
-	// UserInfo ±¸Á¶Ã¼  ¹Ş±â
+	// UserInfo êµ¬ì¡°ì²´  ë°›ê¸°
 	char buf[BUFSIZE];
 	//retval = recv(sock, buf, sizeof(UserInfo), 0);
 	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
@@ -228,15 +229,16 @@ Player::Player()
 	nowMp = mp = 100;
 	player->setPos(50, 560);
 	power = 10;
-	state = eRight;
+	dir = eRight;
+	state = eWalk;
 
-	// »ı¼ºÀÚ¿¡¼­ ¾²·¹µå »ı¼º
+	// ìƒì„±ìì—ì„œ ì“°ë ˆë“œ ìƒì„±
 	// =====================================
-	// playerInfo ÃÊ±âÈ­ È®ÀÎÇÊ¼ö!
+	// playerInfo ì´ˆê¸°í™” í™•ì¸í•„ìˆ˜!
 	// =====================================
 
 	// =====================================
-	// ¼­¹ö ¿¬°á
+	// ì„œë²„ ì—°ê²°
 	// =====================================
 	enterGame();
 	
@@ -274,41 +276,30 @@ void Player::init()
 		nowMp = mp = playerUI->ringPower + 100;
 		player->setPos(50, 560);
 		power = playerUI->swordPower + 10;
-		state = eRight;
+		dir = eRight;
 	}
 
 }
 
-// getKey »ç¿ëÇÒ¶§
-// https://m.blog.naver.com/power2845/50143021565 Âü°í
+// getKey ì‚¬ìš©í• ë•Œ
+// https://m.blog.naver.com/power2845/50143021565 ì°¸ê³ 
 
 void Player::update()
 {
+	if (player->pos.y <= 500)
+	{
+		player->pos.y += 10;
+	}
+	// ë§ˆì„ì”¬ ë™ì‘
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
 	{
-		if (player->pos.y <= 500)
+		//ì™¼ìª½
+		if (InputManager::GetInstance()->getKey(VK_LEFT))
 		{
-			player->pos.y += 10;
-		}
+			dir = eLeft;
+			if (!isJump)
+				state = eWalk;
 
-	}
-	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
-	{
-		if (player->pos.y <= 500)
-		{
-			player->pos.y += 10;
-		}
-
-	}
-	// Ä³¸¯ÅÍ ¾Ö´Ï¸ŞÀÌ¼Ç
-
-	// Ä³¸¯ÅÍ ÀÌµ¿ ¿¹½Ã
-	if (InputManager::GetInstance()->getKey(VK_LEFT))
-	{
-		if(!isJump)
-			state = eLeft;
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
-		{
 			if (mappos >= 800 && mappos <= 1000)
 				player->pos.x += 10;
 			if (mappos >= 0) {
@@ -316,24 +307,13 @@ void Player::update()
 				ObjectManager::GetInstance()->cameraMove(-10, 0);
 				mappos -= 10;
 			}
-			
 		}
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
-		{
-			if (player->pos.x <= -20)
-				player->pos.x += 10;
-			else
-				player->pos.x -= 10;
-		}
-	}
-	else if (InputManager::GetInstance()->getKey(VK_RIGHT))
-	{
-		if (!isJump)
-			state = eRight;
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
-		{
-
-			if(mappos>=800&&mappos<=1000)
+		//ì˜¤ë¥¸ìª½
+		else if (InputManager::GetInstance()->getKey(VK_RIGHT)) {
+			dir = eRight;
+			if (!isJump)
+				state = eWalk;
+			if (mappos >= 800 && mappos <= 1000)
 				player->pos.x -= 10;
 			if (mappos <= 1600) {
 				player->pos.x += 10;
@@ -341,55 +321,84 @@ void Player::update()
 				mappos += 10;
 			}
 		}
-		if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+		//ê³µê²©
+		else if (InputManager::GetInstance()->getKey(0x41))
 		{
+			if (!isAttack || state != eAttack2 && state != eAttack1)
+			{
+				state = eAttack1;
+				isAttack = true;
+			}
+			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+			{
+				if (nowMp >= 10)
+				{
+					nextState = eAttack2;
+					nowMp -= 10;
+				}
+			}
+
+		}
+	}
+	// PVPì”¬ ë™ì‘
+	else if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+	{
+		//ì™¼ìª½
+		if (InputManager::GetInstance()->getKey(VK_LEFT))
+		{
+			dir = eLeft;
+			if (!isJump)
+				state = eWalk;
+
+			if (player->pos.x <= -20)
+				player->pos.x += 10;
+			else
+				player->pos.x -= 10;
+		}
+		//ì˜¤ë¥¸ìª½
+		else if (InputManager::GetInstance()->getKey(VK_RIGHT))
+		{
+			dir = eRight;
+			if (!isJump)
+				state = eWalk;
 			if (player->pos.x >= 1400)
 				player->pos.x -= 10;
 			else
 				player->pos.x += 10;
 		}
-			
-	}
-	else if (InputManager::GetInstance()->getKey(0x41))
-	{
-		if (!isAttack || state != eAttack2 && state != eAttack1)
+		//ê³µê²©
+		else if (InputManager::GetInstance()->getKey(0x41))
 		{
-			state = eAttack1;
-			isAttack = true;
-		}
-		else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
-		{
-			if (nowMp >= 10)
+
+			if (!isAttack || state != eAttack2 && state != eAttack1)
 			{
-				nextState = eAttack2;
-				nowMp -= 10;
+				state = eAttack1;
+				isAttack = true;
+			}
+			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+			{
+				if (nowMp >= 10)
+				{
+					nextState = eAttack2;
+					nowMp -= 10;
+				}
 			}
 		}
-	
+		//ìŠ¤ë§¤ì‰¬
 	}
-	// JUMP
+	//ì í”„ 
 	if (InputManager::GetInstance()->getKey(VK_UP))
 	{
-		
-		if (!isJump && state != eJump1)
+
+		if (!isJump && state != eJump)
 		{
-			state = eJump1;
+			state = eJump;
 			isJump = true;
 			JumpCount = 0;
 		}
-		// Á¡ÇÁ1Áß ÀÏ¶§
-		if (isJump && state == eJump1 && state != eJump2 && JumpCount > 2)
-		{
-			if (nowMp >= 10)
-			{
-				state = eJump2;
-				JumpCount = 0;
-				nowMp -= 10;
-			}
-		}
 	}
 
-	if (isJump  && GetTickCount64() - JumpTime >= 50 && state == eJump1)
+	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump)
 	{
 		JumpTime = GetTickCount64();
 		if (JumpCount < 16)
@@ -409,26 +418,8 @@ void Player::update()
 			isJump = false;
 		}
 	}
-	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump2)
-	{
-		JumpTime = GetTickCount64();
-		if (JumpCount < 8)
-		{
-			player->pos.y -= 15;
-			JumpCount++;
-		}
-		else
-		{
-			state = eIdle;
-			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-				state = eRight;
-			JumpCount = 0;
-			isJump = false;
-		}
-	}
-
-	// Æ÷¼Ç ¸Ô±â
-	// Ã¼·Â Æ÷¼Ç 1¹øÅ°
+	// í¬ì…˜ ë¨¹ê¸°
+	// ì²´ë ¥ í¬ì…˜ 1ë²ˆí‚¤
 	if (InputManager::GetInstance()->getKey(0x31))
 	{
 		if (playerUI->hpPotionNum > 0)
@@ -440,11 +431,11 @@ void Player::update()
 				if (nowHp > 100)
 					nowHp = 100;
 			}
-			
+
 		}
 	}
-	// ¸¶³ª Æ÷¼Ç
-	// 2¹øÅ°
+	// ë§ˆë‚˜ í¬ì…˜
+	// 2ë²ˆí‚¤
 	if (InputManager::GetInstance()->getKey(0x32))
 	{
 		if (playerUI->mpPotionNum > 0)
@@ -462,7 +453,7 @@ void Player::update()
 	{
 		playerUI->coinNum = 9999;
 	}
-	// ½º¸Å½¬
+	// ìŠ¤ë§¤ì‰¬
 	if (InputManager::GetInstance()->getKey(0x53))
 	{
 		if (state == eAttack2 && !isSmash)
@@ -476,88 +467,145 @@ void Player::update()
 		}
 	}
 
-	// Ä³¸¯ÅÍ ¾Ö´Ï¸ŞÀÌ¼Ç
-	switch (state)
+	// ìºë¦­í„° ì• ë‹ˆë©”ì´ì…˜
+	if (dir == eLeft)
 	{
-	case eIdle:
-		player->animation("Resource/player/idle/player", 6, 200);
-		break;
-	case eLeft:
-		if (player->animation("Resource/player/left/left", 6, 30))
-			state = eIdle;
-
-		break;
-	case eRight:
-		if (player->animation("Resource/player/right/right", 6, 30))
+		switch (state)
 		{
-			state = eIdle;
-			if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
-				state = eRight;
-		}
-		break;
-	case eJump1:
+		case eIdle:
+			player->animation("Resource/player/Left State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (player->animation("Resource/player/Left State/left/left", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
 
-		if (player->animation("Resource/player/jump/jump", 4, 200)) {
-			//if (nextState == eJump2)
-			//	state = eJump2;
-			//else
-			//{
-			//	state = eIdle;
-			//	isJump = false;
-			//}
-		}
-			
-		break;
-	case eJump2:
+			if (player->animation("Resource/player/Left State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
 
-		if (player->animation("Resource/player/doublejump/doublejump", 4, 100)) {
-
-		}
-			
-		break;
-	case eAttack1:
-		if (player->animation("Resource/player/attack/attack1-", 6, 100))
-		{
-			if (nextState == eAttack2)
-				state = eAttack2;
-			else
+			break;
+		case eAttack1:
+			if (player->animation("Resource/player/Left State/attack/attack1-", 6, 100))
 			{
-				nextState = eRight;
-				state = eRight;
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (player->animation("Resource/player/Left State/attack/attack2-", 6, 100))
+			{
 				isAttack = false;
-			}		
-		}
-		break;
-	case eAttack2:
-		if (player->animation("Resource/player/attack/attack2-", 6, 100))
-		{
-			isAttack = false;
-			nextState = eRight;
-			state = eRight;
-		}
-			
-		break;
-	case eAttacked:
-		if (player->animation("Resource/player/hurt/hurt-", 6, 200))
-		{
-			nextState = eRight;
-			state = eRight;
+				nextState = eIdle;
+				state = eIdle;
+			}
 
+			break;
+		case eAttacked:
+			if (player->animation("Resource/player/Left State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+
+			}
+		default:
+			break;
 		}
-	default:
-		break;
+
 	}
+	else if (dir == eRight)
+	{
+		switch (state)
+		{
+		case eIdle:
+			player->animation("Resource/player/Right State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (player->animation("Resource/player/Right State/right/right", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
+			if (player->animation("Resource/player/Right State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
 
-	// ½º¸Å½¬ ÀÌµ¿
+			break;
+		case eAttack1:
+			if (player->animation("Resource/player/Right State/attack/attack1-", 6, 100))
+			{
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (player->animation("Resource/player/Right State/attack/attack2-", 6, 100))
+			{
+				isAttack = false;
+				nextState = eIdle;
+				state = eIdle;
+			}
+
+			break;
+		case eAttacked:
+			if (player->animation("Resource/player/Right State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+			}
+		default:
+			break;
+		}
+	}
+	
+	// ìŠ¤ë§¤ì‰¬ ì´ë™
 	if (isSmash)
 	{
-		smash->animation("Resource/GameScene/smash",4, 100 );
-		smash->pos.x += 10;
-		if (smash->pos.x >= 2000)
+		if (dir == eLeft) 
 		{
-			isSmash = false;
-			smash->pos.x = -100;
+			smash->animation("Resource/GameScene/smash", 4, 100);
+			smash->pos.x -= 10;
+			if (smash->pos.x <= 0)
+			{
+				isSmash = false;
+				smash->pos.x = -100;
+			}
 		}
+		else if (dir == eRight)
+		{
+			smash->animation("Resource/GameScene/smash", 4, 100);
+			smash->pos.x += 10;
+			if (smash->pos.x >= 2000)
+			{
+				isSmash = false;
+				smash->pos.x = -100;
+			}
+		}
+		
 	}
 
 	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
@@ -582,8 +630,6 @@ void Player::render()
 
 	//if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	playerBar->render(playerUI);
-
-
 	if (isUI)
 	{
 		playerUI->render();
@@ -599,8 +645,8 @@ void Player::release()
 
 void Player::gravity(Tail *tail)
 {
-	// ÇÃ·¹ÀÌ¾î´Â ¹Ù´Ú¿¡ ºÙ¾î ÀÖ´Â°Ô ¾Æ´Ï¸é Áß·Â¿¡ ¿µÇâ ¹Ş¾Æ¾ßÇÔ ¤·¤·
-	if (state != eJump1 && state != eJump2)
+	// í”Œë ˆì´ì–´ëŠ” ë°”ë‹¥ì— ë¶™ì–´ ìˆëŠ”ê²Œ ì•„ë‹ˆë©´ ì¤‘ë ¥ì— ì˜í–¥ ë°›ì•„ì•¼í•¨ ã…‡ã…‡
+	if (state != eJump)
 	{
 		if (player->pos.y <= 560)
 		{

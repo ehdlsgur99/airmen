@@ -1,6 +1,6 @@
 #pragma once
 #include "common.h"
-class OtherPlayer : public CSingleton<Player>
+class OtherPlayer : public CSingleton<OtherPlayer>
 {
 public:
 	int power;
@@ -8,7 +8,7 @@ public:
 	OtherPlayer();
 	~OtherPlayer();
 
-	UserInfo getUserInfo();
+	UserInfo getUserInfo2();
 
 	int get2PlayerState();
 	void init();
@@ -18,8 +18,10 @@ public:
 
 	void gravity(Tail* tail);
 public:
-	ePlayer state;
-	ePlayer nextState;
+	int state;
+	int dir;
+	int nextState;
+
 	int hp;
 	int mp;
 	int nowHp;
@@ -32,10 +34,9 @@ public:
 
 
 public:
-	GameObject* player;
-	GameObject* smash;
-	PlayerBar* playerBar;
-	PlayerUI* playerUI;
+	GameObject* Oplayer;
+	GameObject* Osmash;
+
 
 	int level;
 

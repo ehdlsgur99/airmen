@@ -131,7 +131,7 @@ void GameScene::checkEnd()
 	}
 	if (isPortal == true)
 	{
-		if(Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump2 || Player::GetInstance()->state == eJump1)
+		if(Player::GetInstance()->state == eWalk || Player::GetInstance()->state == eJump)
 			portal->pos.x -= 5;
 		if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
 		{
