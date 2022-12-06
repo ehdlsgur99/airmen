@@ -185,6 +185,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				retval = send(client_sock, (char*)sendTemp, sizeof(UserInfo), 0);
 			}
 		}
+		// 어떤 플레이어가 초대 메세지 발송
 		if (eDataType::eInviteSend == packet->DataType)
 		{
 			// 서버에서의 유저 상태를 보내는 데이터

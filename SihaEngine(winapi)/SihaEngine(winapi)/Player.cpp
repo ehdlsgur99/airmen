@@ -91,6 +91,14 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			// dataType 다시 eNone으로 변경
 			//Player::GetInstance()->userInfo.DataType = eNone;
 			break;
+		case eDataType::eInviteRecv:
+			// 수락여부 전송
+			break;
+		case eDataType::eGoToPVP:
+
+			break;
+		case eDataType::eInPVP:
+			break;
 		}
 		
 		//if (eDataType::eInviteRecv == Player::GetInstance()->getUserInfo().DataType)
@@ -107,10 +115,22 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		if (temp.DataType == eDataType::eInviteRecv)
 		{
 			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
+			// 상대의 id가 들어있다.
+			Player::GetInstance()->enemyInfo = temp;
+			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
+			Player::GetInstance()->userInfo.PVPID = temp.PVPID;
 		}
-
-	
+		if (temp.DataType == eDataType::eGoToPVP)
+		{
+			// scene 이동
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+		}
+		if (temp.DataType == eDataType::eInPVP)
+		{
+			Player::GetInstance()->enemyInfo = temp;
+		}
 		
+
 		//Player::GetInstance()->userInfo = temp;
 
 

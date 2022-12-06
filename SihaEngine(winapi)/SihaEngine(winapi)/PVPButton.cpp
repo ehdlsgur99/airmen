@@ -15,17 +15,17 @@ PVPButton::PVPButton()
 
 	yesBtn = new Button();
 	yesBtn->init("Resource/Button/yesbtn.png", "Resource/Button/yesbtn_.png",
-		POINT{ 500, 150 }, SIZE{ 100, 50 }, []() {});
+		POINT{ 680, 580 }, SIZE{ 100, 50 }, []() {});
 
 	noBtn = new Button();
 	noBtn->init("Resource/Button/nobtn.png", "Resource/Button/nobtn_.png",
-		POINT{ 600, 150 }, SIZE{ 100, 50 }, []() {});
+		POINT{ 820, 580 }, SIZE{ 100, 50 }, []() {});
 
 	pvpBG = new GameObject();
 	pvpBG->loadTexture("Resource/Button/bg.png");
-	pvpBG->setPos(500, 100);
+	pvpBG->setPos(500, 400);
 	pvpBG->setSrcSize(2035, 2035);
-	pvpBG->setSize(600, 600);
+	pvpBG->setSize(600, 200);
 
 	listBG = new GameObject();
 	listBG->loadTexture("Resource/Button/bg.png");
@@ -98,6 +98,10 @@ void PVPButton::render()
 		GraphicManager::GetInstance()->render(pvpBG);
 		yesBtn->render();
 		noBtn->render();
+		std::string str = " " + std::to_string(Player::GetInstance()->enemyInfo.PVPID) + "번 님이 PVP를 신청했습니다.";
+
+		GraphicManager::GetInstance()->drawText(str, POINT{ 500, 460 }, 20, RGB(255, 255, 255));
+
 	}
 }
 
