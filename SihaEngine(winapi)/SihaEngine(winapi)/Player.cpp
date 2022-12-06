@@ -109,7 +109,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
-
 			break;
 		}
 		
@@ -140,9 +139,10 @@ DWORD WINAPI ClientThread(LPVOID arg)
 //			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			Player::GetInstance()->userInfo.DataType = eDataType::eGoToPVP;
 		}
+		// 상대 정보를 받는다.
 		if (temp.DataType == eDataType::eInPVP)
 		{
-			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
+			Player::GetInstance()->enemyInfo = temp;
 		}
 		
 

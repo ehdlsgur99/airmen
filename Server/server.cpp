@@ -268,6 +268,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				{
 					(*iter) = packet;
 				}
+
 			}
 		}
 		if (eDataType::eInPVP == packet->DataType)
@@ -292,7 +293,22 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				break;
 			}
 		}
-		retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
+		if(eDataType::eInPVP != packet->DataType)
+			retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
+		else
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == threadID)
+				{
+					if ((*iter)->PVPID == socketInfo.ID)
+					{
+						retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
+						break;
+					}		
+				}
+			}
+		}
 	
 	}
 
