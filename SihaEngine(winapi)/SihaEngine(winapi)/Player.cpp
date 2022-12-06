@@ -54,28 +54,25 @@ DWORD WINAPI ClientThread(LPVOID arg)
 	/*	if (retval == SOCKET_ERROR) {
 			err_display("send()");
 		}*/
-		// DataType 에 따른 다음 동작
-		if (eDataType::eNone == Player::GetInstance()->getUserInfo().DataType)
+		switch (Player::GetInstance()->getUserInfo().DataType)
 		{
+		case eDataType::eNone:
 			// 플레이어 데이터인 UserInfo를 발송한다.
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// PVP 상황인경우 PVP 상대 데이터를 여기서 받아온다.
-		}
-		// 다른 플레이어 정보를 받아온다.
-		if (eDataType::eRquest == Player::GetInstance()->getUserInfo().DataType)
-		{
+			// PVP 초대 메세지 받기
+			break;
+		case eDataType::eRequest:
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
-
 			// 다른 플레이어가 몇명인지 받아온다.
-			int otherNum ;
+			int otherNum;
 			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
 
 			Player::GetInstance()->userInfos.clear();
 			Player::GetInstance()->userInfos.reserve(otherNum);
 			// UserInfo 구조체  받기
 			//char buf[BUFSIZE];
-			
+
 			// 다른 유저들의 데이터를 받아온다.
 			for (int i = 0; i < otherNum; ++i)
 			{
@@ -84,9 +81,59 @@ DWORD WINAPI ClientThread(LPVOID arg)
 				Player::GetInstance()->userInfos.push_back(temp);
 			}
 			Player::GetInstance()->getUserInfos();
-			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+			// dataType 다시 eNone으로 변경
 			SetEvent(Player::GetInstance()->readOtherUserEvent);
+			Player::GetInstance()->userInfo.DataType = eNone;
+			break;
+		case eDataType::eInviteSend:
+			// 선택한 상대방 아이디와 내 유저 정보를 보낸다
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+			// dataType 다시 eNone으로 변경
+			//Player::GetInstance()->userInfo.DataType = eNone;
+			break;
+		case eDataType::eInviteRecv:
+			// 수락여부 전송
+			break;
+		case eDataType::eGoToPVP:
+
+			break;
+		case eDataType::eInPVP:
+			break;
 		}
+		
+		//if (eDataType::eInviteRecv == Player::GetInstance()->getUserInfo().DataType)
+		//{
+		//	retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+		//}
+
+		// 끝날때 서버로부터 패킷을 받아온다. 내 데이터 or 상대 데이터(pvp)
+		UserInfo temp;
+		//retval = recv(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+		retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
+		// 만약 초대 받은 상황이라면?
+		// 현재 상태 변경
+		if (temp.DataType == eDataType::eInviteRecv)
+		{
+			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
+			// 상대의 id가 들어있다.
+			Player::GetInstance()->enemyInfo = temp;
+			Player::GetInstance()->userInfo.DataType = eDataType::eInviteRecv;
+			Player::GetInstance()->userInfo.PVPID = temp.PVPID;
+		}
+		if (temp.DataType == eDataType::eGoToPVP)
+		{
+			// scene 이동
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+		}
+		if (temp.DataType == eDataType::eInPVP)
+		{
+			Player::GetInstance()->enemyInfo = temp;
+		}
+		
+
+		//Player::GetInstance()->userInfo = temp;
+
+
 	}
 	return 0;
 }
@@ -139,6 +186,8 @@ Player::Player()
 {
 
 	readOtherUserEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+
+	pvpID = -1;
 
 	level = 1;
 

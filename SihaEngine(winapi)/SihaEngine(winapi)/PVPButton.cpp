@@ -13,6 +13,20 @@ PVPButton::PVPButton()
 	listButton->init("Resource/Button/PVPButton.png", "Resource/Button/PVPButton_.png",
 		POINT{ 50, 150 }, SIZE{ 100, 50 }, [](){});
 
+	yesBtn = new Button();
+	yesBtn->init("Resource/Button/yesbtn.png", "Resource/Button/yesbtn_.png",
+		POINT{ 680, 580 }, SIZE{ 100, 50 }, []() {});
+
+	noBtn = new Button();
+	noBtn->init("Resource/Button/nobtn.png", "Resource/Button/nobtn_.png",
+		POINT{ 820, 580 }, SIZE{ 100, 50 }, []() {});
+
+	pvpBG = new GameObject();
+	pvpBG->loadTexture("Resource/Button/bg.png");
+	pvpBG->setPos(500, 400);
+	pvpBG->setSrcSize(2035, 2035);
+	pvpBG->setSize(600, 200);
+
 	listBG = new GameObject();
 	listBG->loadTexture("Resource/Button/bg.png");
 	listBG->setPos(500, 100);
@@ -32,9 +46,25 @@ void PVPButton::update()
 		listButton->setVisible(false);
 		isListUP = true;
 		// Player 호출해서 서버로부터 데이터를 받아온다.
-		Player::GetInstance()->setDataType(eDataType::eRquest);
+		Player::GetInstance()->setDataType(eDataType::eRequest);
 		
 		createList();
+	}
+
+	if (isListUP)
+	{
+		for (int i = 0; i < btnVector.size(); i++)
+		{
+			btnVector[i]->update();
+			if (btnVector[i]->getIsOn())
+			{
+				Player::GetInstance()->userInfo.DataType = eDataType::eInviteSend;
+				Player::GetInstance()->userInfo.PVPID = i + 1;
+				listButton->setVisible(true);
+				isListUP = false;
+				break;
+			}
+		}
 	}
 }
 
@@ -49,26 +79,35 @@ void PVPButton::render()
 		//if (userNum != btnVector.size())
 		//	createList();
 		
-		
+		Player::GetInstance()->getUserInfos();
 		for (int i = 0; i < btnVector.size(); i++)
 		{
+			
 			std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
 				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
 				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
 				" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
-
+			
 			GraphicManager::GetInstance()->drawText(str, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
 
 			btnVector[i]->render();
 		}
-		
+	}
+	if (Player::GetInstance()->getUserInfo().DataType == eInviteRecv)
+	{
+		GraphicManager::GetInstance()->render(pvpBG);
+		yesBtn->render();
+		noBtn->render();
+		std::string str = " " + std::to_string(Player::GetInstance()->enemyInfo.PVPID) + "번 님이 PVP를 신청했습니다.";
+
+		GraphicManager::GetInstance()->drawText(str, POINT{ 500, 460 }, 20, RGB(255, 255, 255));
 
 	}
 }
 
 void PVPButton::createList()
 {
-	WaitForSingleObject(Player::GetInstance()->readOtherUserEvent, INFINITE);
+	WaitForSingleObject(Player::GetInstance()->readOtherUserEvent, 1000);
 
 	int userNum = Player::GetInstance()->userInfos.size();
 	btnVector.clear();
@@ -81,7 +120,7 @@ void PVPButton::createList()
 			SIZE{ 80, 30 }, []() {});
 		btnVector.push_back(btn);
 	}
-
+	//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 
 }
 
