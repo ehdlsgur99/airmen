@@ -87,7 +87,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 
 	int threadID = threadCount;
-	printf("%d", threadID);
+	//printf("%d", threadID);
 
 	// 클라이언트 정보 얻기
 	addrlen = sizeof(clientaddr);
@@ -209,6 +209,18 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				if ((*iter)->ID == packet->PVPID)
 				{
 					(*iter)->DataType = eInviteRecv;
+					(*iter)->PVPID = threadID;
+				}
+			}
+		}
+		if (eDataType::eInPVP == packet->DataType)
+		{
+			std::list<UserInfo*>::iterator iter = userList.begin();
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == packet->PVPID)
+				{
+					(*iter)->DataType = eInPVP;
 					(*iter)->PVPID = threadID;
 				}
 			}

@@ -98,6 +98,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 			break;
 		case eDataType::eInPVP:
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 			break;
 		}
 		

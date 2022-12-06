@@ -18,12 +18,8 @@ OtherPlayer::OtherPlayer()
 	Osmash->setSize(150, 120);
 	Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y);
 
-
-	nowHp = hp = 100;
-	nowMp = mp = 100;
-	Oplayer->setPos(50, 560);
-	power = 10;
-	state = eRight;
+	dir = eLeft;
+	state = eIdle;
 
 	getUserInfo2();
 }
@@ -52,13 +48,150 @@ void OtherPlayer::init()
 
 void OtherPlayer::update()
 {
-
+	dir = Player::GetInstance()->enemyInfo.dir;
+	state = Player::GetInstance()->enemyInfo.state;
+	Oplayer->pos.x = Player::GetInstance()->enemyInfo.x;
+	Oplayer->pos.y = Player::GetInstance()->enemyInfo.y;
+	
 	// 캐릭터 애니메이션
-	switch (state)
+	if (dir == eLeft)
 	{
-	case eIdle:
-		Oplayer->animation("Resource/player/idle/player", 6, 200);
-		break;
+		switch (state)
+		{
+		case eIdle:
+			Oplayer->animation("Resource/player/Left State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (Oplayer->animation("Resource/player/Left State/left/left", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
+
+			if (Oplayer->animation("Resource/player/Left State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
+
+			break;
+		case eAttack1:
+			if (Oplayer->animation("Resource/player/Left State/attack/attack1-", 6, 100))
+			{
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (Oplayer->animation("Resource/player/Left State/attack/attack2-", 6, 100))
+			{
+				isAttack = false;
+				nextState = eIdle;
+				state = eIdle;
+			}
+
+			break;
+		case eAttacked:
+			if (Oplayer->animation("Resource/player/Left State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+
+			}
+		default:
+			break;
+		}
+
+	}
+	else if (dir == eRight)
+	{
+		switch (state)
+		{
+		case eIdle:
+			Oplayer->animation("Resource/player/Right State/idle/player", 6, 200);
+			break;
+		case eWalk:
+			if (Oplayer->animation("Resource/player/Right State/right/right", 6, 30))
+				state = eIdle;
+			break;
+		case eJump:
+			if (Oplayer->animation("Resource/player/Right State/jump/jump", 4, 200)) {
+				//if (nextState == eJump2)
+				//	state = eJump2;
+				//else
+				//{
+				//	state = eIdle;
+				//	isJump = false;
+				//}
+			}
+
+			break;
+		case eAttack1:
+			if (Oplayer->animation("Resource/player/Right State/attack/attack1-", 6, 100))
+			{
+				if (nextState == eAttack2)
+					state = eAttack2;
+				else
+				{
+					nextState = eIdle;
+					state = eIdle;
+					isAttack = false;
+				}
+			}
+			break;
+		case eAttack2:
+			if (Oplayer->animation("Resource/player/Right State/attack/attack2-", 6, 100))
+			{
+				isAttack = false;
+				nextState = eIdle;
+				state = eIdle;
+			}
+
+			break;
+		case eAttacked:
+			if (Oplayer->animation("Resource/player/Right State/hurt/hurt-", 6, 200))
+			{
+				nextState = eIdle;
+				state = eIdle;
+			}
+		default:
+			break;
+		}
+	}
+
+	// 스매쉬 이동
+	if (isSmash)
+	{
+		if (dir == eLeft)
+		{
+			Osmash->animation("Resource/GameScene/smash", 4, 100);
+			Osmash->pos.x -= 10;
+			if (Osmash->pos.x <= 0)
+			{
+				isSmash = false;
+				Osmash->pos.x = -100;
+			}
+		}
+		else if (dir == eRight)
+		{
+			Osmash->animation("Resource/GameScene/smash", 4, 100);
+			Osmash->pos.x += 10;
+			if (Osmash->pos.x >= 2000)
+			{
+				isSmash = false;
+				Osmash->pos.x = -100;
+			}
+		}
+
 	}
 }
 

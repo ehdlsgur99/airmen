@@ -28,9 +28,10 @@ public:
 
 	void gravity(Tail* tail);
 public:
-	ePlayer state;
-	ePlayer dir;
-	ePlayer nextState;
+	int state;
+	int dir;
+	int nextState;
+	
 	int hp;
 	int mp;
 	int nowHp;

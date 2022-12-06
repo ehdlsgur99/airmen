@@ -47,7 +47,7 @@ void PVPButton::update()
 		isListUP = true;
 		// Player 호출해서 서버로부터 데이터를 받아온다.
 		Player::GetInstance()->setDataType(eDataType::eRequest);
-		
+	
 		createList();
 	}
 
@@ -87,6 +87,7 @@ void PVPButton::render()
 				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
 				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
 				" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
+				
 			
 			GraphicManager::GetInstance()->drawText(str, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
 
