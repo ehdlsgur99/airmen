@@ -66,6 +66,25 @@ void PVPButton::update()
 			}
 		}
 	}
+
+	if (Player::GetInstance()->getUserInfo().DataType == eInviteRecv)
+	{
+		if (yesBtn->getIsOn())
+		{
+			Player::GetInstance()->userInfo.isPvP = true;
+			Player::GetInstance()->setDataType(eDataType::eGoToPVP);
+			pvpBG->isVisible = false;
+			yesBtn->setVisible(false);
+			noBtn->setVisible(false);
+		}
+		else if (noBtn->getIsOn())
+		{
+			Player::GetInstance()->userInfo.isPvP = false;
+			pvpBG->isVisible  = false;
+			yesBtn->setVisible(false);
+			noBtn->setVisible(false);
+		}
+	}
 }
 
 void PVPButton::render()

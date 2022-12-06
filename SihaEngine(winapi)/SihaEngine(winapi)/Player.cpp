@@ -95,7 +95,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			// 수락여부 전송
 			break;
 		case eDataType::eGoToPVP:
-
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+			
+			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
 			break;
 		case eDataType::eInPVP:
 			break;
