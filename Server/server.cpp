@@ -289,14 +289,13 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		{
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
-				if ((*iter)->ID == threadID)
-				{
+				
 					if ((*iter)->PVPID == socketInfo.ID)
 					{
 						retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
 						break;
 					}		
-				}
+				
 			}
 		}
 	
