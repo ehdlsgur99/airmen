@@ -117,10 +117,24 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		//	retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		//}
 
+		int TSc = Player::GetInstance()->userInfo.ClientTime;
+		int TEc;
 		// 끝날때 서버로부터 패킷을 받아온다. 내 데이터 or 상대 데이터(pvp)
 		UserInfo temp; 
 		//retval = recv(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 		retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
+		
+		// ================================================================
+		// RTT 계산, 자신의 RTT와 상대의 RTT가 모두 필요하다.
+		// 최근 패킷의 RTT를 축적해 평균을 이용해 사용한다.
+		// https://m.blog.naver.com/linegamedev/221064252502
+		// ================================================================
+		TEc = temp.ClientTime;
+		int RTT = TEc - TSc;
+		int Tc = TSc + RTT / 2;
+
+		Player::GetInstance()->userInfo.OtherRTT = RTT;
+		
 		// 만약 초대 받은 상황이라면?
 		// 현재 상태 변경
 		if (temp.DataType == eDataType::eNone)

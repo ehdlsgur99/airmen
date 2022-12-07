@@ -1,5 +1,6 @@
 #include "common.h"
 #include <list>
+#include <time.h>
 
 #include "UserInfo.h"
 #include "EnumData.h"
@@ -18,6 +19,9 @@ bool isUsing;
 int threadCount = 0;
 
 bool isFlag = true;
+
+// 서버 시간
+clock_t serverTime;
 
 void gotoxy(int x, int y)
 {
@@ -75,6 +79,17 @@ bool ExchangeUserInfo(SOCKET client_sock, UserInfo myInfo, int enemyID)
 	return false;
 }
 
+// 시간 스레드
+DWORD WINAPI Timer(LPVOID arg)
+{
+	while (1)
+	{
+		serverTime = clock();
+	}
+
+	return 0;
+}
+
 // 클라이언트와 데이터 통신
 DWORD WINAPI ProcessClient(LPVOID arg)
 {
@@ -109,8 +124,8 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	userInfo->y = 0;
 	userInfo->PVPID = -1;
 	userInfo->state = 0;
-	userInfo->ClientTime = 0;
-	userInfo->ServerTime = 0;
+	userInfo->ClientTime = (int)serverTime;
+	userInfo->ServerTime = (int)serverTime;
 	userInfo->OtherRTT = 0;
 	userInfo->power = 100;
 	userInfo->Frame = 0;
@@ -279,23 +294,27 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		{
 			if ((*iter)->ID == threadID)
 			{
+				// 서버 시간
+				(*iter)->ServerTime = (int)serverTime;
 				userInfo = (*iter);
 				break;
 			}
 		}
-		if(eDataType::eInPVP != packet->DataType)
+		if (eDataType::eInPVP != packet->DataType)
+		{
 			retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
+		}	
 		else
 		{
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
-				
 					if ((*iter)->PVPID == socketInfo.ID)
 					{
+						// 서버 시간
+						(*iter)->ServerTime = (int)serverTime;
 						retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
 						break;
 					}		
-				
 			}
 		}
 	
@@ -311,6 +330,10 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 int main(int argc, char* argv[])
 {
+	// 시간 스레드 생성
+	CreateThread(NULL, 0, Timer,0, 0, NULL);
+
+
 	int retval;
 
 	// 윈속 초기화
