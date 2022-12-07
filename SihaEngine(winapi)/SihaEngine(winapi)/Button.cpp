@@ -56,6 +56,12 @@ bool Button::getIsOn()
 	return isOn;
 }
 
+void Button::setSrcSize(SIZE srcSize)
+{
+	button->srcSize = srcSize;
+	button_->srcSize = srcSize;
+}
+
 void Button::setVisible(bool isVisible)
 {
 	button->isVisible = isVisible;
