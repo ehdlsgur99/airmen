@@ -174,6 +174,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+10", { 335, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("100G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower=10;
+		Player::GetInstance()->userInfo.power = 20;
 	}
 		
 	else if (randbox[0] == 1) {
@@ -182,6 +183,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+30", { 335, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("300G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower = 30;
+		Player::GetInstance()->userInfo.power = 40;
 	
 	}
 		
@@ -191,6 +193,7 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+50", { 335, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("500G", { 335, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->swordPower = 50;
+		Player::GetInstance()->userInfo.power = 60;
 	}
 		
 
@@ -200,6 +203,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+20", { 400, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("100G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 20;
+		Player::GetInstance()->userInfo.maxhp = 120;
+		Player::GetInstance()->userInfo.nowhp = 120;
 	}
 		
 	else if (randbox[1] == 1) {
@@ -208,6 +213,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+50", { 400, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("300G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 50;
+		Player::GetInstance()->userInfo.maxhp = 150;
+		Player::GetInstance()->userInfo.nowhp = 150;
 	}
 		
 	else if (randbox[1] == 2) {
@@ -216,6 +223,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+100", { 400, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("500G", { 400, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->armorPower = 100;
+		Player::GetInstance()->userInfo.maxhp = 200;
+		Player::GetInstance()->userInfo.nowhp = 200;
 	}
 		
 
@@ -225,6 +234,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+20", { 477, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("100G", { 477, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->ringPower = 20;
+		Player::GetInstance()->userInfo.maxmp = 120;
+		Player::GetInstance()->userInfo.nowmp = 120;
 	}
 		
 	else if (randbox[2] == 1) {
@@ -233,6 +244,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+50", { 477, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("300G", { 477, 493 }, 10, RGB(255, 255 ,255));
 		Player::GetInstance()->playerUI->ringPower = 50;
+		Player::GetInstance()->userInfo.maxmp = 150;
+		Player::GetInstance()->userInfo.nowmp = 150;
 	}
 		
 	else if (randbox[2] == 2) {
@@ -241,6 +254,8 @@ void VillageMG::render()
 		GraphicManager::GetInstance()->drawText("+100", { 477, 483 }, 10, RGB(0, 0, 0));
 		GraphicManager::GetInstance()->drawText("500G", { 477, 493 }, 10, RGB(255, 255, 255));
 		Player::GetInstance()->playerUI->ringPower = 100;
+		Player::GetInstance()->userInfo.maxmp = 200;
+		Player::GetInstance()->userInfo.nowmp = 200;
 
 	}
 	GraphicManager::GetInstance()->drawText("hp", { 345, 603 }, 10, RGB(0, 0, 0));
