@@ -36,7 +36,7 @@ public:
 public:
 	GameObject* Oplayer;
 	GameObject* Osmash;
-
+	GameObject* hpbar;
 
 	int level;
 

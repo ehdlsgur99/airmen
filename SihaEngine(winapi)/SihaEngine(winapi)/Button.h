@@ -17,12 +17,18 @@ public:
 
 	bool getIsOn();
 
+	void setSrcSize(SIZE srcSize);
+
 	void setVisible(bool isVisible);
+
+	std::string text;
 private:
 	// button : 평소 버튼 이미지, button_ : 버튼 눌렸을 때 이미지
 	GameObject* button;
 	GameObject* button_;
 	bool isOn;
+
+	
 
 	std::function<void()> func;
 };

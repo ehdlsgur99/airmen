@@ -21,6 +21,11 @@ PVPButton::PVPButton()
 	noBtn->init("Resource/Button/nobtn.png", "Resource/Button/nobtn_.png",
 		POINT{ 820, 580 }, SIZE{ 100, 50 }, []() {});
 
+	closeBtn = new Button();
+	closeBtn->init("Resource/Button/close.png", "Resource/Button/close.png",
+		POINT{ 770, 680 }, SIZE{ 50, 50 }, []() {});
+	closeBtn->setSrcSize(SIZE{ 578, 578 });
+
 	pvpBG = new GameObject();
 	pvpBG->loadTexture("Resource/Button/bg.png");
 	pvpBG->setPos(500, 400);
@@ -53,6 +58,13 @@ void PVPButton::update()
 
 	if (isListUP)
 	{
+		closeBtn->update();
+		if (closeBtn->getIsOn())
+		{
+			listButton->setVisible(true);
+			isListUP = false;
+			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+		}
 		for (int i = 0; i < btnVector.size(); i++)
 		{
 			btnVector[i]->update();
@@ -102,18 +114,12 @@ void PVPButton::render()
 		
 		Player::GetInstance()->getUserInfos();
 		for (int i = 0; i < btnVector.size(); i++)
-		{
-			
-			std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
-				" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
-				" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
-				" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
-				
-			
-			GraphicManager::GetInstance()->drawText(str, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
+		{			
+			GraphicManager::GetInstance()->drawText(btnVector[i]->text, POINT{ 550, 110 + i * 50 }, 10, RGB(255, 255, 255));
 
 			btnVector[i]->render();
 		}
+		closeBtn->render();
 	}
 	if (Player::GetInstance()->getUserInfo().DataType == eInviteRecv)
 	{
@@ -134,14 +140,31 @@ void PVPButton::createList()
 	int userNum = Player::GetInstance()->userInfos.size();
 	btnVector.clear();
 	btnVector.reserve(userNum);
+
+	int realUserNum = 0;
+
 	// 유저의 숫자 만큼 블록 생성'
 	for (int i = 0; i < userNum; i++)
 	{
+		if (Player::GetInstance()->userInfos[i].isPvP)
+			continue;
+		if (Player::GetInstance()->userInfos[i].ID == Player::GetInstance()->userInfo.ID)
+			continue;
+		
 		Button* btn = new Button();
-		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + i* 50 },
+		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + (i - realUserNum)* 50 },
 			SIZE{ 80, 30 }, []() {});
+		std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
+			" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
+			" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
+			" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
+		btn->text = str;
+		realUserNum += 1;
+		
+
 		btnVector.push_back(btn);
 	}
+	//btnVector.reserve(realUserNum);
 	//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 
 }

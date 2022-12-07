@@ -156,7 +156,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 bool Player::enterGame()
 {
-	//"127.0.0.1";
+	//"127.0.0.1";	
 	//char* SERVERIP = (char*)"192.168.80.114";
 	char* SERVERIP = (char*)"127.0.0.1";
 

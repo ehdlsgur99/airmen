@@ -28,6 +28,9 @@ public:
 
 	Button* noBtn;
 
+	// 닫기 버튼
+	Button* closeBtn;
+
 
 	// 리스트업 상태
 	bool isListUP;
