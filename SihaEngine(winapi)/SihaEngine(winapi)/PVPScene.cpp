@@ -12,7 +12,13 @@ PVPScene::~PVPScene()
 void PVPScene::init()
 {
 	Player::GetInstance()->player->setPos(0, 630);
-	//OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+	OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+
+	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
+	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
+	
+	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
+	
 	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
@@ -66,13 +72,29 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.y = Player::GetInstance()->player->pos.y;
 	Player::GetInstance()->userInfo.dir = Player::GetInstance()->dir;
 	Player::GetInstance()->userInfo.state = Player::GetInstance()->state;
+	Player::GetInstance()->userInfo.nowhp = Player::GetInstance()->nowHp;
+	Player::GetInstance()->userInfo.nowmp = Player::GetInstance()->nowMp;
 
-	/*Player::GetInstance()->userInfo.x = 1300;
-	Player::GetInstance()->userInfo.y = 630;
-	Player::GetInstance()->userInfo.dir = eLeft;
-	Player::GetInstance()->userInfo.state =eJump;*/
-	//Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
+	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2) 
+	{
+		if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, OtherPlayer::GetInstance()->Oplayer))
+		{
+			OtherPlayer::GetInstance()->state = eAttacked;
+			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+			
+		}
+	}
 
+	if (OtherPlayer::GetInstance()->state == eAttack1 || OtherPlayer::GetInstance()->state == eAttack2)
+	{
+		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer, Player::GetInstance()->player))
+		{
+			Player::GetInstance()->state = eAttacked;
+			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+		}
+	}
+	
+	
 	Player::GetInstance()->update();
 	OtherPlayer::GetInstance()->update();
 	render();

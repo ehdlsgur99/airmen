@@ -48,6 +48,11 @@ void OtherPlayer::init()
 	Osmash->setSize(150, 120);
 	Osmash->setPos(-1000, Oplayer->pos.y);
 
+	hp = Player::GetInstance() -> enemyInfo.maxhp;
+	mp = Player::GetInstance()->enemyInfo.maxmp;
+	
+	power = Player::GetInstance()->enemyInfo.power;
+
 }
 
 void OtherPlayer::update()
@@ -57,7 +62,8 @@ void OtherPlayer::update()
 	state = Player::GetInstance()->enemyInfo.state;
 	Oplayer->pos.x = Player::GetInstance()->enemyInfo.x;
 	Oplayer->pos.y = Player::GetInstance()->enemyInfo.y;
-	
+	nowHp = Player::GetInstance()->enemyInfo.nowhp;
+	nowMp = Player::GetInstance()->enemyInfo.nowmp;
 	// 캐릭터 애니메이션
 	if (dir == eLeft)
 	{

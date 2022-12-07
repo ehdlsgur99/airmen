@@ -150,7 +150,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		if (temp.DataType == eDataType::eGoToPVP)
 		{
 			// scene 이동
-//			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
+//			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp); 
 			Player::GetInstance()->userInfo.DataType = eDataType::eGoToPVP;
 		}
 		// 상대 정보를 받는다.
@@ -170,8 +170,9 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 bool Player::enterGame()
 {
-	//"127.0.0.1";
-	char* SERVERIP = (char*)"192.168.80.114";
+	//"127.0.0.1";	
+	//char* SERVERIP = (char*)"192.168.80.114";
+	char* SERVERIP = (char*)"127.0.0.1";
 
 	// 윈속 초기화
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
