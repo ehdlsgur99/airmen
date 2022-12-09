@@ -11,15 +11,30 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	Player::GetInstance()->player->setPos(0, 630);
-	//OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+	// 아이디가 높은 플레이어가 오른쪽으로 간다.
+	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
+	{
+		Player::GetInstance()->player->setPos(1000, 630);
+		Player::GetInstance()->userInfo.x = 1000;
+
+		OtherPlayer::GetInstance()->Oplayer->setPos(0, 630);
+	}
+	else
+	{
+		Player::GetInstance()->player->setPos(0, 630);
+		Player::GetInstance()->userInfo.x = 0;
+		OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+
+	}
+
+
 
 	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
 	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
 	
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	
-	//��� �� ������Ʈ
+	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
 	
