@@ -158,7 +158,7 @@ bool Player::enterGame()
 {
 	//"127.0.0.1";	
 	//char* SERVERIP = (char*)"192.168.80.114";
-	char* SERVERIP = (char*)"127.0.0.1";
+	char* SERVERIP = (char*)"192.168.0.5";
 
 	// 윈속 초기화
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -208,6 +208,10 @@ Player::Player()
 	level = 1;
 
 	//userInfo = new UserInfo;
+	hpbar = new GameObject;
+	hpbar->loadTexture("Resource/monster/hpbar.png");
+	hpbar->setSrcSize(200, 20);
+	hpbar->setSize(100, 10);
 
 	player = new GameObject;
 	player->loadTexture("Resource/player/idle/player1.png");
@@ -287,6 +291,16 @@ void Player::init()
 
 void Player::update()
 {
+
+	hpbar->setPos(player->pos.x + 60, player->pos.y + 15);
+	if (hp <= 0)
+	{
+		hpbar->size.cx = 1;
+		hpbar->size.cy = 1;
+	}
+	else
+		hpbar->size.cx = 100 * hp / 100;
+
 	if (player->pos.y <= 500)
 	{
 		player->pos.y += 10;
@@ -628,7 +642,7 @@ void Player::render()
 
 	if (isSmash)
 		GraphicManager::GetInstance()->render(smash);
-
+	GraphicManager::GetInstance()->render(hpbar);
 	//if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
 	playerBar->render(playerUI);
 	if (isUI)

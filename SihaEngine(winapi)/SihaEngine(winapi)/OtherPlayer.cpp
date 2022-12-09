@@ -7,10 +7,10 @@ OtherPlayer::OtherPlayer()
 	level = 1;
 
 	//userInfo = new UserInfo;
-	hpbar = new GameObject;
-	hpbar->loadTexture("Resource/monster/hpbar.png");
-	hpbar->setSrcSize(200, 20);
-	hpbar->setSize(100, 10);
+	Ohpbar = new GameObject;
+	Ohpbar->loadTexture("Resource/monster/hpbar.png");
+	Ohpbar->setSrcSize(200, 20);
+	Ohpbar->setSize(100, 10);
 
 	Oplayer = new GameObject;
 	Oplayer->loadTexture("Resource/player/idle/player1.png");
@@ -57,7 +57,15 @@ void OtherPlayer::init()
 
 void OtherPlayer::update()
 {
-	hpbar->setPos(Oplayer->pos.x + 60, Oplayer->pos.y + 15);
+	Ohpbar->setPos(Oplayer->pos.x + 60, Oplayer->pos.y + 15);
+	if (hp <= 0)
+	{
+		Ohpbar->size.cx = 1;
+		Ohpbar->size.cy = 1;
+	}
+	else
+		Ohpbar->size.cx = 100 * hp / 100;
+
 	dir = Player::GetInstance()->enemyInfo.dir;
 	state = Player::GetInstance()->enemyInfo.state;
 	Oplayer->pos.x = Player::GetInstance()->enemyInfo.x;
@@ -212,7 +220,7 @@ void OtherPlayer::render()
 
 	if (isSmash)
 		GraphicManager::GetInstance()->render(Osmash);
-	GraphicManager::GetInstance()->render(hpbar);
+	GraphicManager::GetInstance()->render(Ohpbar);
 }
 
 void OtherPlayer::release()

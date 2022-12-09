@@ -49,6 +49,7 @@ public:
 	GameObject* smash;
 	PlayerBar* playerBar;
 	PlayerUI* playerUI;
+	GameObject* hpbar;
 
 	int level;
 

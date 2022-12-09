@@ -81,23 +81,18 @@ void PVPScene::update()
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
-			if (Count >= 5)
-			{
-				Count++;
-				if (OtherPlayer::GetInstance()->dir == eLeft)
-				{
-					OtherPlayer::GetInstance()->Oplayer->pos.x += crushPower;
-				}
-				else if (OtherPlayer::GetInstance()->dir == eRight)
+			int crushPower = Player::GetInstance()->power / 2;
+				if (Player::GetInstance()->dir == eLeft)
 				{
 					OtherPlayer::GetInstance()->Oplayer->pos.x -= crushPower;
 				}
+				else if (Player::GetInstance()->dir == eRight)
+				{
+					OtherPlayer::GetInstance()->Oplayer->pos.x += crushPower;
+				}
 				
-			}
-			else
-			{
-				Count = 0;
-			}
+			
+			
 			
 			
 		}
@@ -108,24 +103,17 @@ void PVPScene::update()
 		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer, Player::GetInstance()->player))
 		{
 			Player::GetInstance()->state = eAttacked;
-			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
-			if (Count >= 5)
-			{
-				Count++;
-				if (Player::GetInstance()->dir == eLeft)
-				{
-					Player::GetInstance()->player->pos.x += crushPower;
-				}
-				else if (Player::GetInstance()->dir == eRight)
+			Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
+			int crushPower = OtherPlayer::GetInstance()->power/2;
+				if (OtherPlayer::GetInstance()->dir == eLeft)
 				{
 					Player::GetInstance()->player->pos.x -= crushPower;
 				}
+				else if (OtherPlayer::GetInstance()->dir == eRight)
+				{
+					Player::GetInstance()->player->pos.x += crushPower;
+				}
 
-			}
-			else
-			{
-				Count = 0;
-			}
 		}
 	}
 	
