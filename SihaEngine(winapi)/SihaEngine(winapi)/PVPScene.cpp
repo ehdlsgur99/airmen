@@ -12,7 +12,7 @@ PVPScene::~PVPScene()
 void PVPScene::init()
 {
 	Player::GetInstance()->player->setPos(0, 630);
-	OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+	//OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
 
 	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
 	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
@@ -81,7 +81,6 @@ void PVPScene::update()
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
-			int crushPower = Player::GetInstance()->power / 2;
 				if (Player::GetInstance()->dir == eLeft)
 				{
 					OtherPlayer::GetInstance()->Oplayer->pos.x -= crushPower;
@@ -104,7 +103,6 @@ void PVPScene::update()
 		{
 			Player::GetInstance()->state = eAttacked;
 			Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
-			int crushPower = OtherPlayer::GetInstance()->power/2;
 				if (OtherPlayer::GetInstance()->dir == eLeft)
 				{
 					Player::GetInstance()->player->pos.x -= crushPower;

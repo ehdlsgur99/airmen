@@ -275,7 +275,7 @@ void Player::init()
 	smash->setSize(150, 120);
 	smash->setPos(-1000, player->pos.y);
 
-	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+	if ((SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame) || (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp))
 	{
 		nowHp = hp = playerUI->armorPower + 100;
 		nowMp = mp = playerUI->ringPower + 100;
@@ -293,13 +293,13 @@ void Player::update()
 {
 
 	hpbar->setPos(player->pos.x + 60, player->pos.y + 15);
-	if (hp <= 0)
+	if (nowHp <= 0)
 	{
 		hpbar->size.cx = 1;
 		hpbar->size.cy = 1;
 	}
 	else
-		hpbar->size.cx = 100 * hp / 100;
+		hpbar->size.cx = 100 * nowHp / 100;
 
 	if (player->pos.y <= 500)
 	{
@@ -623,7 +623,7 @@ void Player::update()
 		
 	}
 
-	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame|| SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
 		playerBar->update();
 	if (InputManager::GetInstance()->getKey(0x49) && InputManager::GetInstance()-> delay(500))
 	{

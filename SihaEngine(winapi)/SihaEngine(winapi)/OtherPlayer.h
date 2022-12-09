@@ -37,7 +37,7 @@ public:
 	GameObject* Oplayer;
 	GameObject* Osmash;
 	GameObject* Ohpbar;
-
+	PlayerBar* OplayerBar;
 	int level;
 
 	bool isSmash;

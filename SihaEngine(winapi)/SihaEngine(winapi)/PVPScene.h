@@ -9,7 +9,7 @@ public:
 	PVPScene();
 	~PVPScene();
 	
-	//int crushPower = 50;
+	int crushPower = 50;
 	//int Count = 0;
 private:
 	void init();
