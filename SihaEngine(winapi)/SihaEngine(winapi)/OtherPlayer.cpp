@@ -180,6 +180,7 @@ void OtherPlayer::update()
 	}
 
 	// 스매쉬 이동
+
 	if (isSmash)
 	{
 		if (dir == eLeft)
