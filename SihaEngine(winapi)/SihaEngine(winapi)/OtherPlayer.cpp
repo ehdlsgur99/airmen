@@ -7,10 +7,10 @@ OtherPlayer::OtherPlayer()
 	level = 1;
 
 	//userInfo = new UserInfo;
-	hpbar = new GameObject;
-	hpbar->loadTexture("Resource/monster/hpbar.png");
-	hpbar->setSrcSize(200, 20);
-	hpbar->setSize(100, 10);
+	Ohpbar = new GameObject;
+	Ohpbar->loadTexture("Resource/monster/hpbar.png");
+	Ohpbar->setSrcSize(200, 20);
+	Ohpbar->setSize(100, 10);
 
 	Oplayer = new GameObject;
 	Oplayer->loadTexture("Resource/player/idle/player1.png");
@@ -48,8 +48,8 @@ void OtherPlayer::init()
 	Osmash->setSize(150, 120);
 	Osmash->setPos(-1000, Oplayer->pos.y);
 
-	hp = Player::GetInstance() -> enemyInfo.maxhp;
-	mp = Player::GetInstance()->enemyInfo.maxmp;
+	nowHp = Player::GetInstance() -> enemyInfo.nowhp;
+	nowMp = Player::GetInstance()->enemyInfo.nowmp;
 	
 	power = Player::GetInstance()->enemyInfo.power;
 
@@ -57,13 +57,22 @@ void OtherPlayer::init()
 
 void OtherPlayer::update()
 {
-	hpbar->setPos(Oplayer->pos.x + 60, Oplayer->pos.y + 15);
 	dir = Player::GetInstance()->enemyInfo.dir;
 	state = Player::GetInstance()->enemyInfo.state;
 	Oplayer->pos.x = Player::GetInstance()->enemyInfo.x;
 	Oplayer->pos.y = Player::GetInstance()->enemyInfo.y;
 	nowHp = Player::GetInstance()->enemyInfo.nowhp;
 	nowMp = Player::GetInstance()->enemyInfo.nowmp;
+
+	Ohpbar->setPos(Oplayer->pos.x + 60, Oplayer->pos.y + 15);
+	if (nowHp <= 0)
+	{
+		Ohpbar->size.cx = 1;
+		Ohpbar->size.cy = 1;
+	}
+	else
+		Ohpbar->size.cx = 100 * nowHp / 100;
+
 	// 캐릭터 애니메이션
 	if (dir == eLeft)
 	{
@@ -213,7 +222,7 @@ void OtherPlayer::render()
 
 	if (isSmash)
 		GraphicManager::GetInstance()->render(Osmash);
-	GraphicManager::GetInstance()->render(hpbar);
+	GraphicManager::GetInstance()->render(Ohpbar);
 }
 
 void OtherPlayer::release()

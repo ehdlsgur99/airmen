@@ -11,7 +11,7 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	// ¾ÆÀÌµð°¡ ³ôÀº ÇÃ·¹ÀÌ¾î°¡ ¿À¸¥ÂÊÀ¸·Î °£´Ù.
+	// ì•„ì´ë””ê°€ ë†’ì€ í”Œë ˆì´ì–´ê°€ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ê°„ë‹¤.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
 	{
 		Player::GetInstance()->player->setPos(1000, 630);
@@ -34,7 +34,7 @@ void PVPScene::init()
 	
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	
-	//¹è°æ ¹× ¿ÀºêÁ§Æ®
+	//ë°°ê²½ ë° ì˜¤ë¸Œì íŠ¸
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
 	
@@ -96,6 +96,18 @@ void PVPScene::update()
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+				if (Player::GetInstance()->dir == eLeft)
+				{
+					OtherPlayer::GetInstance()->Oplayer->pos.x -= crushPower;
+				}
+				else if (Player::GetInstance()->dir == eRight)
+				{
+					OtherPlayer::GetInstance()->Oplayer->pos.x += crushPower;
+				}
+				
+			
+			
+			
 			
 		}
 	}
@@ -105,7 +117,16 @@ void PVPScene::update()
 		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer, Player::GetInstance()->player))
 		{
 			Player::GetInstance()->state = eAttacked;
-			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+			Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
+				if (OtherPlayer::GetInstance()->dir == eLeft)
+				{
+					Player::GetInstance()->player->pos.x -= crushPower;
+				}
+				else if (OtherPlayer::GetInstance()->dir == eRight)
+				{
+					Player::GetInstance()->player->pos.x += crushPower;
+				}
+
 		}
 	}
 	

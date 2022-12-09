@@ -8,7 +8,9 @@ class PVPScene : public Scene
 public:
 	PVPScene();
 	~PVPScene();
-
+	
+	int crushPower = 50;
+	
 private:
 	void init();
 	void update();
