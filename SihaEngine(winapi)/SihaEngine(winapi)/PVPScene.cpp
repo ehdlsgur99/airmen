@@ -81,6 +81,24 @@ void PVPScene::update()
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+			if (Count >= 5)
+			{
+				Count++;
+				if (OtherPlayer::GetInstance()->dir == eLeft)
+				{
+					OtherPlayer::GetInstance()->Oplayer->pos.x += crushPower;
+				}
+				else if (OtherPlayer::GetInstance()->dir == eRight)
+				{
+					OtherPlayer::GetInstance()->Oplayer->pos.x -= crushPower;
+				}
+				
+			}
+			else
+			{
+				Count = 0;
+			}
+			
 			
 		}
 	}
@@ -91,6 +109,23 @@ void PVPScene::update()
 		{
 			Player::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+			if (Count >= 5)
+			{
+				Count++;
+				if (Player::GetInstance()->dir == eLeft)
+				{
+					Player::GetInstance()->player->pos.x += crushPower;
+				}
+				else if (Player::GetInstance()->dir == eRight)
+				{
+					Player::GetInstance()->player->pos.x -= crushPower;
+				}
+
+			}
+			else
+			{
+				Count = 0;
+			}
 		}
 	}
 	
