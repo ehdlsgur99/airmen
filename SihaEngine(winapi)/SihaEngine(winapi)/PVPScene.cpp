@@ -14,16 +14,21 @@ void PVPScene::init()
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
 	{
-		Player::GetInstance()->player->setPos(1000, 630);
-		Player::GetInstance()->userInfo.x = 1000;
+		Player::GetInstance()->player->setPos(1400, 630);
+		Player::GetInstance()->userInfo.x = 1400;
+		Player::GetInstance()->dir = eLeft;
 
 		OtherPlayer::GetInstance()->Oplayer->setPos(0, 630);
+		OtherPlayer::GetInstance()->dir = eRight;
+
 	}
 	else
 	{
 		Player::GetInstance()->player->setPos(0, 630);
 		Player::GetInstance()->userInfo.x = 0;
-		OtherPlayer::GetInstance()->Oplayer->setPos(1000, 630);
+		Player::GetInstance()->dir = eRight;
+		OtherPlayer::GetInstance()->Oplayer->setPos(1400, 630);
+		OtherPlayer::GetInstance()->dir = eLeft;
 
 	}
 
@@ -31,7 +36,6 @@ void PVPScene::init()
 
 	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
 	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
-	
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	
 	//배경 및 오브젝트
@@ -89,6 +93,7 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.state = Player::GetInstance()->state;
 	Player::GetInstance()->userInfo.nowhp = Player::GetInstance()->nowHp;
 	Player::GetInstance()->userInfo.nowmp = Player::GetInstance()->nowMp;
+	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 
 	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2) 
 	{

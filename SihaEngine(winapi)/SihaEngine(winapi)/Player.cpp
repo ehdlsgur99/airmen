@@ -353,20 +353,21 @@ void Player::update()
 		//공격
 		else if (InputManager::GetInstance()->getKey(0x41))
 		{
-			if (!isAttack || state != eAttack2 && state != eAttack1)
-			{
-				state = eAttack1;
-				isAttack = true;
-			}
-			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
-			{
-				if (nowMp >= 10)
+			if (state != eJump) {
+				if (!isAttack || state != eAttack2 && state != eAttack1)
 				{
-					nextState = eAttack2;
-					nowMp -= 10;
+					state = eAttack1;
+					isAttack = true;
+				}
+				else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+				{
+					if (nowMp >= 10)
+					{
+						nextState = eAttack2;
+						nowMp -= 10;
+					}
 				}
 			}
-
 		}
 	}
 	// PVP씬 동작
@@ -398,22 +399,27 @@ void Player::update()
 		//공격
 		else if (InputManager::GetInstance()->getKey(0x41))
 		{
-
-			if (!isAttack || state != eAttack2 && state != eAttack1)
-			{
-				state = eAttack1;
-				isAttack = true;
-			}
-			else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
-			{
-				if (nowMp >= 10)
+			if (state != eJump) {
+				if (!isAttack || state != eAttack2 && state != eAttack1)
 				{
-					nextState = eAttack2;
-					nowMp -= 10;
+					state = eAttack1;
+					isAttack = true;
+				}
+				else if (isAttack && state == eAttack1 && player->aniNow >= 5 && nextState != eAttack2)
+				{
+					if (nowMp >= 10)
+					{
+						nextState = eAttack2;
+						nowMp -= 10;
+					}
 				}
 			}
 		}
-		//스매쉬
+	}
+	else if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame)
+	{
+		
+		
 	}
 	//점프 
 	if (InputManager::GetInstance()->getKey(VK_UP))
@@ -481,6 +487,11 @@ void Player::update()
 	if (InputManager::GetInstance()->getKey(0x4D))
 	{
 		playerUI->coinNum = 9999;
+	}
+	if (InputManager::GetInstance()->getKey(0x42))
+	{
+		SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
+		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
 	}
 	// 스매쉬
 	if (InputManager::GetInstance()->getKey(0x53))
