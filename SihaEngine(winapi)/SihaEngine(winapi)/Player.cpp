@@ -171,8 +171,8 @@ DWORD WINAPI ClientThread(LPVOID arg)
 bool Player::enterGame()
 {
 	//"127.0.0.1";	
-	//char* SERVERIP = (char*)"192.168.80.114";
-	char* SERVERIP = (char*)"192.168.0.5";
+	char* SERVERIP = (char*)"192.168.157.1";
+	//char* SERVERIP = (char*)"192.168.0.5";
 
 	// 윈속 초기화
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -501,6 +501,7 @@ void Player::update()
 			if (nowMp >= 30)
 			{
 				isSmash = true;
+				smashDir = dir;
 				nowMp -= 30;
 				smash->setPos(player->pos.x + 20, player->pos.y + 50);
 			}
@@ -625,7 +626,7 @@ void Player::update()
 	// 스매쉬 이동
 	if (isSmash)
 	{
-		if (dir == eLeft) 
+		if (smashDir == eLeft) 
 		{
 			smash->animation("Resource/GameScene/smash", 4, 100);
 			smash->pos.x -= 10;
@@ -635,7 +636,7 @@ void Player::update()
 				smash->pos.x = -100;
 			}
 		}
-		else if (dir == eRight)
+		else if (smashDir == eRight)
 		{
 			smash->animation("Resource/GameScene/smash", 4, 100);
 			smash->pos.x += 10;

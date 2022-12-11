@@ -116,6 +116,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	userInfo->DataType = eDataType::eNone;
 	userInfo->ID = threadID;
 	userInfo->isPvP = false;
+	userInfo->isSmash = false;
 	userInfo->maxhp = 100;
 	userInfo->nowhp = 100;
 	userInfo->maxmp = 500;

@@ -30,6 +30,7 @@ public:
 public:
 	int state;
 	int dir;
+	int smashDir;
 	int nextState;
 	
 	int hp;

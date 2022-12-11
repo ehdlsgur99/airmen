@@ -94,6 +94,7 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.nowhp = Player::GetInstance()->nowHp;
 	Player::GetInstance()->userInfo.nowmp = Player::GetInstance()->nowMp;
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
+	Player::GetInstance()->userInfo.isSmash = Player::GetInstance()->isSmash;
 
 	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2) 
 	{

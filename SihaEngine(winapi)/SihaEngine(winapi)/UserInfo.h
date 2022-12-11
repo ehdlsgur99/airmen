@@ -14,6 +14,7 @@ typedef struct UserInfo {
 	int y=-1;
 	int state = -1;
 	bool isPvP = false;
+	bool isSmash = false;
 	int ClientTime = -1;
 	int ServerTime = -1;
 	int OtherRTT = -1;

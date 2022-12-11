@@ -71,6 +71,14 @@ void OtherPlayer::update()
 	else*/
 	Ohpbar->size.cx = 100 * nowHp / 100;
 
+	// 스매시 생성
+	if (Player::GetInstance()->enemyInfo.isSmash && !isSmash)
+	{
+		isSmash = true;
+		Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y);
+		smashDir = dir;
+	}
+
 	// 캐릭터 애니메이션
 	if (dir == eLeft)
 	{
@@ -190,7 +198,7 @@ void OtherPlayer::update()
 
 	if (isSmash)
 	{
-		if (dir == eLeft)
+		if (smashDir == eLeft)
 		{
 			Osmash->animation("Resource/GameScene/smash", 4, 100);
 			Osmash->pos.x -= 10;
@@ -200,7 +208,7 @@ void OtherPlayer::update()
 				Osmash->pos.x = -100;
 			}
 		}
-		else if (dir == eRight)
+		else if (smashDir == eRight)
 		{
 			Osmash->animation("Resource/GameScene/smash", 4, 100);
 			Osmash->pos.x += 10;
