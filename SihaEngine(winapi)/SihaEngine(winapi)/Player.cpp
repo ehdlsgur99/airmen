@@ -171,7 +171,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 bool Player::enterGame()
 {
 	//"127.0.0.1";	
-	char* SERVERIP = (char*)"192.168.157.1";
+	//char* SERVERIP = (char*)"192.168.157.1";
 	//char* SERVERIP = (char*)"192.168.0.5";
 
 	// 윈속 초기화

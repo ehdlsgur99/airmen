@@ -8,8 +8,9 @@ class PVPScene : public Scene
 public:
 	PVPScene();
 	~PVPScene();
+	void PVPinfoRS();
 	
-	int crushPower = 50;
+	
 	
 private:
 	void init();
@@ -21,8 +22,13 @@ private:
 	GameObject* backbd;
 	GameObject* backst;
 	GameObject* ground[GROUNDINDEX];
+	GameObject* portal;
+	GameObject* crown;
 	
+	
+	bool GameSet;
 
-
+	int winX;
+	int winY;
 };
 
