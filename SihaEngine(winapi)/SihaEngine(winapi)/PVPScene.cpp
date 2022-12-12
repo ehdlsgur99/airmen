@@ -12,9 +12,9 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	GameSet = false;
+	/*GameSet = false;
 	winX = -1;
-	winY = -1;
+	winY = -1;*/
 
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
@@ -63,14 +63,15 @@ void PVPScene::init()
 	backst->setSrcSize(352, 192);
 	backst->setSize(1600, 900);
 
-	portal = new GameObject;
-	portal->loadTexture("Resource/GameScene/portal1.png");
-	portal->setPos(700, 522);
-	portal->setSize(200, 630);
-	crown = new GameObject;
-	crown->loadTexture("Resource/GameScene/crown.png");
-	crown->setSrcSize(130, 104);
-	crown->setSize(130, 104);
+	//portal = new GameObject;
+	//portal->loadTexture("Resource/GameScene/portal1.png");
+	//portal->setPos(700, 522);
+	//portal->setSize(200, 630);
+
+	//crown = new GameObject;
+	//crown->loadTexture("Resource/GameScene/크라운.png");
+	//crown->setSrcSize(130, 104);
+	//crown->setSize(130, 104);
 	
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		if (i % 2 == 0) {
@@ -101,69 +102,32 @@ void PVPScene::init()
 
 void PVPScene::update()
 {
-	if (Player::GetInstance()->nowHp <= 0)
-	{
-		GameSet = true;
-		winX = OtherPlayer::GetInstance()->Oplayer->pos.x;
-		winY = OtherPlayer::GetInstance()->Oplayer->pos.y;
-	}
-	else if (OtherPlayer::GetInstance()->nowHp <= 0)
-	{
-		GameSet = true;
-		winX = Player::GetInstance()->player->pos.x;
-		winY = Player::GetInstance()->player->pos.y;
-	}
-	if (GameSet)
-	{
-		Player::GetInstance()->userInfo.isPvP = false;
-		if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
-		{
-			Player::GetInstance()->nowHp = Player::GetInstance()->hp;
-			Player::GetInstance()->nowMp = Player::GetInstance()->mp;
-			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
-			GameSet = false;
-		}
-	}
-	
-	PVPinfoRS();
-	
-	Player::GetInstance()->update();
-	OtherPlayer::GetInstance()->update();
-	render();
-	
-	if (InputManager::GetInstance()->getKey(0x4F)) {
-		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
-		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
-	}
-	
-}
-
-void PVPScene::render()
-{
-	GraphicManager::GetInstance()->render(bg);
-	GraphicManager::GetInstance()->render(backbd);
-	GraphicManager::GetInstance()->render(backst);
-	for (int i = 0; i < GROUNDINDEX; i++) {
-		GraphicManager::GetInstance()->render(ground[i]);
-	}
-	if (GameSet)
-	{
-		portal->animation("Resource/GameScene/portal", 5, 100);
-		GraphicManager::GetInstance()->render(portal);
-		crown->setPos(winX, winY);
-		GraphicManager::GetInstance()->render(crown);
-	}
-	Player::GetInstance()->render();
-	OtherPlayer::GetInstance()->render();
-}
-
-void PVPScene::release()
-{
-	ObjectManager::GetInstance()->release();
-}
-void PVPinfoRS() 
-{
-	int crushPower = 50;
+	//CHECK WINNER
+	//if (Player::GetInstance()->nowHp <= 0)
+	//{
+	//	GameSet = true;
+	//	winX = OtherPlayer::GetInstance()->Oplayer->pos.x;
+	//	winY = OtherPlayer::GetInstance()->Oplayer->pos.y;
+	//}
+	//else if (OtherPlayer::GetInstance()->nowHp <= 0)
+	//{
+	//	GameSet = true;
+	//	winX = Player::GetInstance()->player->pos.x;
+	//	winY = Player::GetInstance()->player->pos.y;
+	//}
+	//if (GameSet)
+	//{
+	//	//Player::GetInstance()->userInfo.isPvP = false;
+	//	if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
+	//	{
+	//		Player::GetInstance()->nowHp = Player::GetInstance()->hp;
+	//		Player::GetInstance()->nowMp = Player::GetInstance()->mp;
+	//		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+	//		GameSet = false;
+	//	}
+	//}
+	//
+	//pvp INFO
 	Player::GetInstance()->userInfo.x = Player::GetInstance()->player->pos.x;
 	Player::GetInstance()->userInfo.y = Player::GetInstance()->player->pos.y;
 	Player::GetInstance()->userInfo.dir = Player::GetInstance()->dir;
@@ -187,11 +151,6 @@ void PVPinfoRS()
 			{
 				OtherPlayer::GetInstance()->Oplayer->pos.x += crushPower;
 			}
-
-
-
-
-
 		}
 	}
 
@@ -212,6 +171,7 @@ void PVPinfoRS()
 
 		}
 	}
+
 	if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
 	{
 		Player::GetInstance()->state = eAttacked;
@@ -222,4 +182,38 @@ void PVPinfoRS()
 		OtherPlayer::GetInstance()->state = eAttacked;
 		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
 	}
+	
+	Player::GetInstance()->update();
+	OtherPlayer::GetInstance()->update();
+	render();
+	
+	if (InputManager::GetInstance()->getKey(0x4F)) {
+		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
+	}
+	
+}
+
+void PVPScene::render()
+{
+	GraphicManager::GetInstance()->render(bg);
+	GraphicManager::GetInstance()->render(backbd);
+	GraphicManager::GetInstance()->render(backst);
+	for (int i = 0; i < GROUNDINDEX; i++) {
+		GraphicManager::GetInstance()->render(ground[i]);
+	}
+	/*if (GameSet)
+	{
+		portal->animation("Resource/GameScene/portal", 5, 100);
+		GraphicManager::GetInstance()->render(portal);
+		crown->setPos(winX, winY);
+		GraphicManager::GetInstance()->render(crown);
+	}*/
+	Player::GetInstance()->render();
+	OtherPlayer::GetInstance()->render();
+}
+
+void PVPScene::release()
+{
+	ObjectManager::GetInstance()->release();
 }
