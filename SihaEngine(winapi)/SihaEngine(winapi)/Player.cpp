@@ -319,12 +319,12 @@ void Player::update()
 {
 
 	hpbar->setPos(player->pos.x + 60, player->pos.y + 15);
-	if (nowHp <= 0)
-	{
-		hpbar->size.cx = 1;
-		hpbar->size.cy = 1;
-	}
-	else
+	//if (nowHp <= 0)
+	//{
+	//	hpbar->size.cx = 1;
+	//	hpbar->size.cy = 1;
+	//}
+	//else
 		hpbar->size.cx = 100 * nowHp / 100;
 
 	if (player->pos.y <= 500)
@@ -645,23 +645,23 @@ void Player::update()
 			if (smash->pos.x <= 0)
 			{
 				isSmash = false;
-				smash->pos.x = -100;
+				smash->pos.x = -1000;
 			}
 		}
 		else if (smashDir == eRight)
 		{
 			smash->animation("Resource/GameScene/smash", 4, 100);
 			smash->pos.x += 10;
-			if (smash->pos.x >= 2000)
+			if (smash->pos.x >= 1500)
 			{
 				isSmash = false;
-				smash->pos.x = -100;
+				smash->pos.x = -1000;
 			}
 		}
 		
 	}
 
-	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame|| SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+	//if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame|| SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
 		playerBar->update();
 	if (InputManager::GetInstance()->getKey(0x49) && InputManager::GetInstance()-> delay(500))
 	{
