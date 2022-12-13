@@ -12,9 +12,8 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	GameSet = false;
-	winX = -1;
-	winY = -1;
+	winX = -1000;
+	winY = -1000;
 
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
@@ -63,15 +62,14 @@ void PVPScene::init()
 	backst->setSrcSize(352, 192);
 	backst->setSize(1600, 900);
 
-	//portal = new GameObject;
-	//portal->loadTexture("Resource/GameScene/portal1.png");
-	//portal->setPos(700, 522);
-	//portal->setSize(200, 630);
+	portal = new GameObject;
+	portal->loadTexture("Resource/GameScene/portal1.png");
+	portal->setPos(700, 630);
+	portal->setSize(100, 161);
 
-	//crown = new GameObject;
-	//crown->loadTexture("Resource/GameScene/크라운.png");
-	//crown->setSrcSize(130, 104);
-	//crown->setSize(130, 104);
+	crown = new GameObject;
+	crown->loadTexture("Resource/GameScene/crown.png");
+	crown->setSize(30, 30);
 	
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		if (i % 2 == 0) {
@@ -102,10 +100,12 @@ void PVPScene::init()
 
 void PVPScene::update()
 {
+	
 	// ==================================================== 
 	// 상대방 강제 종료 확인 코드
 	// ====================================================
 	// 수정 필요 ############################################
+
 	Player::GetInstance()->getUserInfo();
 	if (Player::GetInstance()->enemyInfo.DataType == eDataType::eExit)
 	{
@@ -120,30 +120,33 @@ void PVPScene::update()
 	
 	
 	//CHECK WINNER
-	//if (Player::GetInstance()->nowHp <= 0)
-	//{
-	//	GameSet = true;
-	//	winX = OtherPlayer::GetInstance()->Oplayer->pos.x;
-	//	winY = OtherPlayer::GetInstance()->Oplayer->pos.y;
-	//}
-	//else if (OtherPlayer::GetInstance()->nowHp <= 0)
-	//{
-	//	GameSet = true;
-	//	winX = Player::GetInstance()->player->pos.x;
-	//	winY = Player::GetInstance()->player->pos.y;
-	//}
-	//if (GameSet)
-	//{
-	//	//Player::GetInstance()->userInfo.isPvP = false;
-	//	if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
-	//	{
-	//		Player::GetInstance()->nowHp = Player::GetInstance()->hp;
-	//		Player::GetInstance()->nowMp = Player::GetInstance()->mp;
-	//		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
-	//		GameSet = false;
-	//	}
-	//}
-	//
+	if (Player::GetInstance()->nowHp < 0)
+	{
+		GameSet = true;
+		winX = OtherPlayer::GetInstance()->Oplayer->pos.x;
+		winY = OtherPlayer::GetInstance()->Oplayer->pos.y;
+	}
+	else if (OtherPlayer::GetInstance()->nowHp < 0)
+	{
+		GameSet = true;
+		winX = Player::GetInstance()->player->pos.x;
+		winY = Player::GetInstance()->player->pos.y;
+	}
+	if (GameSet)
+	{
+		crown->setPos(winX, winY);
+		portal->animation("Resource/GameScene/portal", 5, 100);
+		if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
+		{
+			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+			Player::GetInstance()->userInfo.isPvP = false;
+			Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
+			Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+			GameSet = false;
+		}
+	}
+	
 	//pvp INFO
 	Player::GetInstance()->userInfo.x = Player::GetInstance()->player->pos.x;
 	Player::GetInstance()->userInfo.y = Player::GetInstance()->player->pos.y;
@@ -154,9 +157,10 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	Player::GetInstance()->userInfo.isSmash = Player::GetInstance()->isSmash;
 
+	int range = 0;
 	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2)
 	{
-		if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player, OtherPlayer::GetInstance()->Oplayer))
+		if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player- range, OtherPlayer::GetInstance()->Oplayer))
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
@@ -173,7 +177,7 @@ void PVPScene::update()
 
 	if (OtherPlayer::GetInstance()->state == eAttack1 || OtherPlayer::GetInstance()->state == eAttack2)
 	{
-		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer, Player::GetInstance()->player))
+		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer- range, Player::GetInstance()->player))
 		{
 			Player::GetInstance()->state = eAttacked;
 			Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
@@ -192,16 +196,18 @@ void PVPScene::update()
 	if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
 	{
 		Player::GetInstance()->state = eAttacked;
-		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
-	/*	OtherPlayer::GetInstance()->isSmash = false;
-		OtherPlayer::GetInstance()->Osmash->pos.x = -100;*/
+		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power+30;
+		OtherPlayer::GetInstance()->isSmash = false;
+		OtherPlayer::GetInstance()->Osmash->pos.x = -1000;
+
 	}
 	if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
 	{
 		OtherPlayer::GetInstance()->state = eAttacked;
-		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
-		//Player::GetInstance()->isSmash = false;
-		//Player::GetInstance()->smash->pos.x = -100;
+		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power+30;
+		Player::GetInstance()->isSmash = false;
+		Player::GetInstance()->smash->pos.x = -1000;
+		
 	}
 	
 	Player::GetInstance()->update();
@@ -223,13 +229,13 @@ void PVPScene::render()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
-	/*if (GameSet)
+	if (GameSet)
 	{
-		portal->animation("Resource/GameScene/portal", 5, 100);
 		GraphicManager::GetInstance()->render(portal);
-		crown->setPos(winX, winY);
 		GraphicManager::GetInstance()->render(crown);
-	}*/
+	}
+
+	
 	Player::GetInstance()->render();
 	OtherPlayer::GetInstance()->render();
 }

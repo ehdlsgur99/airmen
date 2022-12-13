@@ -48,8 +48,8 @@ void OtherPlayer::init()
 	Osmash->setSize(150, 120);
 	Osmash->setPos(-1000, Oplayer->pos.y);
 
-	nowHp = Player::GetInstance() -> enemyInfo.nowhp;
-	power = Player::GetInstance()->enemyInfo.power;
+	/*nowHp = Player::GetInstance() -> enemyInfo.nowhp;
+	power = Player::GetInstance()->enemyInfo.power;*/
 
 }
 
@@ -205,17 +205,17 @@ void OtherPlayer::update()
 			if (Osmash->pos.x <= 0)
 			{
 				isSmash = false;
-				Osmash->pos.x = -100;
+				Osmash->pos.x = -1000;
 			}
 		}
 		else if (smashDir == eRight)
 		{
 			Osmash->animation("Resource/GameScene/smash", 4, 100);
 			Osmash->pos.x += 10;
-			if (Osmash->pos.x >= 2000)
+			if (Osmash->pos.x >= 1500)
 			{
 				isSmash = false;
-				Osmash->pos.x = -100;
+				Osmash->pos.x = -1000;
 			}
 		}
 
