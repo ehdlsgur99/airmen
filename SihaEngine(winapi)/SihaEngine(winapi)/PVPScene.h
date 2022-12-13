@@ -23,16 +23,18 @@ private:
 	GameObject* backbd;
 	GameObject* backst;
 	GameObject* ground[GROUNDINDEX];
-	GameObject* portal;
-	GameObject* crown;
+
 
 
 	// tail
 	//Tail* tail;
-	
-	bool GameSet;
 
-	int winX;
-	int winY;
+
+	GameObject* Text;
+
+	bool GameSet;
+	bool isWin;
+	int c=0;
+
 };
 
