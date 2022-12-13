@@ -15,6 +15,9 @@ void PVPScene::init()
 	winX = -1000;
 	winY = -1000;
 
+	//tail = new Tail;
+	//tail->init();
+
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
 	{
@@ -210,8 +213,13 @@ void PVPScene::update()
 		
 	}
 	
+
 	Player::GetInstance()->update();
 	OtherPlayer::GetInstance()->update();
+
+	//Player::GetInstance()->gravity(tail);
+	//tail->update();
+
 	render();
 	
 	if (InputManager::GetInstance()->getKey(0x4F)) {
@@ -238,6 +246,7 @@ void PVPScene::render()
 	
 	Player::GetInstance()->render();
 	OtherPlayer::GetInstance()->render();
+	//tail->render();
 }
 
 void PVPScene::release()

@@ -25,6 +25,10 @@ private:
 	GameObject* ground[GROUNDINDEX];
 	GameObject* portal;
 	GameObject* crown;
+
+
+	// tail
+	//Tail* tail;
 	
 	bool GameSet;
 

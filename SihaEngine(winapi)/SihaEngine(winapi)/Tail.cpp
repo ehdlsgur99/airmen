@@ -9,19 +9,6 @@ void Tail::init()
 void Tail::update()
 {
 	createTail();
-
-	// 捞悼
-	if (Player::GetInstance()->state == eRight || Player::GetInstance()->state == eJump)
-	{
-		for (int i = 0; i < tails.size(); i++)
-		{
-			tails[i]->pos.x -= 6;
-		}
-	}
-	else
-	{
-		tailTime = GetTickCount();
-	}
 }
 
 void Tail::render()
@@ -39,27 +26,19 @@ void Tail::release()
 
 void Tail::createTail()
 {
-	if (GetTickCount() - tailTime >= 5000)
-	{
-		// tail 农扁 抄荐 积己
-		int width = rand() % 600 + 200;
-		int height = rand() % 100 + 450;
-		tailTime = GetTickCount();
-
-		// tail 积己
-		GameObject* tempTail = new GameObject;
-		if (Player::GetInstance()->level % 2 == 1)
-		{
-			tempTail->loadTexture("Resource/GameScene/tail.png");
-		}
-		else
-		{
-			tempTail->loadTexture("Resource/GameScene/BG3/tail.png");
-		}
 	
-		tempTail->setSize(width, 50);
-		tempTail->setPos(1600, height);
+	// tail 农扁 抄荐 积己
+	//int width = rand() % 600 + 200;
+	//int height = rand() % 100 + 450;
+	//tailTime = GetTickCount();
 
-		tails.push_back(tempTail);
-	}
+	// tail 积己
+	GameObject* tempTail = new GameObject;
+	tempTail->loadTexture("Resource/GameScene/tail.png");
+	
+	tempTail->setSize(400, 50);
+	tempTail->setPos(800, 600);
+
+	tails.push_back(tempTail);
+	
 }
