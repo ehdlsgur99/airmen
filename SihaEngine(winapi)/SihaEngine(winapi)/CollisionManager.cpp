@@ -41,7 +41,37 @@ bool CollisionManager::RectCollisionCheck(GameObject* obj1, GameObject* obj2)
 	return false;
 
 }
+bool CollisionManager::RectCollisionCheck2(GameObject* obj1, GameObject* obj2,int range)
+{
+	// 체크할 사각형 2개 선언
+	RECT rect1;
+	RECT rect2;
 
+	// 사각형의 왼쪽, 오른쪽, 위, 아래의 값을 지정해준다.
+	rect1.left = obj1->getPos().x - obj1->getSize().cx / 2 + range;
+	rect1.right = obj1->getPos().x + obj1->getSize().cx / 2 - range;
+	rect1.top = obj1->getPos().y - obj1->getSize().cy / 2 + range;
+	rect1.bottom = obj1->getPos().y + obj1->getSize().cy / 2 - range;
+
+	rect2.left = obj2->getPos().x - obj2->getSize().cx / 2 + range;
+	rect2.right = obj2->getPos().x + obj2->getSize().cx / 2 - range;
+	rect2.top = obj2->getPos().y - obj2->getSize().cy / 2 + range;
+	rect2.bottom = obj2->getPos().y + obj2->getSize().cy / 2 - range;
+
+	// 그리고 체크이후
+	if (rect1.left < rect2.right &&
+		rect1.top < rect2.bottom &&
+		rect1.right > rect2.left &&
+		rect1.bottom > rect2.top)
+	{
+		// 충돌 일시 true를 리턴
+		return true;
+	}
+
+	// 충돌이 아닐시 false 리턴
+	return false;
+
+}
 bool CollisionManager::CircleCollisionCheck(float x1, float y1, float x2, float y2, float size)
 {
 	// 점과 점사이의 거리, 원의 방정식을 이용한다.

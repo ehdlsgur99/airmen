@@ -12,8 +12,7 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	winX = -1000;
-	winY = -1000;
+	
 
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
@@ -62,14 +61,10 @@ void PVPScene::init()
 	backst->setSrcSize(352, 192);
 	backst->setSize(1600, 900);
 
-	portal = new GameObject;
-	portal->loadTexture("Resource/GameScene/portal1.png");
-	portal->setPos(700, 630);
-	portal->setSize(100, 161);
-
-	crown = new GameObject;
-	crown->loadTexture("Resource/GameScene/crown.png");
-	crown->setSize(30, 30);
+	Text = new GameObject;
+	Text->setPos(50,50);
+	Text->setSize(1000, 600);
+	
 	
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		if (i % 2 == 0) {
@@ -123,20 +118,23 @@ void PVPScene::update()
 	if (Player::GetInstance()->nowHp < 0)
 	{
 		GameSet = true;
-		winX = OtherPlayer::GetInstance()->Oplayer->pos.x;
-		winY = OtherPlayer::GetInstance()->Oplayer->pos.y;
+		if(!isWin)
+			Text->loadTexture("Resource/PVPScene/lose.png");
+		isWin = true;
+		
 	}
 	else if (OtherPlayer::GetInstance()->nowHp < 0)
 	{
 		GameSet = true;
-		winX = Player::GetInstance()->player->pos.x;
-		winY = Player::GetInstance()->player->pos.y;
+		if (!isWin)
+			Text->loadTexture("Resource/PVPScene/win.png");
+		isWin = true;
+		
 	}
 	if (GameSet)
 	{
-		crown->setPos(winX, winY);
-		portal->animation("Resource/GameScene/portal", 5, 100);
-		if (CollisionManager::GetInstance()->RectCollisionCheck(portal, Player::GetInstance()->player))
+		OtherPlayer::GetInstance()->Oplayer->alpha = 0;
+		if (InputManager::GetInstance()->isKeyDown)
 		{
 			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 			Player::GetInstance()->userInfo.isPvP = false;
@@ -157,10 +155,10 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	Player::GetInstance()->userInfo.isSmash = Player::GetInstance()->isSmash;
 
-	int range = 0;
+	int range = 10;
 	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2)
 	{
-		if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->player- range, OtherPlayer::GetInstance()->Oplayer))
+		if (CollisionManager::GetInstance()->RectCollisionCheck2(Player::GetInstance()->player, OtherPlayer::GetInstance()->Oplayer,range))
 		{
 			OtherPlayer::GetInstance()->state = eAttacked;
 			OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
@@ -177,7 +175,7 @@ void PVPScene::update()
 
 	if (OtherPlayer::GetInstance()->state == eAttack1 || OtherPlayer::GetInstance()->state == eAttack2)
 	{
-		if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Oplayer- range, Player::GetInstance()->player))
+		if (CollisionManager::GetInstance()->RectCollisionCheck2(OtherPlayer::GetInstance()->Oplayer, Player::GetInstance()->player,range))
 		{
 			Player::GetInstance()->state = eAttacked;
 			Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
@@ -193,18 +191,18 @@ void PVPScene::update()
 		}
 	}
 
-	if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
+	if (CollisionManager::GetInstance()->RectCollisionCheck2(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player,range))
 	{
 		Player::GetInstance()->state = eAttacked;
-		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power+30;
+		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power+100;
 		OtherPlayer::GetInstance()->isSmash = false;
 		OtherPlayer::GetInstance()->Osmash->pos.x = -1000;
 
 	}
-	if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
+	if (CollisionManager::GetInstance()->RectCollisionCheck2(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer,range))
 	{
 		OtherPlayer::GetInstance()->state = eAttacked;
-		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power+30;
+		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power+100;
 		Player::GetInstance()->isSmash = false;
 		Player::GetInstance()->smash->pos.x = -1000;
 		
@@ -229,11 +227,9 @@ void PVPScene::render()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		GraphicManager::GetInstance()->render(ground[i]);
 	}
-	if (GameSet)
-	{
-		GraphicManager::GetInstance()->render(portal);
-		GraphicManager::GetInstance()->render(crown);
-	}
+	if(GameSet)
+		GraphicManager::GetInstance()->render(Text);
+
 
 	
 	Player::GetInstance()->render();

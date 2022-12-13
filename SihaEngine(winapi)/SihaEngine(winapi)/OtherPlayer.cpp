@@ -71,6 +71,7 @@ void OtherPlayer::update()
 	else*/
 	Ohpbar->size.cx = 100 * nowHp / 100;
 
+	
 	// 스매시 생성
 	if (Player::GetInstance()->enemyInfo.isSmash && !isSmash)
 	{
