@@ -109,6 +109,8 @@ void PVPScene::update()
 		Player::GetInstance()->enemyInfo = UserInfo();
 		Player::GetInstance()->userInfo.isPvP = false;
 		Player::GetInstance()->userInfo.PVPID = -1;
+		Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
+		Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
 		SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
 		// 상대방이 강제 종료한 경우입니다.
 	}
@@ -134,7 +136,7 @@ void PVPScene::update()
 	if (GameSet)
 	{
 		OtherPlayer::GetInstance()->Oplayer->alpha = 0;
-		if (InputManager::GetInstance()->isKeyDown)
+		if (c>100)
 		{
 			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 			Player::GetInstance()->userInfo.isPvP = false;
@@ -143,6 +145,8 @@ void PVPScene::update()
 			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
 			GameSet = false;
 		}
+		InputManager::GetInstance()->delay(3000);
+		c++;
 	}
 	
 	//pvp INFO
@@ -155,7 +159,7 @@ void PVPScene::update()
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
 	Player::GetInstance()->userInfo.isSmash = Player::GetInstance()->isSmash;
 
-	int range = 10;
+	int range = 30;
 	if (Player::GetInstance()->state == eAttack1 || Player::GetInstance()->state == eAttack2)
 	{
 		if (CollisionManager::GetInstance()->RectCollisionCheck2(Player::GetInstance()->player, OtherPlayer::GetInstance()->Oplayer,range))

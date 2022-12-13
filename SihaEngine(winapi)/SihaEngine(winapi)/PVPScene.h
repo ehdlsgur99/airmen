@@ -28,7 +28,7 @@ private:
 
 	bool GameSet;
 	bool isWin;
-	int c = 0;
+	int c=0;
 
 };
 
