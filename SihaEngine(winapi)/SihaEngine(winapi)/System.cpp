@@ -32,7 +32,7 @@ void System::msgLoop()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else
+		if(msg.message == WM_TIMER)
 		{
 			mainLoop();
 		}
