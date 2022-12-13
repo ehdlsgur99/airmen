@@ -14,7 +14,7 @@ void VillageScene::init()
 {
 	pvpButton = new PVPButton();
 
-
+	
 	Player::GetInstance()->mappos = 0;
 	Player::GetInstance()->player->setPos(0, 630);
 

@@ -40,7 +40,8 @@ void PVPScene::init()
 	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
 	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
-	
+	Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
+	Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
 	//배경 및 오브젝트
 	bg = new GameObject;
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
@@ -142,10 +143,14 @@ void PVPScene::update()
 			Player::GetInstance()->userInfo.isPvP = false;
 			Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
 			Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
-			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+			c=0;
+			OtherPlayer::GetInstance()->Oplayer->alpha = 255;
 			GameSet = false;
+			isWin = false;
+			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
+	
 		}
-		InputManager::GetInstance()->delay(3000);
+		InputManager::GetInstance()->delay(5000);
 		c++;
 	}
 	
@@ -217,6 +222,8 @@ void PVPScene::update()
 	render();
 	
 	if (InputManager::GetInstance()->getKey(0x4F)) {
+		Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+		Player::GetInstance()->userInfo.isPvP = false;
 		SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
 		SoundManager::GetInstance()->PlayBg("stop ", "Resource/PVPScene/cyberpunk-street.mp3");
 	}

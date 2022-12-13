@@ -4,7 +4,6 @@ UserInfo info2;
 
 OtherPlayer::OtherPlayer()
 {
-	level = 1;
 
 	//userInfo = new UserInfo;
 	Ohpbar = new GameObject;
@@ -25,7 +24,7 @@ OtherPlayer::OtherPlayer()
 	dir = eLeft;
 	state = eIdle;
 
-	getUserInfo2();
+	//getUserInfo2();
 }
 
 OtherPlayer::~OtherPlayer()
@@ -47,6 +46,8 @@ void OtherPlayer::init()
 	Osmash = new GameObject;
 	Osmash->setSize(150, 120);
 	Osmash->setPos(-1000, Oplayer->pos.y);
+	nowHp = Player::GetInstance()->enemyInfo.nowhp;
+	
 
 	/*nowHp = Player::GetInstance() -> enemyInfo.nowhp;
 	power = Player::GetInstance()->enemyInfo.power;*/
