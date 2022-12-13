@@ -266,7 +266,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 					else
 						SetEvent(socketList[packet->ID - 1].sendEvent); 
 				}
-				if ((*iter)->ID == socketInfo.ID)
+				if ((*iter)->ID == packet->ID)
 				{
 					(*iter) = packet;
 					(*iter)->isPvP = true;
@@ -276,12 +276,12 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		}
 		if (eDataType::eInPVP == packet->DataType)
 		{
-			if (packet->ID > packet->PVPID)
-			{
-				WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE);	// b 보내기 완료 대기
-			}
-			else
-				WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // a 쓰기 완료 대기
+			//if (packet->ID > packet->PVPID)
+			//{
+			//	WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE);	// b 보내기 완료 대기
+			//}
+			//else
+			//	WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // a 쓰기 완료 대기
 
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
@@ -318,20 +318,41 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
 		iter = userList.begin();
+		int pvpCount = 0;
 		for (iter = userList.begin(); iter != userList.end(); iter++)
 		{
 			if ((*iter)->ID == threadID)
 			{
+				if ((*iter)->DataType == eDataType::eInPVP)
+					pvpCount += 1;
 				// 서버 시간
 				(*iter)->ServerTime = (int)serverTime;
 				userInfo = (*iter);
 			}
+			if ((*iter)->ID == packet->PVPID)
+			{
+				if ((*iter)->DataType == eDataType::eInPVP)
+					pvpCount += 1;
+			}
+
 		}
 		if (eDataType::eInPVP != packet->DataType)
 		{
 			retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
 		}	
-
+		else if(eDataType::eInPVP == packet->DataType && pvpCount < 2)
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if (packet->PVPID == (*iter)->ID)
+				{
+					// 서버 시간
+					(*iter)->ServerTime = (int)serverTime;
+					retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
+					break;
+				}
+			}
+		}
 		else
 		{
 			// 상대방 정보 전송
