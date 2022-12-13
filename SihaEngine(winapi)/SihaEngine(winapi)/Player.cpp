@@ -1,7 +1,5 @@
 #include "common.h"
 
-UserInfo info;
-
 // 소켓 함수 오류 출력 후 종료
 void err_quit(const char* msg)
 {
@@ -43,17 +41,12 @@ void err_display(int errcode)
 }
 
 
-// Player 클래스가 싱글톤이고 보기 쉽게 여기에 쓰레드를 생성합니다.
 DWORD WINAPI ClientThread(LPVOID arg)
 {
 	int retval;
 	Player::GetInstance()->getUserInfo();
 	while (1)
 	{
-		//retval = send(Player::GetInstance()->sock, (char*)&type, sizeof(type), 0);
-	/*	if (retval == SOCKET_ERROR) {
-			err_display("send()");
-		}*/
 		switch (Player::GetInstance()->getUserInfo().DataType)
 		{
 		case eDataType::eNone:
@@ -63,15 +56,12 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			break;
 		case eDataType::eRequest:
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-
 			// 다른 플레이어가 몇명인지 받아온다.
 			int otherNum;
 			retval = recv(Player::GetInstance()->sock, (char*)&otherNum, sizeof(otherNum), MSG_WAITALL);
 
 			Player::GetInstance()->userInfos.clear();
 			Player::GetInstance()->userInfos.reserve(otherNum);
-			// UserInfo 구조체  받기
-			//char buf[BUFSIZE];
 
 			// 다른 유저들의 데이터를 받아온다.
 			for (int i = 0; i < otherNum; ++i)
@@ -85,13 +75,10 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			// dataType 다시 eNone으로 변경
 			Player::GetInstance()->userInfo.DataType = eNone;
 			SetEvent(Player::GetInstance()->readOtherUserEvent);
-		
 			break;
 		case eDataType::eInviteSend:
 			// 선택한 상대방 아이디와 내 유저 정보를 보낸다
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-			// dataType 다시 eNone으로 변경
-			//Player::GetInstance()->userInfo.DataType = eNone;
 			break; 
 		case eDataType::eInviteRecv:
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
@@ -103,49 +90,26 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
 			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-
-			//SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			break;
 		case eDataType::eInPVP:
 			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-
 			break;
 		case eDataType::eExit:
 			Player::GetInstance()->getUserInfo();			
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-
 			break;
 		}
 		
-		//if (eDataType::eInviteRecv == Player::GetInstance()->getUserInfo().DataType)
-		//{
-		//	retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-		//}
-
-		int TSc = Player::GetInstance()->userInfo.ClientTime;
-		int TEc;
 		// 끝날때 서버로부터 패킷을 받아온다. 내 데이터 or 상대 데이터(pvp)
 		UserInfo temp; 
-		//retval = recv(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
-		retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
-		
-		// ================================================================
-		// RTT 계산, 자신의 RTT와 상대의 RTT가 모두 필요하다.
-		// 최근 패킷의 RTT를 축적해 평균을 이용해 사용한다.
-		// https://m.blog.naver.com/linegamedev/221064252502
-		// ================================================================
-		TEc = temp.ClientTime;
-		int RTT = TEc - TSc;
-		int Tc = TSc + RTT / 2;
-
-		Player::GetInstance()->userInfo.OtherRTT = RTT;
+			retval = recv(Player::GetInstance()->sock, (char*)&temp, sizeof(UserInfo), 0);
 		
 		// 만약 초대 받은 상황이라면?
 		// 현재 상태 변경
 		if (temp.DataType == eDataType::eNone)
 		{
-			//Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+	
 		}
 		if (temp.DataType == eDataType::eInviteRecv)
 		{
@@ -156,7 +120,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		if (temp.DataType == eDataType::eGoToPVP)
 		{
 			// scene 이동
-//			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp); 
 			Player::GetInstance()->userInfo.DataType = eDataType::eGoToPVP;
 		}
 		// 상대 정보를 받는다.
@@ -170,11 +133,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			Player::GetInstance()->enemyInfo = temp;
 			// pvp 승리
 		}
-		
-
-		//Player::GetInstance()->userInfo = temp;
-
-
 	}
 	return 0;
 }
@@ -182,7 +140,6 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 bool Player::enterGame()
 {
-	//"127.0.0.1";	
 	//char* SERVERIP = (char*)"192.168.157.1";
 	char* SERVERIP = (char*)"192.168.0.6";
 
@@ -205,12 +162,9 @@ bool Player::enterGame()
 
 	// UserInfo 구조체  받기
 	char buf[BUFSIZE];
-	//retval = recv(sock, buf, sizeof(UserInfo), 0);
 	retval = recv(sock, (char*)&userInfo, sizeof(UserInfo), 0);
 	buf[retval] = '\0';
 
-	//info.ID = userInfo->ID;
-	//info.power = userInfo->power;
  	return true;
 }
 
@@ -233,7 +187,6 @@ Player::Player()
 
 	level = 1;
 
-	//userInfo = new UserInfo;
 	hpbar = new GameObject;
 	hpbar->loadTexture("Resource/monster/hpbar.png");
 	hpbar->setSrcSize(200, 20);
@@ -319,13 +272,8 @@ void Player::update()
 {
 
 	hpbar->setPos(player->pos.x + 60, player->pos.y + 15);
-	//if (nowHp <= 0)
-	//{
-	//	hpbar->size.cx = 1;
-	//	hpbar->size.cy = 1;
-	//}
-	//else
-		hpbar->size.cx = 100 * nowHp / 100;
+	
+	hpbar->size.cx = 100 * nowHp / 100;
 
 	if (player->pos.y <= 500)
 	{

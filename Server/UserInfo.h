@@ -20,9 +20,6 @@ struct UserInfo {
 	int state;
 	bool isPvP;
 	bool isSmash;
-	int ClientTime;
-	int ServerTime;
-	int OtherRTT;
 	int dir;
 };
 

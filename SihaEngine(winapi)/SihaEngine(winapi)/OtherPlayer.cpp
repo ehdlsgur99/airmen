@@ -54,6 +54,11 @@ void OtherPlayer::init()
 
 }
 
+void OtherPlayer::resetInfo()
+{
+	userInfo = Player::GetInstance()->enemyInfo;
+}
+
 void OtherPlayer::update()
 {
 	dir = Player::GetInstance()->enemyInfo.dir;

@@ -16,6 +16,8 @@ public:
 	void render();
 	void release();
 
+	void resetInfo();
+
 	void gravity(Tail* tail);
 public:
 	int state;

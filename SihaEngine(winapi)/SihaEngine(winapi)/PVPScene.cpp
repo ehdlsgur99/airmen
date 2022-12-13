@@ -12,11 +12,6 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	
-
-	//tail = new Tail;
-	//tail->init();
-
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
 	{
@@ -38,8 +33,6 @@ void PVPScene::init()
 
 	}
 
-
-
 	Player::GetInstance()->userInfo.maxhp = Player::GetInstance()->hp;
 	Player::GetInstance()->userInfo.maxmp = Player::GetInstance()->mp;
 	Player::GetInstance()->userInfo.power = Player::GetInstance()->power;
@@ -50,7 +43,6 @@ void PVPScene::init()
 	bg->loadTexture("Resource/PVPScene/far-buildings.png");
 	
 	bg->setPos(0, 0);
-	//bg->setSrcSize(1280, 1024);
 	bg->setSize(1600, 900);
 
 	backbd = new GameObject;
@@ -68,7 +60,6 @@ void PVPScene::init()
 	Text = new GameObject;
 	Text->setPos(50,50);
 	Text->setSize(1000, 600);
-	
 	
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		if (i % 2 == 0) {
@@ -93,36 +84,33 @@ void PVPScene::init()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	//SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
-	//SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
+	OtherPlayer::GetInstance()->nowHp = 100;
+	SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
+	SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
 }
 
 void PVPScene::update()
 {
-	
 	// ==================================================== 
-	// 상대방 강제 종료 확인 코드
+	// 상대방 종료 확인 코드
 	// ====================================================
-	// 수정 필요 ############################################
-
 	Player::GetInstance()->getUserInfo();
 	if (Player::GetInstance()->enemyInfo.DataType == eDataType::eExit)
 	{
 		Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 		Player::GetInstance()->getUserInfo();
-		Player::GetInstance()->enemyInfo = UserInfo();
+		Player::GetInstance()->enemyInfo.nowhp = Player::GetInstance()->enemyInfo.maxhp;
 		Player::GetInstance()->userInfo.isPvP = false;
 		Player::GetInstance()->userInfo.PVPID = -1;
 		Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
 		Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
 		SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
-		// 상대방이 강제 종료한 경우입니다.
 	}
-	
-	
+
 	//CHECK WINNER
 	if (Player::GetInstance()->nowHp < 0)
 	{
+
 		GameSet = true;
 		if(!isWin)
 			Text->loadTexture("Resource/PVPScene/lose.png");
@@ -131,6 +119,8 @@ void PVPScene::update()
 	}
 	else if (OtherPlayer::GetInstance()->nowHp < 0)
 	{
+
+		//OtherPlayer::GetInstance()->getUserInfo2();
 		GameSet = true;
 		if (!isWin)
 			Text->loadTexture("Resource/PVPScene/win.png");
@@ -144,10 +134,11 @@ void PVPScene::update()
 		{
 			Player::GetInstance()->userInfo.DataType = eDataType::eNone;
 			Player::GetInstance()->userInfo.isPvP = false;
-			Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
-			Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
+			Player::GetInstance()->userInfo.nowhp = Player::GetInstance()->nowHp = Player::GetInstance()->userInfo.maxhp;
+			Player::GetInstance()->userInfo.nowmp = Player::GetInstance()->nowMp = Player::GetInstance()->userInfo.maxmp;
 			c=0;
 			OtherPlayer::GetInstance()->Oplayer->alpha = 255;
+
 			GameSet = false;
 			isWin = false;
 			SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->eVillage);
