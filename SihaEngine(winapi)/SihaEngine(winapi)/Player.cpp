@@ -319,17 +319,17 @@ void Player::update()
 {
 
 	hpbar->setPos(player->pos.x + 60, player->pos.y + 15);
-	/*if (nowHp <= 0)
+	if (nowHp <= 0)
 	{
 		hpbar->size.cx = 1;
 		hpbar->size.cy = 1;
 	}
-	else*/
+	else
 		hpbar->size.cx = 100 * nowHp / 100;
 
 	if (player->pos.y <= 500)
 	{
-		player->pos.y += 10;
+		//player->pos.y += 10;
 	}
 	// 마을씬 동작
 	if (SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eVillage)
@@ -445,15 +445,15 @@ void Player::update()
 		}
 	}
 
-	if (isJump && GetTickCount64() - JumpTime >= 50 && state == eJump)
+	if (isJump && GetTickCount64() - JumpTime >= 30 && state == eJump)
 	{
 		JumpTime = GetTickCount64();
-		if (JumpCount < 16)
+		if (JumpCount < 20)
 		{
-			if (JumpCount < 8)
-				player->pos.y -= 15;
+			if (JumpCount < 10)
+				player->pos.y -= 25;
 			else
-				player->pos.y += 15;
+				player->pos.y += 25;
 			JumpCount++;
 		}
 		else
@@ -645,23 +645,23 @@ void Player::update()
 			if (smash->pos.x <= 0)
 			{
 				isSmash = false;
-				smash->pos.x = -1000;
+				smash->pos.x = -100;
 			}
 		}
 		else if (smashDir == eRight)
 		{
 			smash->animation("Resource/GameScene/smash", 4, 100);
 			smash->pos.x += 10;
-			if (smash->pos.x >= 1500)
+			if (smash->pos.x >= 2000)
 			{
 				isSmash = false;
-				smash->pos.x = -1000;
+				smash->pos.x = -100;
 			}
 		}
 		
 	}
 
-	//if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame|| SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
+	if(SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->eGame|| SceneManager::GetInstance()->sceneType == SceneManager::GetInstance()->ePvp)
 		playerBar->update();
 	if (InputManager::GetInstance()->getKey(0x49) && InputManager::GetInstance()-> delay(500))
 	{
@@ -699,26 +699,30 @@ void Player::release()
 void Player::gravity(Tail *tail)
 {
 	// 플레이어는 바닥에 붙어 있는게 아니면 중력에 영향 받아야함 ㅇㅇ
-	if (state != eJump)
+	if (JumpCount >= 10)
 	{
-		if (player->pos.y <= 560)
+		bool isCrush = false;
+		GameObject* tempObject = new GameObject;
+		tempObject->size = player->size;
+		tempObject->pos = player->pos;
+		tempObject->size.cy = 20;
+		tempObject->pos.y += 50;
+		for (int i = 0; i < tail->tails.size(); i++)
 		{
-			bool isCrush = false;
-			GameObject* tempObject = new GameObject;
-			tempObject->size = player->size;
-			tempObject->pos = player->pos;
-			tempObject->size.cy = 20;
-			tempObject->pos.y += 130;
-			for (int i = 0; i < tail->tails.size(); i++)
+			if (CollisionManager::GetInstance()->RectCollisionCheck(tempObject, tail->tails[i]))
 			{
-				if (CollisionManager::GetInstance()->RectCollisionCheck(tempObject, tail->tails[i]))
-				{
-					isCrush = true;
-				}
+				isCrush = true;
+				JumpCount = 20;
 			}
-			if (!isCrush)
-				player->pos.y += 10;
+		}		
+		if (!isCrush)
+		{
+			if (player->pos.y < 560)
+			{
+				player->pos.y += 20;
+			}
 		}
 	}
+
 
 }

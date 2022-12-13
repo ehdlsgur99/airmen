@@ -23,7 +23,13 @@ private:
 	GameObject* backbd;
 	GameObject* backst;
 	GameObject* ground[GROUNDINDEX];
-	
+
+
+
+	// tail
+	//Tail* tail;
+
+
 	GameObject* Text;
 
 	bool GameSet;
