@@ -102,6 +102,23 @@ void PVPScene::init()
 
 void PVPScene::update()
 {
+	// ==================================================== 
+	// 상대방 강제 종료 확인 코드
+	// ====================================================
+	// 수정 필요 ############################################
+	Player::GetInstance()->getUserInfo();
+	if (Player::GetInstance()->enemyInfo.DataType == eDataType::eExit)
+	{
+		Player::GetInstance()->userInfo.DataType = eDataType::eNone;
+		Player::GetInstance()->getUserInfo();
+		Player::GetInstance()->enemyInfo = UserInfo();
+		Player::GetInstance()->userInfo.isPvP = false;
+		Player::GetInstance()->userInfo.PVPID = -1;
+		SceneManager::GetInstance()->SceneChange(SceneManager::eVillage);
+		// 상대방이 강제 종료한 경우입니다.
+	}
+	
+	
 	//CHECK WINNER
 	//if (Player::GetInstance()->nowHp <= 0)
 	//{

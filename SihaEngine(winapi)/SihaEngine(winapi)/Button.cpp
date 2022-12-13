@@ -2,6 +2,7 @@
 
 void Button::init(std::string path1, std::string path2, POINT pos, SIZE size, std::function<void()> func)
 {
+	index = 0;
 	button = new GameObject;
 	button->loadTexture(path1);
 	button->pos = pos;

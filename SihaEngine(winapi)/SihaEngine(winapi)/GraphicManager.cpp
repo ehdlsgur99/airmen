@@ -15,6 +15,7 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg)
 	{
 	case WM_DESTROY:
+		Player::GetInstance()->userInfo.DataType = eDataType::eExit;
 		PostQuitMessage(0);
 		break;
 	case WM_LBUTTONDOWN:

@@ -168,14 +168,12 @@ void PlayerUI::render()
 		}
 	}
 	
+	GraphicManager::GetInstance()->render(hpPotion);
+	GraphicManager::GetInstance()->drawText(std::to_string(hpPotionNum), { 870, 290 }, 10, RGB(0, 0, 0));
 	
-		GraphicManager::GetInstance()->render(hpPotion);
-		GraphicManager::GetInstance()->drawText(std::to_string(hpPotionNum), { 870, 290 }, 10, RGB(0, 0, 0));
 	
-
-	
-		GraphicManager::GetInstance()->render(mpPotion);
-		GraphicManager::GetInstance()->drawText(std::to_string(mpPotionNum), { 934, 290 }, 10, RGB(0, 0, 0));
+	GraphicManager::GetInstance()->render(mpPotion);
+	GraphicManager::GetInstance()->drawText(std::to_string(mpPotionNum), { 934, 290 }, 10, RGB(0, 0, 0));
 	
 	GraphicManager::GetInstance()->drawText(std::to_string(coinNum), { 1145, 245 }, 10, RGB(0, 0, 0));
 	

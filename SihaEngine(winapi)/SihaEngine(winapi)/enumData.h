@@ -27,7 +27,7 @@ enum eMapType
 // eRequest : 클라이언트가 서버에 접속한 유저들 정보 요청
 enum eDataType
 {
-	eNone = 0, eRequest, eInviteSend, eInviteRecv, eGoToPVP, eInPVP
+	eNone = 0, eRequest, eInviteSend, eInviteRecv, eGoToPVP, eInPVP, eExit
 };
 
 //enum ePlayerDir

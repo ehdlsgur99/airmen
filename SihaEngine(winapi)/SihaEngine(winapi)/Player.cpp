@@ -98,6 +98,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 
 			break;
 		case eDataType::eGoToPVP:
+			Player::GetInstance()->getUserInfo();
 			// 수락여부 전송
 			Player::GetInstance()->userInfo.DataType = eDataType::eInPVP;
 			Player::GetInstance()->userInfo.isPvP = true;
@@ -107,6 +108,11 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			break;
 		case eDataType::eInPVP:
 
+			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
+
+			break;
+		case eDataType::eExit:
+			Player::GetInstance()->getUserInfo();			
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
 			break;
@@ -157,6 +163,12 @@ DWORD WINAPI ClientThread(LPVOID arg)
 		if (temp.DataType == eDataType::eInPVP)
 		{
 			Player::GetInstance()->enemyInfo = temp;
+		}
+		// 상대가 나갔다면.../
+		if (temp.DataType == eDataType::eExit)
+		{
+			Player::GetInstance()->enemyInfo = temp;
+			// pvp 승리
 		}
 		
 

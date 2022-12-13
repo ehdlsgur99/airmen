@@ -27,7 +27,8 @@ private:
 	GameObject* button;
 	GameObject* button_;
 	bool isOn;
-
+public:
+	int index;
 	
 
 	std::function<void()> func;

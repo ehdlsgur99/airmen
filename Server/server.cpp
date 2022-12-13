@@ -288,6 +288,17 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 			}
 		}
+		// 강제 종료 했을대
+		if(eDataType::eExit == packet->DataType)
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					(*iter) = packet;
+				}
+			}
+		}
 
 		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
 		iter = userList.begin();
@@ -298,7 +309,6 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 				// 서버 시간
 				(*iter)->ServerTime = (int)serverTime;
 				userInfo = (*iter);
-				break;
 			}
 		}
 		if (eDataType::eInPVP != packet->DataType)
@@ -309,16 +319,28 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		{
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
-					if ((*iter)->PVPID == socketInfo.ID)
+					if (packet->PVPID == (*iter)->ID )
 					{
 						// 서버 시간
 						(*iter)->ServerTime = (int)serverTime;
 						retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
 						break;
-					}		
+					}
 			}
 		}
-	
+		//if (userInfo->DataType == eDataType::eExit)
+		//{
+		//	iter = userList.begin();
+		//	for (iter = userList.begin(); iter != userList.end(); iter++)
+		//	{
+		//		if ((*iter)->ID == threadID)
+		//		{
+		//			break;
+		//		}
+		//	}
+		//	userList.erase(iter);
+		//	break;
+		//}
 	}
 
 

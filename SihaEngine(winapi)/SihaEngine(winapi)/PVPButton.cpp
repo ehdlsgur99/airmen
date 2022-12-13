@@ -71,7 +71,7 @@ void PVPButton::update()
 			if (btnVector[i]->getIsOn())
 			{
 				Player::GetInstance()->userInfo.DataType = eDataType::eInviteSend;
-				Player::GetInstance()->userInfo.PVPID = i + 1;
+				Player::GetInstance()->userInfo.PVPID = btnVector[i]->index;
 				listButton->setVisible(true);
 				isListUP = false;
 				break;
@@ -146,19 +146,24 @@ void PVPButton::createList()
 	// 유저의 숫자 만큼 블록 생성'
 	for (int i = 0; i < userNum; i++)
 	{
-		if (Player::GetInstance()->userInfos[i].isPvP)
+		// in pvp, 본인, 종료 제외
+		if (Player::GetInstance()->userInfos[i].DataType == eDataType::eInPVP)
 			continue;
 		if (Player::GetInstance()->userInfos[i].ID == Player::GetInstance()->userInfo.ID)
 			continue;
+		if (Player::GetInstance()->userInfos[i].DataType == eDataType::eExit)
+			continue;
 		
 		Button* btn = new Button();
-		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + (i - realUserNum)* 50 },
+		btn->init("Resource/Button/invitebtn.png", "Resource/Button/invitebtn_.png", POINT{ 1000, 100 + realUserNum* 50 },
 			SIZE{ 80, 30 }, []() {});
 		std::string str = "ID : " + std::to_string(Player::GetInstance()->userInfos[i].ID) +
 			" Power : " + std::to_string(Player::GetInstance()->userInfos[i].power) +
 			" HP : " + std::to_string(Player::GetInstance()->userInfos[i].maxhp) +
 			" MP : " + std::to_string(Player::GetInstance()->userInfos[i].maxmp);
 		btn->text = str;
+		// 유저는 누구인가?
+		btn->index = Player::GetInstance()->userInfos[i].ID;
 		realUserNum += 1;
 		
 
