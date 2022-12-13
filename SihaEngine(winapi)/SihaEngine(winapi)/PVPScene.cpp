@@ -12,9 +12,9 @@ PVPScene::~PVPScene()
 
 void PVPScene::init()
 {
-	/*GameSet = false;
+	GameSet = false;
 	winX = -1;
-	winY = -1;*/
+	winY = -1;
 
 	// 아이디가 높은 플레이어가 오른쪽으로 간다.
 	if (Player::GetInstance()->userInfo.ID > Player::GetInstance()->enemyInfo.ID)
@@ -172,15 +172,19 @@ void PVPScene::update()
 		}
 	}
 
-	if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
+	if (OtherPlayer::GetInstance()->isSmash||CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
 	{
 		Player::GetInstance()->state = eAttacked;
 		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
+		OtherPlayer::GetInstance()->isSmash = false;
+		OtherPlayer::GetInstance()->Osmash->pos.x = -100;
 	}
-	if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
+	if (Player::GetInstance()->isSmash||CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
 	{
 		OtherPlayer::GetInstance()->state = eAttacked;
 		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
+		Player::GetInstance()->isSmash = false;
+		Player::GetInstance()->smash->pos.x = -100;
 	}
 	
 	Player::GetInstance()->update();

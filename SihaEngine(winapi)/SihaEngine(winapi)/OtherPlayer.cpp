@@ -20,7 +20,7 @@ OtherPlayer::OtherPlayer()
 
 	Osmash = new GameObject;
 	Osmash->setSize(150, 120);
-	Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y);
+	//Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y);
 
 	dir = eLeft;
 	state = eIdle;
