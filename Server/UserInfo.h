@@ -29,4 +29,7 @@ struct UserInfo {
 struct SocketInfo {
 	SOCKET client_sock;
 	int ID;
+	HANDLE writeEvent;
+	HANDLE sendEvent;
+	
 };

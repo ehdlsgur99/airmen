@@ -107,7 +107,7 @@ DWORD WINAPI ClientThread(LPVOID arg)
 			//SceneManager::GetInstance()->SceneChange(SceneManager::GetInstance()->ePvp);
 			break;
 		case eDataType::eInPVP:
-
+			Player::GetInstance()->userInfo.isPvP = true;
 			retval = send(Player::GetInstance()->sock, (char*)&Player::GetInstance()->userInfo, sizeof(UserInfo), 0);
 
 			break;
@@ -184,7 +184,7 @@ bool Player::enterGame()
 {
 	//"127.0.0.1";	
 	//char* SERVERIP = (char*)"192.168.157.1";
-	char* SERVERIP = (char*)"192.168.81.127";
+	char* SERVERIP = (char*)"192.168.0.6";
 
 	// 윈속 초기화
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)

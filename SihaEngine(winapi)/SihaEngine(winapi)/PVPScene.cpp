@@ -96,8 +96,8 @@ void PVPScene::init()
 	for (int i = 0; i < GROUNDINDEX; i++) {
 		ObjectManager::GetInstance()->addObject(ground[i]);
 	}
-	SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
-	SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
+	//SoundManager::GetInstance()->PlayBg("stop ", "Resource/bg.mp3");
+	//SoundManager::GetInstance()->PlayBg("play ","Resource/PVPScene/cyberpunk-street.mp3");
 }
 
 void PVPScene::update()

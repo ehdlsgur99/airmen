@@ -1,13 +1,14 @@
 #include "common.h"
 #include <list>
 #include <time.h>
+#include <vector>
 
 #include "UserInfo.h"
 #include "EnumData.h"
 // UserInfo 관리 List
 std::list<UserInfo*> userList;
 // Socket 관리 List
-std::list<SocketInfo> socketList;
+std::vector<SocketInfo> socketList;
 // 현재 생성된 스레드 id넘버와 유저 id할당에 쓰이는 전역변수
 int IDCount;
 // 다른 클라이언트가 Userlist 에 접근하고 있는지 확인하는 bool 변수 
@@ -138,6 +139,8 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	// SocketList에 현재 유저 SocketInfo 추가
 	SocketInfo socketInfo;
 	socketInfo.client_sock = client_sock;
+	socketInfo.writeEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	socketInfo.sendEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	socketInfo.ID = userInfo->ID;
 
 	socketList.push_back(socketInfo);
@@ -152,15 +155,6 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 	while(1) {
 
 		std::list<UserInfo*>::iterator iter;
-
-		// EnumData 받기
-		//retval = recv(client_sock, (char*)&dataType, sizeof(dataType), MSG_WAITALL);
-		//if (retval == SOCKET_ERROR) {
-		//	err_display("recv()");
-		//	break;
-		//}
-		//else if (retval == 0 )
-		//	break;
 		
 		// 패킷 받기
 		UserInfo* packet = new UserInfo;
@@ -175,10 +169,6 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		// 플레이어 데이터인 UserInfo를 발송한다.
 		if (eDataType::eNone == packet->DataType)
 		{
-	/*		UserInfo* temp = new UserInfo;
-			char buf[BUFSIZE];*/
-			//retval = recv(client_sock, buf, sizeof(UserInfo), 0);
-			//temp = (UserInfo*)buf;
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
 				if ((*iter)->ID == socketInfo.ID)
@@ -267,7 +257,14 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			{
 				if ((*iter)->ID == packet->PVPID)
 				{
-					(*iter)->DataType = eGoToPVP;				
+					(*iter)->DataType = eGoToPVP;	
+					// 이때 이벤트 열어주자			
+					if (packet->ID > packet->PVPID)
+					{
+						SetEvent(socketList[packet->PVPID - 1].sendEvent);	
+					}
+					else
+						SetEvent(socketList[packet->ID - 1].sendEvent); 
 				}
 				if ((*iter)->ID == socketInfo.ID)
 				{
@@ -279,11 +276,30 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		}
 		if (eDataType::eInPVP == packet->DataType)
 		{
+			if (packet->ID > packet->PVPID)
+			{
+				WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE);	// b 보내기 완료 대기
+			}
+			else
+				WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // a 쓰기 완료 대기
+
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
 				if ((*iter)->ID == socketInfo.ID)
 				{
 					(*iter) = packet;
+					if (packet->ID > packet->PVPID)
+					{
+						ResetEvent(socketList[packet->PVPID - 1].sendEvent);	
+						SetEvent(socketList[packet->ID - 1].writeEvent);	// a 쓰기 완료 set
+					}				
+					else
+					{
+						ResetEvent(socketList[packet->PVPID - 1].writeEvent);
+						SetEvent(socketList[packet->ID - 1].writeEvent);    // b 쓰기 완료 set
+					}
+						
+					break;
 				}
 
 			}
@@ -315,8 +331,15 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 		{
 			retval = send(client_sock, (const char*)userInfo, sizeof(UserInfo), 0);
 		}	
+
 		else
 		{
+			// 상대방 정보 전송
+			if (packet->ID > packet->PVPID)
+				WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // b 쓰기 대기
+			else
+				WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE); // a 보내기 대기
+
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
 					if (packet->PVPID == (*iter)->ID )
@@ -324,9 +347,21 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 						// 서버 시간
 						(*iter)->ServerTime = (int)serverTime;
 						retval = send(client_sock, (const char*)(*iter), sizeof(UserInfo), 0);
+						if (packet->ID > packet->PVPID)
+						{
+							ResetEvent(socketList[packet->PVPID - 1].writeEvent);
+							SetEvent(socketList[packet->ID - 1].sendEvent); // a 보내기 완료 set
+						}
+						else
+						{
+							ResetEvent(socketList[packet->PVPID - 1].sendEvent);
+							SetEvent(socketList[packet->ID - 1].sendEvent); // b 보내기 완료 set
+						}
+							
 						break;
 					}
 			}
+	
 		}
 		//if (userInfo->DataType == eDataType::eExit)
 		//{
