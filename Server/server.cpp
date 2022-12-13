@@ -274,14 +274,44 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 			}
 		}
-		if (eDataType::eInPVP == packet->DataType)
+
+		// 현재 두 플레이어 모두 PVP 씬인지 확인한다.
+		iter = userList.begin();
+		int pvpCount = 0;
+		for (iter = userList.begin(); iter != userList.end(); iter++)
 		{
-			//if (packet->ID > packet->PVPID)
-			//{
-			//	WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE);	// b 보내기 완료 대기
-			//}
-			//else
-			//	WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // a 쓰기 완료 대기
+			if ((*iter)->ID == threadID)
+			{
+				if ((*iter)->DataType == eDataType::eInPVP)
+					pvpCount += 1;
+			}
+			if ((*iter)->ID == packet->PVPID)
+			{
+				if ((*iter)->DataType == eDataType::eInPVP)
+					pvpCount += 1;
+			}
+
+		}
+		if (eDataType::eInPVP == packet->DataType && pvpCount < 2)
+		{
+			for (iter = userList.begin(); iter != userList.end(); iter++)
+			{
+				if ((*iter)->ID == socketInfo.ID)
+				{
+					(*iter) = packet;
+					break;
+				}
+
+			}
+		}
+		else if (eDataType::eInPVP == packet->DataType && pvpCount >= 2)
+		{
+			if (packet->ID > packet->PVPID)
+			{
+				WaitForSingleObject(socketList[packet->PVPID - 1].sendEvent, INFINITE);	// b 보내기 완료 대기
+			}
+			else
+				WaitForSingleObject(socketList[packet->PVPID - 1].writeEvent, INFINITE); // a 쓰기 완료 대기
 
 			for (iter = userList.begin(); iter != userList.end(); iter++)
 			{
@@ -290,20 +320,21 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 					(*iter) = packet;
 					if (packet->ID > packet->PVPID)
 					{
-						ResetEvent(socketList[packet->PVPID - 1].sendEvent);	
+						ResetEvent(socketList[packet->PVPID - 1].sendEvent);
 						SetEvent(socketList[packet->ID - 1].writeEvent);	// a 쓰기 완료 set
-					}				
+					}
 					else
 					{
 						ResetEvent(socketList[packet->PVPID - 1].writeEvent);
 						SetEvent(socketList[packet->ID - 1].writeEvent);    // b 쓰기 완료 set
 					}
-						
+
 					break;
 				}
 
 			}
 		}
+
 		// 강제 종료 했을대
 		if(eDataType::eExit == packet->DataType)
 		{
@@ -318,21 +349,17 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 
 		// 스레드가 가지고 있는 유저 데이터와 전체 userinfo를 합쳐준다.
 		iter = userList.begin();
-		int pvpCount = 0;
 		for (iter = userList.begin(); iter != userList.end(); iter++)
 		{
 			if ((*iter)->ID == threadID)
 			{
-				if ((*iter)->DataType == eDataType::eInPVP)
-					pvpCount += 1;
 				// 서버 시간
 				(*iter)->ServerTime = (int)serverTime;
 				userInfo = (*iter);
 			}
 			if ((*iter)->ID == packet->PVPID)
 			{
-				if ((*iter)->DataType == eDataType::eInPVP)
-					pvpCount += 1;
+
 			}
 
 		}
@@ -384,19 +411,7 @@ DWORD WINAPI ProcessClient(LPVOID arg)
 			}
 	
 		}
-		//if (userInfo->DataType == eDataType::eExit)
-		//{
-		//	iter = userList.begin();
-		//	for (iter = userList.begin(); iter != userList.end(); iter++)
-		//	{
-		//		if ((*iter)->ID == threadID)
-		//		{
-		//			break;
-		//		}
-		//	}
-		//	userList.erase(iter);
-		//	break;
-		//}
+
 	}
 
 
