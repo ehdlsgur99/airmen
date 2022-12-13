@@ -75,7 +75,7 @@ void OtherPlayer::update()
 	if (Player::GetInstance()->enemyInfo.isSmash && !isSmash)
 	{
 		isSmash = true;
-		Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y);
+		Osmash->setPos(Oplayer->pos.x, Oplayer->pos.y + 50);
 		smashDir = dir;
 	}
 

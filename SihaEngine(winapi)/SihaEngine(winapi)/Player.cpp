@@ -503,7 +503,7 @@ void Player::update()
 				isSmash = true;
 				smashDir = dir;
 				nowMp -= 30;
-				smash->setPos(player->pos.x + 20, player->pos.y + 50);
+				smash->setPos(player->pos.x, player->pos.y + 50);
 			}
 		}
 	}

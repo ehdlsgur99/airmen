@@ -172,19 +172,19 @@ void PVPScene::update()
 		}
 	}
 
-	if (OtherPlayer::GetInstance()->isSmash||CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
+	if (CollisionManager::GetInstance()->RectCollisionCheck(OtherPlayer::GetInstance()->Osmash, Player::GetInstance()->player))
 	{
 		Player::GetInstance()->state = eAttacked;
 		Player::GetInstance()->nowHp -= OtherPlayer::GetInstance()->power;
-		OtherPlayer::GetInstance()->isSmash = false;
-		OtherPlayer::GetInstance()->Osmash->pos.x = -100;
+	/*	OtherPlayer::GetInstance()->isSmash = false;
+		OtherPlayer::GetInstance()->Osmash->pos.x = -100;*/
 	}
-	if (Player::GetInstance()->isSmash||CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
+	if (CollisionManager::GetInstance()->RectCollisionCheck(Player::GetInstance()->smash, OtherPlayer::GetInstance()->Oplayer))
 	{
 		OtherPlayer::GetInstance()->state = eAttacked;
 		OtherPlayer::GetInstance()->nowHp -= Player::GetInstance()->power;
-		Player::GetInstance()->isSmash = false;
-		Player::GetInstance()->smash->pos.x = -100;
+		//Player::GetInstance()->isSmash = false;
+		//Player::GetInstance()->smash->pos.x = -100;
 	}
 	
 	Player::GetInstance()->update();
